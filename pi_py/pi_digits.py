@@ -58,7 +58,7 @@ def _madhava_pi() -> float:
     return pi
 
 
-def saha_sinha_pi():
+def _saha_sinha_pi():
     ...
 
 # region
