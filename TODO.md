@@ -3,6 +3,7 @@
 ## TODO
 * [X] init py, ui and wasm
 * [X] copy pi_digits.py
+* [ ] create Gosper's wasm module - generalize design as much as possible
 * [ ] add saha_sinha_series impl
 * [ ] create wasm module(s) and/or component(s) needed
 * [ ] create web app for visualization
