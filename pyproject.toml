@@ -1,0 +1,32 @@
+[project]
+name = "py"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Kevin McWhirter", email = "klmcw@yahoo.com"},
+]
+dependencies = []
+requires-python = "==3.12.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.scripts]
+create.shell = "pdm venv remove -y in-project; pdm install --check --no-editable"
+clean.shell = "find . -type d -name __pycache__ -exec rm -fr {} \\;;for d in ${TO_DEL};do echo $d;rm -fr $d;done"
+clean.env = { TO_DEL = "build .coverage coverage.xml log .mypy_cache .pdm-build __pycache__ .pytest_cache .tox pi_ui/dist pi_wasm/build" }
+clean.help = "Clean build artifacts"
+envclean.shell = "for d in ${TO_DEL};do echo $d;rm -fr $d;done"
+envclean.env = { TO_DEL = "pi_ui/node_modules .venv" }
+envclean.help = "Clean environment"
+allclean.composite = [ "clean", "envclean" ]
+start = "python -m pi_py.pi_digits"
+build.shell = "./etc/wrap_for_compose.sh docker compose build"
+compose.shell = "docker compose up"
+up.composite = [ "build", "compose" ]
+down.shell = "docker compose down"
+gitignore.shell = "source ~/.local/.bashrc.d/gitignore.io; gi -s -- python,zig >.gitignore;echo '\n.pdm-python\n.zig-cache/' >>.gitignore"
+gitignore.help = "generate .gitignore"
