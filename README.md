@@ -17,6 +17,8 @@ Celebrate the work done by Saha / Sinha who found another infinite series to cal
 
 ## References
 * [Appendix - Field Theory Expansions of String Theory Amplitudes - journals.aps.org](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.132.221601#und4)
+  * [Possible new series for π - mathoverflow.net](https://mathoverflow.net/questions/473931/possible-new-series-for-pi)
+  * [The Madhava Series - scipython.com](https://scipython.com/book/chapter-2-the-core-python-language-i/questions/the-madhava-series/)
 * [Scientists Just Discovered A New Formula For Pi Accidentally - MindYourDecisions](https://youtu.be/t1ZnptSEPI8) - 10 min
 * [Pi-oneers (interview with Sinha & Saha) - Numberphile](https://youtu.be/2lvTjEZ-bbw) - 25 mins
 * [Digits of Pi - Up to 1 Million Digits](https://www.angio.net/pi/digits.html)

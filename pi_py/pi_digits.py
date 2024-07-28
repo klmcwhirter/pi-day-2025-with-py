@@ -2,7 +2,7 @@
 
 import logging
 from itertools import islice
-from math import log10
+from math import log10, sqrt
 from pprint import pformat
 from typing import Generator
 
@@ -46,6 +46,20 @@ def _gosper_pi_unproven() -> Generator[int, None, None]:
             logging.info(f'Found {n:_} digits ...')
 
         # _update_max_len(q, r, t, i, n)
+
+
+def _madhava_pi() -> float:
+    '''From https://scipython.com/book/chapter-2-the-core-python-language-i/questions/the-madhava-series/'''
+    pi = 0.0
+    for k in range(20):
+        pi += pow(-3, -k) / (2*k+1)
+
+    pi *= sqrt(12)
+    return pi
+
+
+def saha_sinha_pi():
+    ...
 
 # region
 
