@@ -1,7 +1,7 @@
 [project]
 name = "py"
 version = "0.1.0"
-description = "Default template for PDM package"
+description = "Python project for pi-day-2025-with-py"
 authors = [
     {name = "Kevin McWhirter", email = "klmcw@yahoo.com"},
 ]

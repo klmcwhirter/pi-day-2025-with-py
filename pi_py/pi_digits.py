@@ -48,14 +48,24 @@ def _gosper_pi_unproven() -> Generator[int, None, None]:
         # _update_max_len(q, r, t, i, n)
 
 
-def _madhava_pi() -> float:
-    '''From https://scipython.com/book/chapter-2-the-core-python-language-i/questions/the-madhava-series/'''
+def _madhava_pi(num_digits: int = 20) -> Generator[int, None, None]:
+    '''From https://scipython.com/book/chapter-2-the-core-python-language-i/questions/the-madhava-series/
+
+    Unfortanately, the formula as written does not lend itself easily to a Generator. Do the simnple thing for readability.
+
+    The Madhava series is not the primary focus of this project.
+    '''
     pi = 0.0
-    for k in range(20):
+    for k in range(num_digits):
         pi += pow(-3, -k) / (2*k+1)
 
     pi *= sqrt(12)
-    return pi
+
+    # note that partition will cause problems for large values of num_digits
+    # look for a Generator expression instead
+    pi_chars = ['3', *str(pi).partition('.')[2]]
+    for digit in pi_chars:
+        yield int(digit)
 
 
 def _saha_sinha_pi():
