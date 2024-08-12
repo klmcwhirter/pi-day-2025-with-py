@@ -1,5 +1,5 @@
 [project]
-name = "py"
+name = "pi_py"
 version = "0.1.0"
 description = "Python project for pi-day-2025-with-py"
 authors = [
@@ -10,6 +10,18 @@ requires-python = "==3.12.*"
 readme = "README.md"
 license = {text = "MIT"}
 
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "autopep8>=2.3.1",
+    "flake8>=7.1.1",
+    "mypy>=1.11.1",
+    "pytest>=8.3.2",
+    "pytest-cov>=5.0.0",
+    "tox>=4.17.1",
+    "tox-gh-actions>=3.2.0",
+    "tox-pdm>=0.7.2",
+]
 
 [tool.pdm]
 distribution = false
@@ -30,3 +42,35 @@ up.composite = [ "build", "compose" ]
 down.shell = "docker compose down"
 gitignore.shell = "source ~/.local/.bashrc.d/gitignore.io; gi -s -- python,zig >.gitignore;echo '\n.pdm-python\n.zig-cache/' >>.gitignore"
 gitignore.help = "generate .gitignore"
+
+flake8.cmd = "flake8 pi_py/"
+mypy.cmd = "mypy pi_py/"
+test.cmd = "pytest"
+testcov.cmd = "pytest --cov=pi_py --cov-report xml:coverage.xml --cov-report term"
+testcov.help = "Produce test coverage xml and term reports"
+tox.cmd = "tox"
+
+[tool.autopep8]
+max-doc-length = 140
+max_line_length = 140
+
+[tool.pytest.ini_options]
+addopts = ""
+
+[tool.mypy]
+mypy_path = "pi_py/"
+check_untyped_defs = true
+disallow_any_generics = false # until Generics union types are supported
+ignore_missing_imports = true
+no_implicit_optional = true
+show_error_codes = true
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+no_implicit_reexport = true
+
+[tool.setuptools]
+# for tox discovery
+packages = ['pi_py']

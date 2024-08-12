@@ -2,10 +2,9 @@
 import timeit
 
 import pytest
-from conftest import TimeoutException, time_limit
 
 from pi_py import PiAdapter
-from pi_py.pi_digits import pi_digit_generator
+from pi_py.conftest import TimeoutException, time_limit
 
 MAX_SECS = 30
 
@@ -15,20 +14,6 @@ __adapter = PiAdapter()
 @pytest.fixture
 def adapter() -> PiAdapter:
     return __adapter
-
-
-def test_pi_digit_generator_first_10():
-    expected = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
-    rc = [d for d in pi_digit_generator(num_digits=10)]
-
-    assert expected == rc
-
-
-def test_adapter_pi_digits_first_10(adapter: PiAdapter):
-    expected = [[3, 1, 4, 1, 5, 9, 2, 6, 5, 3]]
-    rc = adapter.pi_digits(10, 10)
-
-    assert expected == rc
 
 
 @pytest.mark.parametrize(

@@ -4,10 +4,10 @@ import logging
 import os
 import sys
 from dataclasses import dataclass
-from functools import cache, partial
+from functools import cache
 
-from .pi_digits import pi_digit_generator
-from .utils import batched
+from pi_py.pi_digits import gosper_pi_digits
+from pi_py.utils import batched
 
 
 @dataclass
@@ -30,7 +30,7 @@ class PiAdapter:
 
     def _cache_pi_digits(self, num_digits: int):
         if len(self._cached_pi) < num_digits:
-            self._cached_pi = [d for d in pi_digit_generator(num_digits)]
+            self._cached_pi = [d for d in gosper_pi_digits(num_digits)]
 
     def seed_pi_digits(self, pi_digits_seed: list[int]):
         self._cached_pi = pi_digits_seed
@@ -58,7 +58,7 @@ class PiAdapter:
             # the first num_digits of pi will be the same for any num_digits value up to and including num_digits
             digits = [n for n in self._cached_pi[:num_digits]]
 
-            rc: list[int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]
+            rc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]
             for d in digits:
                 rc[d] += 1
 

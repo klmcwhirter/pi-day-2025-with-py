@@ -1,12 +1,12 @@
 import os
 from io import TextIOWrapper
-from typing import Iterable
+from typing import Sequence
 
 
-def batched(iterable: Iterable, n: int = 1):
-    l = len(iterable)
+def batched(sequence: Sequence, n: int = 1):
+    l: int = len(sequence)
     for ndx in range(0, l, n):
-        yield iterable[ndx:min(ndx + n, l)]
+        yield sequence[ndx:min(ndx + n, l)]
 
 
 def _pi_digits_go_writer(f: TextIOWrapper, digits: list[int]):
@@ -16,6 +16,7 @@ def _pi_digits_go_writer(f: TextIOWrapper, digits: list[int]):
     print('var pi_digits_seed [50000]uint8 = [50000]uint8{', end='', file=f)
     print(', '.join(str(d) for d in digits), end='', file=f)
     print('};', file=f)
+
 
 def _pi_digits_js_writer(f: TextIOWrapper, digits: list[int]):
     print("// Automatically generated via python -m piadapter.pi_digits pi-as/benchmarks/pi_digits_seed.js", file=f)
@@ -52,19 +53,20 @@ def pi_digits_writer_from_ext(filepath: str):
         file_parts = os.path.splitext(filepath)
         # print(file_parts)
 
-        match file_parts:
-            case (_, '.go'):
-                return _pi_digits_go_writer
-            case (_, '.js'):
-                return _pi_digits_js_writer
-            case (_, '.py'):
-                return _pi_digits_py_writer
-            case (_, '.ts'):
-                return _pi_digits_ts_writer
-            case (_, '.zig'):
-                return _pi_digits_zig_writer
-            case _:
-                raise ValueError(f'Unsupported file ext: {filepath}')
+        (_, ext) = file_parts
+
+        if ext == '.go':
+            return _pi_digits_go_writer
+        elif ext == '.js':
+            return _pi_digits_js_writer
+        elif ext == '.py':
+            return _pi_digits_py_writer
+        elif ext == '.ts':
+            return _pi_digits_ts_writer
+        elif ext == '.zig':
+            return _pi_digits_zig_writer
+        else:
+            raise ValueError(f'Unsupported file ext: {filepath}')
 
     except TypeError:
         raise ValueError(f'Unsupported file ext: {filepath}')

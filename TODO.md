@@ -3,16 +3,19 @@
 ## TODO
 * [X] init py, ui and wasm
 * [X] copy pi_digits.py
+* [X] add Madhava Python impl
+* [ ] add Saha / Sinha Python impl
 * [ ] create Gosper's wasm module - generalize design as much as possible
-* [ ] add saha_sinha_series impl
+* [ ] add madhava_pi_digits impl (only for 10 digits)
+* [ ] add saha_sinha_pi_digits impl
 * [ ] create wasm module(s) and/or component(s) needed
 * [ ] create web app for visualization
-* [ ] Dockerfile(s) and docker-compose.yml
+* [ ] Dockerfile(s), associated scripts and docker-compose.yml
 * [ ] test deploy to Raspberry Pi 4b
 
 
 ## UI Ideas
-* [ ] show digits with input to select different values for λ (lambda) parameter
+* [ ] show digits with input to select different values for λ (lambda) parameter - paper says 10 to 100; but is that the correct range for million digits of pi?
 * [ ] show histogram with 1_000_000 digits for Saha / Sinha series with different values for λ (lambda) parameter, Gosper's series and baseline
 * [ ] show comparison of digit accuracy - what should be the source of truth?
 
@@ -44,7 +47,7 @@
 * use py2wasm to compile python library to wasm (later; nice to have)
 
 
-## Build Pipelines
+## Docker Build Pipelines
 
 ### python
 * python - generate pi_1000000.zig from pi1000000.txt (baseline) - []u8

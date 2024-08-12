@@ -1,18 +1,27 @@
 import logging
 import string
 
-from .utils import pi_digits_writer_from_ext
+from pi_py.utils import pi_digits_writer_from_ext
+
+
+def read_digits(file_path: str) -> list[int]:
+    with open(file_path, 'r') as f:
+        content = f.read().strip('\r').strip('\n')
+
+    digits = [int(d) for d in content if d in string.digits]
+
+    return digits
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG, format='{asctime} - {module} - {funcName} - {levelname} - {message}', style='{')
+    logging.basicConfig(
+        level=logging.DEBUG, format='{asctime} - {module} - {funcName} - {levelname} - {message}', style='{')
     logging.getLogger().setLevel(level=logging.DEBUG)
 
     file_path = './etc/pi1000000.txt'
     logging.info(f'Reading {file_path} ...')
 
-    with open(file_path, 'r') as f:
-        content = f.read()
+    digits = read_digits(file_path)
 
     logging.info(f'Reading {file_path} ... done')
 
@@ -21,7 +30,6 @@ def main():
 
     writer = pi_digits_writer_from_ext(file_path)
 
-    digits = (int(d) for d in content if d in string.digits)
     with open(file_path, 'w') as f:
         writer(f, digits)
 
