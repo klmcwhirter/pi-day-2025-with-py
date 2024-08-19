@@ -29,14 +29,14 @@ distribution = false
 [tool.pdm.scripts]
 create.shell = "pdm venv remove -y in-project; pdm install --check --no-editable"
 clean.shell = "find . -type d -name __pycache__ -exec rm -fr {} \\;;for d in ${TO_DEL};do echo $d;rm -fr $d;done"
-clean.env = { TO_DEL = "build .coverage coverage.xml log .mypy_cache .pdm-build pi_py.egg-info pi_ui/dist pi_wasm/build __pycache__ .pytest_cache .tox" }
+clean.env = { TO_DEL = "build .coverage coverage.xml log .mypy_cache .pdm-build pi_py.egg-info pi_ui/dist pi_wasm/build pi_wasm/.zig-cache pi_wasm/zig-out __pycache__ .pytest_cache .tox" }
 clean.help = "Clean build artifacts"
 envclean.shell = "for d in ${TO_DEL};do echo $d;rm -fr $d;done"
 envclean.env = { TO_DEL = "pi_ui/node_modules .venv" }
 envclean.help = "Clean environment"
 allclean.composite = [ "clean", "envclean" ]
 start = "python -m pi_py.pi_digits"
-build.shell = "./etc/wrap_for_compose.sh docker compose build"
+build.shell = "docker compose build"
 compose.shell = "docker compose up"
 up.composite = [ "build", "compose" ]
 down.shell = "docker compose down"

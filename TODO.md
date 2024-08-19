@@ -4,13 +4,12 @@
 * [X] init py, ui and wasm
 * [X] copy pi_digits.py
 * [X] add Madhava Python impl
-* [ ] add Saha / Sinha Python impl
+* [+] Dockerfile(s), associated scripts and compose.yml
 * [ ] create Gosper's wasm module - generalize design as much as possible
-* [ ] add madhava_pi_digits impl (only for 10 digits)
-* [ ] add saha_sinha_pi_digits impl
-* [ ] create wasm module(s) and/or component(s) needed
 * [ ] create web app for visualization
-* [ ] Dockerfile(s), associated scripts and docker-compose.yml
+* [ ] add Saha / Sinha Python impl
+* [ ] add saha_sinha_pi_digits wasm impl
+* [ ] create wasm module(s) and/or component(s) needed
 * [ ] test deploy to Raspberry Pi 4b
 
 
@@ -22,7 +21,7 @@
 
 ## Technology
 * python 3.12 - pdm
-* solidjs - vitejs
+* solidjs - vite
 * wasm - zig 0.13.0
 * docker compose
 
@@ -34,22 +33,28 @@
 | UI | <-- solidjs
 +----+
   |   \
-  v    +-> Canvas to visualize digits and digit diffs
+  v    +-> Canvas to visualize digits and digit diffs - 1000 px x 1000 px square (1_000_000 pixels)
 +----+
 |WASM| <-- built from zig and/or python
 +----+
 ```
 
-* during pre-build use python to generate digits of pi as static generated zig source module(s)
-
--or-
-
-* use py2wasm to compile python library to wasm (later; nice to have)
+* use python to generate digits of pi as static zig source module(s) - commit source modules
 
 
 ## Docker Build Pipelines
 
 ### python
+
+```
+    #
+    # pre-generate these - gosper takes ~3 hrs to generate 1_000_000 digits!
+    #
+    # pdm run python -m pi_py.pi_1000000 pi_wasm/src/pi_1000000.zig
+    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_gosper.zig gosper
+    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_saha_sinha.zig saha_sinha
+```
+
 * python - generate pi_1000000.zig from pi1000000.txt (baseline) - []u8
 * python - generate pi_gosper.zig - []u8
 * python - generate pi_saha_sinha.zig - hash where key is a value of the λ (lambda) param
@@ -58,5 +63,5 @@
 * zig build to wasm
 
 ### ui
-* vitejs build of solidjs
+* vite build of solidjs
 * wasm reference(s)

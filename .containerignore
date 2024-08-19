@@ -1,0 +1,16 @@
+/.git/
+/.gitattributes
+/.gitignore
+/.pdm-python
+**/__pycache__/
+**/.pytest_cache/
+/.venv/
+/compose.yml
+/Containerfile
+docs/
+/flake*
+/go.work
+/node_modules/
+tmp/
+**/*.md
+**/*.png

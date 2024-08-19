@@ -1,0 +1,14 @@
+services:
+  piday2024:
+    environment:
+      TZ: PST8PDT
+    restart: unless-stopped
+    ports:
+      - 9000:9000
+    build:
+      context: .
+      args:
+        ENABLE_TESTS: 1
+      dockerfile: Containerfile
+    deploy:
+      replicas: 1

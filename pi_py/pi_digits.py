@@ -121,22 +121,29 @@ if __name__ == '__main__':
     generator = gosper_pi_digits
     num_digits = 50_000
 
-    if len(sys.argv) < 2:
-        print('''Usage: python -m pi_py.pi_digits filename.ext [generator] [num_digits]
+    #
+    # pre-generate these - gosper takes ~3 hrs for 1_000_000 digits!
+    #
+    # pdm run python -m pi_py.pi_1000000 pi_wasm/src/pi_1000000.zig
+    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_gosper.zig gosper
+    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_saha_sinha.zig saha_sinha
+
+    if len(sys.argv) < 3:
+        print('''Usage: python -m pi_py.pi_digits filename.ext generator [num_digits]
               where
-              generator is one of gosper, madhava or saha_sinha - default: gosper
+              generator is one of gosper, madhava or saha_sinha
               ext is one of go, js, py, ts, zig''')
         sys.exit(1)
 
-    if len(sys.argv) > 2:
-        if sys.argv[2] == 'gosper':
-            generator = gosper_pi_digits
-        elif sys.argv[2] == 'madhava':
-            generator = partial(madhava_pi_digits, terms=150_000)
-        elif sys.argv[2] == 'saha_sinha':
-            generator = saha_sinha_pi_digits
-        else:
-            logging.error(f'Unsupported generator: {sys.argv[2]}')
+    gen_code = sys.argv[2]
+    if gen_code == 'gosper':
+        generator = gosper_pi_digits
+    elif gen_code == 'madhava':
+        generator = partial(madhava_pi_digits, terms=150_000)
+    elif gen_code == 'saha_sinha':
+        generator = saha_sinha_pi_digits
+    else:
+        logging.error(f'Unsupported generator: {gen_code}')
 
     if len(sys.argv) > 3:
         num_digits = int(sys.argv[3])
@@ -144,7 +151,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, format='{asctime} - {module} - {funcName} - {levelname} - {message}', style='{')
     # logging.getLogger().setLevel(level=logging.DEBUG)
 
-    logging.info(f'Start generating {num_digits} digits of pi ...')
+    logging.info(f'Start generating {num_digits:_} digits of pi ...')
     digits = [d for d in generator(num_digits)]
     logging.info('Done generating digits of pi')
 
@@ -156,7 +163,7 @@ if __name__ == '__main__':
     writer = pi_digits_writer_from_ext(file_path)
 
     with open(file_path, 'w') as f:
-        writer(f, digits)
+        writer(f, digits, __spec__.name, ' '.join([file_path, gen_code]), f'pi_{gen_code}_seed')
 
     # logging.debug(f'max_lens:\n{pformat(max_len, sort_dicts=False, underscore_numbers=True)}')
 

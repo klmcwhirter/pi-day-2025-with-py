@@ -9,48 +9,53 @@ def batched(sequence: Sequence, n: int = 1):
         yield sequence[ndx:min(ndx + n, l)]
 
 
-def _pi_digits_go_writer(f: TextIOWrapper, digits: list[int]):
+def _pi_digits_go_writer(f: TextIOWrapper, digits: list[int], mod_name: str, file_name: str, var_name: str):
     print('\n', file=f)
-    print("// Automatically generated via python -m piadapter.pi_digits pi-tinygo/pi_digits_seed.go", file=f)
+    print(f'// Automatically generated via python -m {mod_name} {file_name}', file=f)
     print('', file=f)
-    print('var pi_digits_seed [50000]uint8 = [50000]uint8{', end='', file=f)
+    digits_len = len(digits)
+    print(f'var {var_name} [{digits_len}]uint8 = [{digits_len}]uint8{{', end='', file=f)
     print(', '.join(str(d) for d in digits), end='', file=f)
     print('};', file=f)
 
 
-def _pi_digits_js_writer(f: TextIOWrapper, digits: list[int]):
-    print("// Automatically generated via python -m piadapter.pi_digits pi-as/benchmarks/pi_digits_seed.js", file=f)
-    print('export const pi_digits_seed = ', end='', file=f)
+def _pi_digits_js_writer(f: TextIOWrapper, digits: list[int], mod_name: str, file_name: str, var_name: str):
+    print(f'// Automatically generated via python -m {mod_name} {file_name}', file=f)
+    print('', file=f)
+    print(f'export const {var_name} = ', end='', file=f)
     print(digits, end='', file=f)
     print(';', file=f)
 
 
-def _pi_digits_py_writer(f: TextIOWrapper, digits: list[int]):
-    print("'''Automatically generated via python -m piadapter.pi_digits piadapter/pi_digits_seed.py'''", file=f)
+def _pi_digits_py_writer(f: TextIOWrapper, digits: list[int], mod_name: str, file_name: str, var_name: str):
+    print(f"'''Automatically generated via python -m {mod_name} {file_name}'''", file=f)
+    print('', file=f)
     print('# region', file=f)
-    print('pi_digits_seed = ', end='', file=f)
+    print(f'{var_name} = ', end='', file=f)
     print(digits, file=f)
     print('# endregion', file=f)
 
 
-def _pi_digits_ts_writer(f: TextIOWrapper, digits: list[int]):
-    print("// Automatically generated via python -m piadapter.pi_digits pi-as/assembly/pi_digits_seed.ts", file=f)
-    print('export const pi_digits_seed: u8[] = ', end='', file=f)
+def _pi_digits_ts_writer(f: TextIOWrapper, digits: list[int], mod_name: str, file_name: str, var_name: str):
+    print(f'// Automatically generated via python -m {mod_name} {file_name}', file=f)
+    print('', file=f)
+    print(f'export const {var_name}: u8[] = ', end='', file=f)
     print(digits, end='', file=f)
     print(';', file=f)
 
 
-def _pi_digits_zig_writer(f: TextIOWrapper, digits: list[int]):
-    print("// Automatically generated via python -m piadapter.pi_digits pi-zig/src/pi_digits_seed.zig", file=f)
-    print('pub const pi_digits_seed: []u8 = &pi_digits_seed_array;', file=f)
-    print('var pi_digits_seed_array = [_]u8{', end='', file=f)
+def _pi_digits_zig_writer(f: TextIOWrapper, digits: list[int], mod_name: str, file_name: str, var_name: str):
+    print(f'// Automatically generated via python -m {mod_name} {file_name}', file=f)
+    print('', file=f)
+    print(f'pub const {var_name}: []u8 = &{var_name}_array;', file=f)
+    print(f'var {var_name}_array = [_]u8{{ ', end='', file=f)
     print(', '.join(str(d) for d in digits), end='', file=f)
-    print('};', file=f)
+    print(' };', file=f)
 
 
-def pi_digits_writer_from_ext(filepath: str):
+def pi_digits_writer_from_ext(file_path: str):
     try:
-        file_parts = os.path.splitext(filepath)
+        file_parts = os.path.splitext(file_path)
         # print(file_parts)
 
         (_, ext) = file_parts
@@ -66,7 +71,7 @@ def pi_digits_writer_from_ext(filepath: str):
         elif ext == '.zig':
             return _pi_digits_zig_writer
         else:
-            raise ValueError(f'Unsupported file ext: {filepath}')
+            raise ValueError(f'Unsupported file ext: {file_path}')
 
     except TypeError:
-        raise ValueError(f'Unsupported file ext: {filepath}')
+        raise ValueError(f'Unsupported file ext: {file_path}')
