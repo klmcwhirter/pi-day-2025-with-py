@@ -5,11 +5,17 @@
 * [X] copy pi_digits.py
 * [X] add Madhava Python impl
 * [+] Dockerfile(s), associated scripts and compose.yml
-* [ ] create Gosper's wasm module - generalize design as much as possible
+* [ ] create pi_digits.gosper wasm module - generalize design as much as possible
 * [ ] create web app for visualization
+  * [ ] Create PiDigitsPixelCanvas component
+  * [ ] Integrate pi_digits.wasm
+  * [ ] Create PiDigits view with selection for baseline, Gosper
+  * [ ] Create PiDigitsDiff view to compare baseline and Gosper
 * [ ] add Saha / Sinha Python impl
-* [ ] add saha_sinha_pi_digits wasm impl
-* [ ] create wasm module(s) and/or component(s) needed
+  * [ ] generate zig source module
+* [ ] add pi_digits.saha_sinha wasm impl
+* [ ] add SahaSinha λ = 10 to 100 to digits and diff views
+* [ ] finalize wasm module(s) and/or component(s) needed
 * [ ] test deploy to Raspberry Pi 4b
 
 
