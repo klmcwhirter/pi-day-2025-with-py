@@ -1,24 +1,19 @@
 const std = @import("std");
+const pi_digits = @import("root.zig");
+
+const runtime = @import("runtime");
 
 pub fn main() !void {
-    // Prints to stderr (it's a shortcut based on `std.io.getStdErr()`)
-    std.debug.print("All your {s} are belong to us.\n", .{"codebase"});
+    runtime.zig_version();
 
-    // stdout is for the actual output of your application, for example if you
-    // are implementing gzip, then only the compressed bytes should be sent to
-    // stdout, not any debugging messages.
-    const stdout_file = std.io.getStdOut().writer();
-    var bw = std.io.bufferedWriter(stdout_file);
-    const stdout = bw.writer();
+    runtime.logConsole("[", .{});
 
-    try stdout.print("Run `zig build test` to run the tests.\n", .{});
+    const pi_slize = pi_digits.pi_baseline()[0..10];
+    for (pi_slize) |d| runtime.logConsole("{}, ", .{d});
 
-    try bw.flush(); // don't forget to flush!
+    runtime.logConsole("]\n", .{});
 }
 
-test "simple test" {
-    var list = std.ArrayList(i32).init(std.testing.allocator);
-    defer list.deinit(); // try commenting this out and see if zig detects the memory leak!
-    try list.append(42);
-    try std.testing.expectEqual(@as(i32, 42), list.pop());
+test {
+    _ = @import("root.zig");
 }

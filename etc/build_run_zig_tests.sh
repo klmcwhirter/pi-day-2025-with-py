@@ -42,28 +42,27 @@ mv ${zig_dir} $ZIGBIN 2>&1 | tee -a step.out
 echo "ENABLE_TESTS=$ENABLE_TESTS" | tee -a step.out
 if [ "$ENABLE_TESTS" = "1" ]
 then
-    # echo ${ZIGBIN}/zig build test -Dwasm=false --summary all -Doptimize=Debug --verbose 2>&1 | tee -a step.out
-    # ${ZIGBIN}/zig build test -Dwasm=false --summary all -Doptimize=Debug --verbose 2>&1 | tee -a step.out
-    echo ${ZIGBIN}/zig build test --summary all -Doptimize=Debug --verbose 2>&1 | tee -a step.out
-    ${ZIGBIN}/zig build test --summary all -Doptimize=Debug --verbose 2>&1 | tee -a step.out
+    echo ${ZIGBIN}/zig build test -Dwasm=false --summary all -Doptimize=Debug --verbose 2>&1 | tee -a step.out
+    ${ZIGBIN}/zig build test -Dwasm=false --summary all -Doptimize=Debug --verbose 2>&1 | tee -a step.out
     rc=$?
     echo test rc=${rc}
     clean_up $rc ${ZIG_TESTS}
 else
     mv step.out ${ZIG_TESTS}.skipped
 fi
-# echo rm -fr .zig-cache/ zig-cache/ zig-out/
-# rm -fr .zig-cache/ zig-cache/ zig-out/
 
-# echo ${ZIGBIN}/zig build copy-js --summary all -Dwasm --verbose
-# ${ZIGBIN}/zig build copy-js --summary all -Dwasm --verbose 2>&1 | tee -a step.out
-# rc=$?
-# echo build rc=${rc}
+echo rm -fr .zig-cache/ zig-out/
+rm -fr .zig-cache/ zig-out/
 
-# if [ $rc -ne 0 ];then
-#     clean_up $rc ${ZIG_BUILD}
-#     echo "zig build failed" >${ZIG_TESTS}.skipped
-#     exit 0
-# else
-#     clean_up $rc ${ZIG_BUILD}
-# fi
+echo ${ZIGBIN}/zig build copy-js --summary all -Dwasm --verbose
+${ZIGBIN}/zig build copy-js --summary all -Dwasm --verbose 2>&1 | tee -a step.out
+rc=$?
+echo build rc=${rc}
+
+if [ $rc -ne 0 ];then
+    clean_up $rc ${ZIG_BUILD}
+    echo "zig build failed" >${ZIG_TESTS}.skipped
+    exit 0
+else
+    clean_up $rc ${ZIG_BUILD}
+fi

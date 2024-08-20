@@ -4,8 +4,8 @@
 * [X] init py, ui and wasm
 * [X] copy pi_digits.py
 * [X] add Madhava Python impl
-* [+] Dockerfile(s), associated scripts and compose.yml
-* [ ] create pi_digits.gosper wasm module - generalize design as much as possible
+* [X] Dockerfile(s), associated scripts and compose.yml
+* [X] create pi_digits.gosper wasm module - generalize design as much as possible
 * [ ] create web app for visualization
   * [ ] Create PiDigitsPixelCanvas component
   * [ ] Integrate pi_digits.wasm
