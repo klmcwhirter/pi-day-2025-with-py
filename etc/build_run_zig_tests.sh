@@ -51,8 +51,8 @@ else
     mv step.out ${ZIG_TESTS}.skipped
 fi
 
-echo rm -fr .zig-cache/ zig-out/
-rm -fr .zig-cache/ zig-out/
+echo rm -fr .zig-cache/ zig-out/ | tee step.out
+rm -fr .zig-cache/ zig-out/ 2>&1 | tee -a step.out
 
 echo ${ZIGBIN}/zig build copy-js --summary all -Dwasm --verbose
 ${ZIGBIN}/zig build copy-js --summary all -Dwasm --verbose 2>&1 | tee -a step.out
@@ -61,7 +61,7 @@ echo build rc=${rc}
 
 if [ $rc -ne 0 ];then
     clean_up $rc ${ZIG_BUILD}
-    echo "zig build failed" >${ZIG_TESTS}.skipped
+    echo "zig build failed" >>${ZIG_TESTS}.skipped
     exit 0
 else
     clean_up $rc ${ZIG_BUILD}
