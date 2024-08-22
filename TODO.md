@@ -6,11 +6,12 @@
 * [X] add Madhava Python impl
 * [X] Dockerfile(s), associated scripts and compose.yml
 * [X] create pi_digits.gosper wasm module - generalize design as much as possible
-* [ ] create web app for visualization
-  * [ ] Create PiDigitsPixelCanvas component
-  * [ ] Integrate pi_digits.wasm
-  * [ ] Create PiDigits view with selection for baseline, Gosper
-  * [ ] Create PiDigitsDiff view to compare baseline and Gosper
+* [X] create web app for visualization
+  * [X] prepare app skeleton
+  * [X] Create PiCanvas component
+  * [X] Integrate pi_digits.wasm
+  * [X] Create PiDigits view for baseline
+  * [X] Create PiDigitsDiff view to compare baseline and Gosper
 * [ ] add Saha / Sinha Python impl
   * [ ] generate zig source module
 * [ ] add pi_digits.saha_sinha wasm impl
@@ -21,8 +22,8 @@
 
 ## UI Ideas
 * [ ] show digits with input to select different values for λ (lambda) parameter - paper says 10 to 100; but is that the correct range for million digits of pi?
-* [ ] show histogram with 1_000_000 digits for Saha / Sinha series with different values for λ (lambda) parameter, Gosper's series and baseline
-* [ ] show comparison of digit accuracy - what should be the source of truth?
+* [DESCOPE] show histogram with 1_000_000 digits for Saha / Sinha series with different values for λ (lambda) parameter, Gosper's series and baseline
+* [ ] show comparison of digit accuracy - what should be the source of truth? see pi1000000.txt as baseline
 
 
 ## Technology

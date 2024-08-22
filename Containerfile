@@ -56,9 +56,15 @@ RUN apk upgrade
 
 WORKDIR /app
 
-COPY pi_ui/ /app/
+COPY pi_ui/package.json /app/package.json
 
-RUN npm install && npm run build
+RUN rm -fr node_modules && npm install
+
+COPY pi_ui/public/ /app/public/
+COPY pi_ui/src/ /app/src/
+COPY pi_ui/*.js pi_ui/*.html pi_ui/*.json pi_ui/*.ts /app/
+
+RUN npm run build
 
 COPY --from=zigbuild /app/zig-build.* /app/dist/
 COPY --from=zigbuild /app/zig-tests.* /app/dist/
@@ -70,21 +76,21 @@ COPY --from=zigbuild /app/zig-out/bin/pi-digits.wat /app/dist/
 
 COPY --from=pythonbuild /app/python-tests.* /app/dist/
 
-# # EXPOSE 9000
-# # CMD ["npm", "start"]
+EXPOSE 9000
+CMD ["npm", "start"]
 
 
 #*----------------------------------------------------------------------
 #* final
 #*----------------------------------------------------------------------
 
-FROM nginx:mainline-alpine
-ENV TZ=PST8PDT
+# FROM nginx:mainline-alpine
+# ENV TZ=PST8PDT
 
-RUN apk upgrade --no-cache
+# RUN apk upgrade --no-cache
 
-WORKDIR /usr/share/nginx/html
+# WORKDIR /usr/share/nginx/html
 
-COPY --from=build /app/dist/ /usr/share/nginx/html
+# COPY --from=build /app/dist/ /usr/share/nginx/html
 
-EXPOSE 80
+# EXPOSE 80

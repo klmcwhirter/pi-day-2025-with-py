@@ -8,9 +8,7 @@
 /compose.yml
 /Containerfile
 docs/
-/flake*
-/go.work
-/node_modules/
+node_modules/
 tmp/
 **/*.md
 **/*.png
