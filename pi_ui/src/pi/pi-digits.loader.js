@@ -1,12 +1,21 @@
 import { current_time } from "./utils";
 
+
 const WASMFILE = '/dist/pi-digits.wasm';
 
 export class WasmLoadResult {
-    zig_version;
+    map_colors;
     pi_baseline;
+    pi_baseline_len;
+    pi_baseline_uint8arr;
+    pi_gosper_len;
     pi_gosper;
     pi_saha_sinha;
+    pi_saha_sinha_len;
+    pi_ten_digits;
+    pi_ten_digits_len;
+    pi_cmp_digits;
+    zig_version;
     alloc;
     free;
     memory;
@@ -16,20 +25,18 @@ const wasmLoadResult = new WasmLoadResult();
 
 // Convenience function to prepare a typed byte array
 // from a pointer and a length into WASM memory.
-function getView(ptr, len) {
-    return new Uint8Array(wasmLoadResult.memory.buffer, ptr, len);
-}
+export const getWasmView = (ptr, len) => new Uint8Array(wasmLoadResult.memory.buffer, ptr, len);
 
 // Decode UTF-8 typed byte array in WASM memory into
 // UTF-16 JS string.
-const decodeStr = (ptr, len) => new TextDecoder().decode(getView(ptr, len));
+const decodeStr = (ptr, len) => new TextDecoder().decode(getWasmView(ptr, len));
 
 // JS strings are UTF-16 and have to be encoded into an
 // UTF-8 typed byte array in WASM memory.
 const encodeStr = (str) => {
     const capacity = str.length * 2 + 5; // As per MDN
     const ptr = wasmLoadResult.alloc(capacity);
-    const { written } = new TextEncoder().encodeInto(str, getView(ptr, capacity));
+    const { written } = new TextEncoder().encodeInto(str, getWasmView(ptr, capacity));
     return [ptr, written, capacity];
 }
 
@@ -59,23 +66,36 @@ export const loadWasm = async () => {
     await WebAssembly
         .instantiateStreaming(fetch(WASMFILE), importObject)
         .then(wasmModule => {
-            const { pi_baseline, pi_baseline_len, pi_gosper, pi_gosper_len, pi_saha_sinha, pi_saha_sinha_len, alloc, free, memory, zlog, zig_version } = wasmModule.instance.exports;
+            const {
+                pi_baseline, pi_baseline_len, pi_gosper, pi_gosper_len, pi_saha_sinha, pi_saha_sinha_len, pi_ten_digits, pi_ten_digits_len,
+                pi_cmp_digits, map_colors,
+                alloc, free, memory, zig_version, zlog
+            } = wasmModule.instance.exports;
             wasmLoadResult.alloc = alloc;
             wasmLoadResult.free = free;
             wasmLoadResult.memory = memory;
 
-            wasmLoadResult.pi_baseline = getView(pi_baseline(), pi_baseline_len());
-            wasmLoadResult.pi_gosper = getView(pi_gosper(), pi_gosper_len());
-            wasmLoadResult.pi_saha_sinha = getView(pi_saha_sinha(), pi_saha_sinha_len());
+            wasmLoadResult.pi_baseline = pi_baseline();
+            wasmLoadResult.pi_baseline_len = pi_baseline_len();
+            wasmLoadResult.pi_baseline_uint8arr = getWasmView(pi_baseline(), pi_baseline_len());
+            wasmLoadResult.pi_gosper = pi_gosper();
+            wasmLoadResult.pi_gosper_len = pi_gosper_len();
+            wasmLoadResult.pi_saha_sinha = pi_saha_sinha();
+            wasmLoadResult.pi_saha_sinha_len = pi_saha_sinha_len();
+            wasmLoadResult.pi_ten_digits = pi_ten_digits();
+            wasmLoadResult.pi_ten_digits_len = pi_ten_digits_len();
 
-            zig_version();
+            wasmLoadResult.pi_cmp_digits = pi_cmp_digits;
+            wasmLoadResult.map_colors = map_colors;
 
             // Passing a unicode string across the JS to WASM boundary.
-            // const [ptr, len, capacity] = encodeStr("Hello from Zig + JS + WASM 🦎⚡!");
-            // zlog(ptr, len);
+            const [ptr, len, _] = encodeStr("Hello from Zig + JS + WASM 🦎⚡!");
+            zlog(ptr, len);
+            wasmLoadResult.free(ptr, len);
 
             // We need to manually free the string's bytes in WASM memory.
-            // wasmLoadResult.free(ptr, capacity);
+
+            zig_version();
         });
 
     return new Promise((resolve) => resolve(wasmLoadResult));

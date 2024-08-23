@@ -1,5 +1,5 @@
 import { createSignal, type Component } from 'solid-js';
-import { Footer, Header, NavSwitcher, NavView } from './components';
+import { Footer, Header, MainSwitcher, NavView } from './components';
 import { PiAdapterProvider } from './pi/pi.context';
 import PyVersionsView from './pi/py-versions';
 
@@ -16,7 +16,7 @@ const App: Component = () => {
       <PiAdapterProvider>
         <div class='grid grid-cols-4 gap-2'>
           <NavView state={stateSignal} />
-          <NavSwitcher state={stateSignal} />
+          <MainSwitcher state={stateSignal} />
         </div>
         <Footer>
           <PyVersionsView />

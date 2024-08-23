@@ -47,8 +47,8 @@ def _pi_digits_ts_writer(f: TextIOWrapper, digits: list[int], mod_name: str, fil
 def _pi_digits_zig_writer(f: TextIOWrapper, digits: list[int], mod_name: str, file_name: str, var_name: str):
     print(f'// Automatically generated via python -m {mod_name} {file_name}', file=f)
     print('', file=f)
-    print(f'pub const {var_name}: []u8 = &{var_name}_array;', file=f)
-    print(f'var {var_name}_array = [_]u8{{ ', end='', file=f)
+    print(f'pub const {var_name}: []const u8 = &{var_name}_array;', file=f)
+    print(f'const {var_name}_array = [_]u8{{ ', end='', file=f)
     print(', '.join(str(d) for d in digits), end='', file=f)
     print(' };', file=f)
 

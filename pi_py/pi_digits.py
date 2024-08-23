@@ -36,7 +36,7 @@ def _update_max_len(q: int, r: int, t: int, i: int, n: int):
 def gosper_pi_digits(**_kwargs) -> Generator[int, None, None]:
     '''
     This algorithm is based on an unproven conjecture but successfully produces at least the first 1 million digits.
-    Read more about it here: https://www.gavalas.dev/blog/spigot-algorithms-for-pi-in-python/
+    Read more about it here: https://www.gavalas.dev/blog/spigot-algorithms-for-pi-in-python/#using-gospers-series
 
     And here - Gosper's series: https://www.gavalas.dev/blog/spigot-algorithms-for-pi-in-python/#the-open-problem
     '''
@@ -65,7 +65,7 @@ def madhava_pi_digits(**kwargs) -> Generator[int, None, None]:
     Note that the Madhava series is stated to take 5 billion terms to converge accurately to 10 decimal places of pi.
     Although, 20_000 seems to be good enough for our purposes.
 
-    Reference: https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.132.221601#und4
+    Reference: https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.132.221601#d5e8137
     '''
     terms: int = 20_000 if 'terms' not in kwargs else kwargs['terms']
 

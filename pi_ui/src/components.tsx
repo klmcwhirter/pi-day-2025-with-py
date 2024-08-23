@@ -1,6 +1,7 @@
 import { For, Match, Show, Switch, createSignal } from 'solid-js';
 import { AppStateEnum } from './App';
 import { PiAlgorithms, usePiState } from './pi/pi.context';
+import { AlgorithmDetails } from './algodetails';
 import { AppDescription } from './AppDescription';
 import { PiCanvas } from './pi/pi-canvas';
 
@@ -65,7 +66,7 @@ export const Header = () => {
   );
 };
 
-export const NavSwitcher = (props) => {
+export const MainSwitcher = (props) => {
   const piState = usePiState();
   const [state] = props.state;
 
@@ -101,10 +102,34 @@ export const NavSwitcher = (props) => {
   );
 };
 
+const CmpSelector = (props) => {
+  const [signal, setSignal] = props.signal;
+  const label = props.label;
+
+  return (
+    <div class="mt-4">
+      <span>{label} </span>
+      <select
+        class='rounded-lg pl-2 pr-1 text-blue-800 ring-2 ring-stone-100 hover:font-semibold hover:ring-stone-500'
+        value={signal()}
+        onInput={(e) => setSignal(e.currentTarget.value)}
+      >
+        <For each={Object.keys(PiAlgorithms)}>
+          {(n) => (
+            <Show when={n == signal()}
+              fallback={<option value={n}>{n}</option>}
+            >
+              <option value={n} selected>{n}</option>
+            </Show>
+          )}
+        </For>
+      </select>
+    </div>
+  );
+};
+
 export const NavView = (props) => {
   const piState = usePiState();
-  const [cmpSource, setCmpSource] = piState.cmpSource;
-  const [cmpAgainst, setCmpAgainst] = piState.cmpAgainst;
 
   const [state, setState] = props.state;
   const appStates = [AppStateEnum.DIGITS, AppStateEnum.COMPARE];
@@ -116,7 +141,7 @@ export const NavView = (props) => {
           {(s) => (
             <li class='m-1 p-2 inline-block'>
               <button
-                disabled={!piState.pi_baseline}
+                disabled={!piState.pi_baseline_uint8arr}
                 class='hover:disabled::cursor-auto m-2 block p-2 rounded-lg bg-emerald-50 text-lg text-blue-700
                 hover:cursor-pointer hover:rounded-lg hover:bg-emerald-700 hover:font-bold
                 hover:text-white disabled:rounded-lg disabled:bg-stone-300 disabled:text-stone-700'
@@ -133,51 +158,36 @@ export const NavView = (props) => {
         </For>
       </ul>
 
-      <p class='m-2 text-xl'>1,000,000 digits of pi!</p>
+      <p class='m-2 text-xl font-semibold'>1,000,000 digits of pi !</p>
 
       <AppDescription state={props.state} />
 
       <Show when={state() === AppStateEnum.COMPARE}>
         <div class="mt-10">
-          <div>Select algorithms to compare</div>
+          <div class='font-semibold'>Select algorithms to compare</div>
 
-          <div class="mt-4">
-            <span>Source: </span>
-            <select
-              class='rounded-lg pl-2 pr-1 text-blue-800 ring-2 ring-stone-100 hover:font-semibold hover:ring-stone-500'
-              value={cmpSource()}
-              onInput={(e) => setCmpSource(e.currentTarget.value)}
-            >
-              <For each={Object.keys(PiAlgorithms)}>
-              {(n) => (
-                  <Show when={n == cmpSource()}
-                    fallback={<option value={n}>{n}</option>}
-                  >
-                    <option value={n} selected>{n}</option>
-                  </Show>
-                )}
-              </For>
-            </select>
-          </div>
+          <CmpSelector signal={piState.cmpSource} label="Source:" />
 
-          <div class="mt-4">
-            <span>Against: </span>
-            <select
-              class='rounded-lg pl-2 pr-1 text-blue-800 ring-2 ring-stone-100 hover:font-semibold hover:ring-stone-500'
-              value={cmpAgainst()}
-              onInput={(e) => setCmpAgainst(e.currentTarget.value)}
-            >
-              <For each={Object.keys(PiAlgorithms)}>
-                {(n) => (
-                  <Show when={n == cmpAgainst()}
-                    fallback={<option value={n}>{n}</option>}
-                  >
-                    <option value={n} selected>{n}</option>
-                  </Show>
-                )}
-              </For>
-            </select>
+          <CmpSelector signal={piState.cmpAgainst} label="Against:" />
+
+          <AlgorithmDetails />
+        </div>
+      </Show>
+
+      <Show when={state() === AppStateEnum.DIGITS}>
+        <div><img src="./pi.svg" class="m-8 w-40 mx-auto" /></div>
+
+        <div class='mt-12 m-4 p-4 rounded-lg text-lg font-semibold bg-stone-50 text-stone-400 shadow-inner shadow-emerald-700'>
+          <div class='hover:text-emerald-300'>
+            <p>Three one four.</p>
+            <p>Pi.</p>
+            <p>The best number.</p>
           </div>
+          <br />
+          <div class='hover:text-emerald-300'>
+            <p>3/14 is Pi Day.</p>
+            <p>Three point one four one five nine</p>
+            <p>Comfort is warm pot pi.</p></div>
         </div>
       </Show>
     </nav>

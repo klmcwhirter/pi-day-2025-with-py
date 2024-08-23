@@ -8,7 +8,7 @@ const jsLog = (msg) => {
 // Functions imported from WASM.
 let wasm_alloc, wasm_free, wasm_memory;
 
-let wasm_pi_baseline, wasm_pi_gosper, wasm_pi_saha_sinha;
+let wasm_pi_baseline, wasm_pi_gosper, wasm_pi_saha_sinha, wasm_pi_ten_digits;
 
 // Convenience function to prepare a typed byte array
 // from a pointer and a length into WASM memory.
@@ -52,7 +52,11 @@ const importObject = {
 const call_funcs = wasmModule => {
     jsLog(wasmModule.instance.exports);
 
-    const { pi_baseline, pi_baseline_len, pi_gosper, pi_gosper_len, pi_saha_sinha, pi_saha_sinha_len, alloc, free, memory, zlog, zig_version } = wasmModule.instance.exports;
+    const {
+        pi_baseline, pi_baseline_len, pi_gosper, pi_gosper_len, pi_saha_sinha, pi_saha_sinha_len, pi_ten_digits, pi_ten_digits_len,
+        pi_cmp_digits, map_colors,
+        alloc, free, memory, zlog, zig_version
+    } = wasmModule.instance.exports;
     wasm_alloc = alloc;
     wasm_free = free;
     wasm_memory = memory;
@@ -60,17 +64,76 @@ const call_funcs = wasmModule => {
     wasm_pi_baseline = new Uint8Array(memory.buffer, pi_baseline(), pi_baseline_len());
     wasm_pi_gosper = new Uint8Array(memory.buffer, pi_gosper(), pi_gosper_len());
     wasm_pi_saha_sinha = new Uint8Array(memory.buffer, pi_saha_sinha(), pi_saha_sinha_len());
+    wasm_pi_ten_digits = new Uint8Array(memory.buffer, pi_ten_digits(), pi_ten_digits_len());
 
     zig_version();
 
     jsLog(`pi_baseline_len=${pi_baseline_len()}, pi_baseline=${pi_baseline()}`);
-    console.log('JS: wasm_pi_baseline: ', wasm_pi_baseline);
+    console.log(
+        'JS: wasm_pi_baseline=', wasm_pi_baseline,
+        ', wasm_pi_baseline.length=', wasm_pi_baseline.length,
+        ', wasm_pi_baseline.buffer.byteLength:=', wasm_pi_baseline.buffer.byteLength);
 
     jsLog(`pi_gosper_len=${pi_gosper_len()}, pi_gosper=${pi_gosper()}`);
     console.log('JS: wasm_pi_gosper: ', wasm_pi_gosper);
 
     jsLog(`pi_saha_sinha_len=${pi_saha_sinha_len()}, pi_saha_sinha=${pi_saha_sinha()}`);
     console.log('JS: wasm_pi_saha_sinha: ', wasm_pi_saha_sinha);
+
+    jsLog(`pi_ten_digits_len=${pi_ten_digits_len()}, pi_ten_digits=${pi_ten_digits()}`);
+    console.log('JS: wasm_pi_ten_digits: ', wasm_pi_ten_digits);
+
+    // Test baseline vs ten_digits - should differ at 10th element
+    let cmp_result_wasm = pi_cmp_digits(pi_baseline(), pi_baseline_len(), pi_ten_digits(), pi_ten_digits_len());
+    jsLog(`pi_cmp_digits: cmp_result_wasm=${cmp_result_wasm}`);
+
+    let cmp_result = getView(cmp_result_wasm, pi_baseline_len());
+    let all_equal = cmp_result.every((v) => v === 1);
+    jsLog(`pi_cmp_digits baseline<>ten_digits result were all equal: ${all_equal}`)
+
+    if (!all_equal) {
+        jsLog(`pi_cmp_digits: baseline<>ten_digits first diff at: ${cmp_result.findIndex((v) => v === 0)}`);
+    }
+    wasm_free(cmp_result_wasm, pi_baseline_len());
+
+    jsLog(`pi_baseline_len=${pi_baseline_len()}, pi_baseline=${pi_baseline()}`);
+    jsLog(`pi_gosper_len=${pi_gosper_len()}, pi_gosper=${pi_gosper()}`);
+    jsLog(`pi_saha_sinha_len=${pi_saha_sinha_len()}, pi_saha_sinha=${pi_saha_sinha()}`);
+    jsLog(`pi_ten_digits_len=${pi_ten_digits_len()}, pi_ten_digits=${pi_ten_digits()}`);
+
+    // Test baseline vs gosper - should all be the same
+    cmp_result_wasm = pi_cmp_digits(pi_baseline(), pi_baseline_len(), pi_gosper(), pi_gosper_len());
+    jsLog(`pi_cmp_digits: cmp_result_wasm=${cmp_result_wasm}`);
+
+    cmp_result = getView(cmp_result_wasm, pi_baseline_len());
+    all_equal = cmp_result.every((v) => v === 1);
+    jsLog(`pi_cmp_digits baseline<>gosper result were all equal: ${all_equal}`)
+
+    if (!all_equal) {
+        jsLog(`pi_cmp_digits: baseline<>gosper first diff at: ${cmp_result.findIndex((v) => v === 0)}`);
+    }
+    wasm_free(cmp_result_wasm, pi_baseline_len());
+
+    jsLog(`pi_baseline_len=${pi_baseline_len()}, pi_baseline=${pi_baseline()}`);
+    jsLog(`pi_gosper_len=${pi_gosper_len()}, pi_gosper=${pi_gosper()}`);
+    jsLog(`pi_saha_sinha_len=${pi_saha_sinha_len()}, pi_saha_sinha=${pi_saha_sinha()}`);
+    jsLog(`pi_ten_digits_len=${pi_ten_digits_len()}, pi_ten_digits=${pi_ten_digits()}`);
+
+    jsLog(`map_colors: pi_ten_digits ... starting`);
+    const map_result_wasm = map_colors(pi_ten_digits(), pi_ten_digits_len(), 0);
+    const map_result_flat = getView(map_result_wasm, pi_ten_digits_len() * 3);
+    const map_result = [];
+    for (let i = 0, t = 0; i < map_result_flat.length; i += 3, t++) { // because [3]u8
+        map_result.push([
+            map_result_flat[i + 0],
+            map_result_flat[i + 1],
+            map_result_flat[i + 2],
+        ]);
+    }
+    for (let i = 0; i < map_result.length; i++) {
+        jsLog(`map_result[${i}]=${map_result[i]}`);
+    }
+    jsLog(`map_colors: pi_ten_digits ... done`);
 
     // Passing a string across the JS to WASM boundary.
     const [ptr, zlen, capacity] = encodeStr("Hello from Zig + JS + WASM with unicode 🦎⚡!");

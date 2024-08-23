@@ -12,10 +12,16 @@
   * [X] Integrate pi_digits.wasm
   * [X] Create PiDigits view for baseline
   * [X] Create PiDigitsDiff view to compare baseline and Gosper
+* [X] Resolve zig export issue by simplifying build.zig to just wasm output - but this breaks tests ... see separate task
+* [X] Move the logic in pi-canvas.tsx:setPiImageData to build up the imageData to pi_wasm
+* [X] Chase down the problems with alloc / free - put the UTF-8/UTF-16 string logging example back into pi-digits.loader.js
+* [ ] Add Random pi algorithm that provides 1,000,000 random digits to provide some more color for the compare screen
+* [ ] Make tests work again
 * [ ] add Saha / Sinha Python impl
   * [ ] generate zig source module
-* [ ] add pi_digits.saha_sinha wasm impl
+* [X] add pi_digits.saha_sinha wasm impl
 * [ ] add SahaSinha λ = 10 to 100 to digits and diff views
+* [ ] histogram ?
 * [ ] finalize wasm module(s) and/or component(s) needed
 * [ ] test deploy to Raspberry Pi 4b
 
