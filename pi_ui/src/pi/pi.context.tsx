@@ -6,6 +6,7 @@ import { logJS } from './utils.js';
 export const PiAlgorithms = {
   'Baseline': 'Baseline',
   'Gosper': 'Gosper',
+  'Random': 'Random',
   'Saha_Sinha': 'Saha_Sinha',
   'Ten_Digits': 'Ten_Digits',
 };
@@ -23,6 +24,8 @@ export class PiState {
   public pi_baseline_uint8arr: Uint8Array = new Uint8Array();
   public pi_gosper;
   public pi_gosper_len;
+  public pi_random;
+  public pi_random_len;
   public pi_saha_sinha;
   public pi_saha_sinha_len;
   public pi_ten_digits;
@@ -49,6 +52,8 @@ export class PiState {
         this.pi_baseline_uint8arr = rc.pi_baseline_uint8arr;
         this.pi_gosper = rc.pi_gosper;
         this.pi_gosper_len = rc.pi_gosper_len;
+        this.pi_random = rc.pi_random;
+        this.pi_random_len = rc.pi_random_len;
         this.pi_saha_sinha = rc.pi_saha_sinha;
         this.pi_saha_sinha_len = rc.pi_saha_sinha_len;
         this.pi_ten_digits = rc.pi_ten_digits;
@@ -61,7 +66,7 @@ export class PiState {
         this.free = rc.free;
         this.memory = rc.memory;
 
-        setTimeout(() => setStateInitialized(true), 3000);
+        setTimeout(() => setStateInitialized(true), 0);
 
         logJS('Loading wasm ... done');
       });
@@ -74,6 +79,7 @@ export class PiState {
     const piMap = {
       [PiAlgorithms.Baseline]: [this.pi_baseline, this.pi_baseline_len],
       [PiAlgorithms.Gosper]: [this.pi_gosper, this.pi_gosper_len],
+      [PiAlgorithms.Random]: [this.pi_random, this.pi_random_len],
       [PiAlgorithms.Saha_Sinha]: [this.pi_saha_sinha, this.pi_saha_sinha_len],
       [PiAlgorithms.Ten_Digits]: [this.pi_ten_digits, this.pi_ten_digits_len],
     }

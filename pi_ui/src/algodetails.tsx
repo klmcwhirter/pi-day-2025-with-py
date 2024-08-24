@@ -32,6 +32,17 @@ export const AlgorithmDetails = () => {
               &pi;
             </span>
             <span class='rounded-md p-2 font-semibold'>
+              Random
+            </span>{' '}
+            <span>- a million random digits 0 - 9.</span>
+          </p>
+        </li>
+        <li class='mt-2'>
+          <p>
+            <span class='text-md ml-2 bg-emerald-100 p-1 not-italic text-purple-700'>
+              &pi;
+            </span>
+            <span class='rounded-md p-2 font-semibold'>
               Saha_Sinha
             </span>{' '}
             <span>- Celebrate the new finding from Saha / Sinha - <a class="underline" target="_empty" href="https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.132.221601#d5e8137">series that quickly converges to &pi;</a></span>

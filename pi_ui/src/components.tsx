@@ -185,9 +185,9 @@ export const NavView = (props) => {
           </div>
           <br />
           <div class='hover:text-emerald-300'>
-            <p>3/14 is Pi Day.</p>
+            <p>Today is Pi Day.</p>
             <p>Three point one four one five nine</p>
-            <p>Comfort is warm pot pi.</p></div>
+            <p>Joy is warm pot pi.</p></div>
         </div>
       </Show>
     </nav>

@@ -8,8 +8,10 @@ export class WasmLoadResult {
     pi_baseline;
     pi_baseline_len;
     pi_baseline_uint8arr;
-    pi_gosper_len;
     pi_gosper;
+    pi_gosper_len;
+    pi_random;
+    pi_random_len;
     pi_saha_sinha;
     pi_saha_sinha_len;
     pi_ten_digits;
@@ -67,7 +69,8 @@ export const loadWasm = async () => {
         .instantiateStreaming(fetch(WASMFILE), importObject)
         .then(wasmModule => {
             const {
-                pi_baseline, pi_baseline_len, pi_gosper, pi_gosper_len, pi_saha_sinha, pi_saha_sinha_len, pi_ten_digits, pi_ten_digits_len,
+                pi_baseline, pi_baseline_len, pi_gosper, pi_gosper_len, pi_random, pi_random_len,
+                pi_saha_sinha, pi_saha_sinha_len, pi_ten_digits, pi_ten_digits_len,
                 pi_cmp_digits, map_colors,
                 alloc, free, memory, zig_version, zlog
             } = wasmModule.instance.exports;
@@ -80,6 +83,8 @@ export const loadWasm = async () => {
             wasmLoadResult.pi_baseline_uint8arr = getWasmView(pi_baseline(), pi_baseline_len());
             wasmLoadResult.pi_gosper = pi_gosper();
             wasmLoadResult.pi_gosper_len = pi_gosper_len();
+            wasmLoadResult.pi_random = pi_random();
+            wasmLoadResult.pi_random_len = pi_random_len();
             wasmLoadResult.pi_saha_sinha = pi_saha_sinha();
             wasmLoadResult.pi_saha_sinha_len = pi_saha_sinha_len();
             wasmLoadResult.pi_ten_digits = pi_ten_digits();

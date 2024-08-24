@@ -40,6 +40,22 @@ test "gosper should have len 1_000_000" {
     try testing.expect(gosper.len == pi_gosper_len());
 }
 
+const random = pi_digits.pi_random_seed[0..];
+
+pub export fn pi_random() [*]const u8 {
+    pi_digits.pi_random_init();
+    return random.ptr;
+}
+
+pub export fn pi_random_len() usize {
+    return random.len;
+}
+
+test "random should have len 1_000_000" {
+    try testing.expect(1000000 == random.len);
+    try testing.expect(random.len == pi_random_len());
+}
+
 const saha_sinha = pi_digits.pi_saha_sinha_seed;
 
 pub export fn pi_saha_sinha() [*]const u8 {
@@ -85,7 +101,7 @@ pub export fn pi_cmp_digits(src: [*]u8, src_len: u32, other: [*]u8, other_len: u
 
     // logConsole("pi_cmp_digits: src_len={}, src_len_usize={d}", .{ src_len, src_len_usize });
 
-    const rc = allocator.alloc(u8, src_len_usize) catch {
+    const rc = allocator.alloc(u8, src_len_usize) catch { // last element is % match
         @panic("OutOfMemory");
     };
 
@@ -94,7 +110,7 @@ pub export fn pi_cmp_digits(src: [*]u8, src_len: u32, other: [*]u8, other_len: u
     const slice_src = src[0..src_len_usize];
     const slice_other = other[0..other_len_usize];
 
-    for (slice_src, 0..) |s, i| {
+    for (slice_src, 0..src_len_usize) |s, i| {
         var val: u8 = 0;
         if (i < slice_other.len) {
             if (s == slice_other[i]) {

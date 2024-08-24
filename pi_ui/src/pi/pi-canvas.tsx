@@ -52,6 +52,8 @@ function setPiImageData(id: string, piState: PiState, src, src_len, palette_id: 
         let red: number = 0, green: number = 0, blue: number = 0;
         let last_i = 0;
 
+        var num_matched = 0; // if COMPARE
+
         for (let i = 0, di = 0; di < src_len && i < imageData.data.length && last_i < 1000000; di++, i += 4) {
             last_i++;
 
@@ -65,10 +67,18 @@ function setPiImageData(id: string, piState: PiState, src, src_len, palette_id: 
             imageData.data[i + 1] = green; // G value
             imageData.data[i + 2] = blue; // B value
             imageData.data[i + 3] = 255; // A value
+
+            if (palette_id === 1 && green === 255) { // COMPARE
+                num_matched += 1;
+            }
         }
 
         // Draw image data to the canvas
         ctx.putImageData(imageData, 0, 0);
+
+        if (palette_id === 1) {
+            logJS(`setPiImageData: pct_match=${(num_matched * 100) / src_len}`);
+        }
 
         logJS(`setPiImageData: last_i=${last_i}`);
     }
@@ -117,4 +127,3 @@ export const PiCanvas = (props) => {
         </div>
     );
 };
-
