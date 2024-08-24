@@ -6,8 +6,8 @@ import { logJS } from './utils.js';
 export const PiAlgorithms = {
   'Baseline': 'Baseline',
   'Gosper': 'Gosper',
-  'Random': 'Random',
   'Saha_Sinha': 'Saha_Sinha',
+  'Random': 'Random',
   'Ten_Digits': 'Ten_Digits',
 };
 
