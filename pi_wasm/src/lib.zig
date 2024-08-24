@@ -68,7 +68,7 @@ pub export fn map_colors(src: [*]const u8, src_len: u32, pallete_id: u8) [*][3]u
     const pallete = pallete_from_id(pallete_id);
 
     for (slice_src, 0..) |d, i| {
-        rc[i] = pallete[d].to_slice();
+        rc[i] = pallete[d];
     }
 
     // logConsole("map_colors: after mapping rc={d}", .{rc});
