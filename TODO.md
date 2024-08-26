@@ -16,7 +16,8 @@
 * [X] Move the logic in pi-canvas.tsx:setPiImageData to build up the imageData to pi_wasm
 * [X] Chase down the problems with alloc / free - put the UTF-8/UTF-16 string logging example back into pi-digits.loader.js
 * [X] Add Random pi algorithm that provides 1,000,000 random digits to provide some more color for the compare screen
-* [ ] Make tests work again
+* [X] Make tests work again
+  * [X] document wasmtime dependency and -Dwasi & -fwasmtime options to run tests
 * [ ] add Saha / Sinha Python impl
   * [ ] generate zig source module
 * [X] add pi_digits.saha_sinha wasm impl

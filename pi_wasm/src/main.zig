@@ -1,17 +1,15 @@
 const std = @import("std");
-const pi_digits = @import("root.zig");
-
-const runtime = @import("runtime");
+const root = @import("root.zig");
 
 pub fn main() !void {
-    runtime.zig_version();
+    root.zig_version();
 
-    runtime.logConsole("[", .{});
+    root.logConsole("[", .{});
 
-    const pi_slize = pi_digits.pi_baseline()[0..10];
-    for (pi_slize) |d| runtime.logConsole("{}, ", .{d});
+    const pi_slize = root.pi_baseline()[0..10];
+    for (pi_slize) |d| root.logConsole("{}, ", .{d});
 
-    runtime.logConsole("]\n", .{});
+    root.logConsole("]\n", .{});
 }
 
 test {

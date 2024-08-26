@@ -43,7 +43,7 @@ export class PiState {
     const [stateInitialized, setStateInitialized] = createSignal(false);
     this.stateInitialized = stateInitialized;
 
-    logJS('Loading wasm ...');
+    logJS('PiState.init: Loading wasm ...');
 
     await loadWasm()
       .then((rc: WasmLoadResult) => {
@@ -68,13 +68,13 @@ export class PiState {
 
         setTimeout(() => setStateInitialized(true), 0);
 
-        logJS('Loading wasm ... done');
+        logJS('PiState.init: Loading wasm ... done');
       });
   }
 
 
   dataFromAlgo(algo: string) {
-    logJS(`dataFromAlgo: algo=${algo}`);
+    logJS(`PiState.dataFromAlgo: algo=${algo}`);
 
     const piMap = {
       [PiAlgorithms.Baseline]: [this.pi_baseline, this.pi_baseline_len],
@@ -83,8 +83,14 @@ export class PiState {
       [PiAlgorithms.Saha_Sinha]: [this.pi_saha_sinha, this.pi_saha_sinha_len],
       [PiAlgorithms.Ten_Digits]: [this.pi_ten_digits, this.pi_ten_digits_len],
     }
-    const rc = Object.keys(piMap).includes(algo) ? piMap[algo] : [this.pi_baseline, this.pi_baseline_len];
-    logJS(`dataFromAlgo: rc=${rc}`);
+    let [ptr, len] = piMap[algo];
+    if (algo === PiAlgorithms.Random) {
+      // generate a new random set of digits each time - note this currently takes 5 secs
+      ptr = this.pi_random();
+    }
+
+    const rc = Object.keys(piMap).includes(algo) ? [ptr, len] : [this.pi_baseline, this.pi_baseline_len];
+    logJS(`PiState.dataFromAlgo: rc=${rc}`);
     return rc;
   }
 }

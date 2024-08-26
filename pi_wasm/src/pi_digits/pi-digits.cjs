@@ -64,7 +64,7 @@ const call_funcs = wasmModule => {
 
     wasm_pi_baseline = new Uint8Array(memory.buffer, pi_baseline(), pi_baseline_len());
     wasm_pi_gosper = new Uint8Array(memory.buffer, pi_gosper(), pi_gosper_len());
-    wasm_pi_random = new Uint8Array(memory.buffer, pi_random(), pi_random_len());
+    // wasm_pi_random = new Uint8Array(memory.buffer, pi_random(), pi_random_len());
     wasm_pi_saha_sinha = new Uint8Array(memory.buffer, pi_saha_sinha(), pi_saha_sinha_len());
     wasm_pi_ten_digits = new Uint8Array(memory.buffer, pi_ten_digits(), pi_ten_digits_len());
 
@@ -80,7 +80,7 @@ const call_funcs = wasmModule => {
     console.log('JS: wasm_pi_gosper: ', wasm_pi_gosper);
 
     jsLog(`pi_random_len=${pi_random_len()}, pi_random=${pi_random()}`);
-    console.log('JS: wasm_pi_random: ', wasm_pi_random);
+    // console.log('JS: wasm_pi_random: ', wasm_pi_random);
 
     jsLog(`pi_saha_sinha_len=${pi_saha_sinha_len()}, pi_saha_sinha=${pi_saha_sinha()}`);
     console.log('JS: wasm_pi_saha_sinha: ', wasm_pi_saha_sinha);
@@ -124,7 +124,7 @@ const call_funcs = wasmModule => {
     jsLog(`pi_saha_sinha_len=${pi_saha_sinha_len()}, pi_saha_sinha=${pi_saha_sinha()}`);
     jsLog(`pi_ten_digits_len=${pi_ten_digits_len()}, pi_ten_digits=${pi_ten_digits()}`);
 
-    // Test baseline vs random - should all be the same
+    // Test baseline vs random - should not all be the same
     cmp_result_wasm = pi_cmp_digits(pi_baseline(), pi_baseline_len(), pi_random(), pi_random_len());
     jsLog(`pi_cmp_digits: cmp_result_wasm=${cmp_result_wasm}`);
 
@@ -136,6 +136,19 @@ const call_funcs = wasmModule => {
         jsLog(`pi_cmp_digits: baseline<>random first diff at: ${cmp_result.findIndex((v) => v === 0)}`);
     }
     wasm_free(cmp_result_wasm, pi_baseline_len());
+
+    // Test random vs random - should not all be the same
+    cmp_result_wasm = pi_cmp_digits(pi_random(), pi_random_len(), pi_random(), pi_random_len());
+    jsLog(`pi_cmp_digits: cmp_result_wasm=${cmp_result_wasm}`);
+
+    cmp_result = getView(cmp_result_wasm, pi_random_len());
+    all_equal = cmp_result.every((v) => v === 1);
+    jsLog(`pi_cmp_digits random<>random result were all equal: ${all_equal}`)
+
+    if (!all_equal) {
+        jsLog(`pi_cmp_digits: random<>random first diff at: ${cmp_result.findIndex((v) => v === 0)}`);
+    }
+    wasm_free(cmp_result_wasm, pi_random_len());
 
     jsLog(`pi_baseline_len=${pi_baseline_len()}, pi_baseline=${pi_baseline()}`);
     jsLog(`pi_gosper_len=${pi_gosper_len()}, pi_gosper=${pi_gosper()}`);

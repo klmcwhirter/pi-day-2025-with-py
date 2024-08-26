@@ -12,6 +12,43 @@ Celebrate the work done by Saha / Sinha who found another infinite series to cal
   * visualize accuracy against baseline
   * show histrograms - Saha / Sinha series with several interesting values for λ, Gosper's Series, baseline
 
+## Run it
+
+### Uses Docker as the only dependency ...
+
+The build and deployment process relies on Docker and docker-compose. But those are the only dependencies (aside from an internet connection).
+
+Just run `docker-compose up` and open [http://localhost:9000/](http://localhost:9000/) in a browser.
+
+The build process takes a little less than 2 mins on my laptop. So be patient before clicking on the link above.
+
+You will see output like the following when it is done building and is ready for the browser:
+
+```
+$ docker compose up
+...
+[+] Running 2/2
+ ✔ Network pi-day-2025-with-py_default       Created                                                                                    0.2s 
+ ✔ Container pi-day-2025-with-py-piday2025-1 Created                                                                                    0.0s 
+Attaching to piday2025-1
+piday2025-1  | 
+piday2025-1  | > vite-template-solid@0.0.0 start
+piday2025-1  | > vite
+piday2025-1  | 
+piday2025-1  | 
+piday2025-1  |   VITE v5.4.2  ready in 224 ms
+piday2025-1  | 
+piday2025-1  |   ➜  Local:   http://localhost:9000/
+piday2025-1  |   ➜  Network: http://172.18.0.2:9000/
+```
+
+Hit CTRl-C in the terminal where `docker-compose up` was executed to exit.
+
+Then run `docker-compose down`.
+If you have no other docker images that you want to keep then run this to finish the clean up: `docker system prune -af --volumes`.
+
+> Note that to run tests locally python, zig, wasmtime and pnpm also needs to be installed. This is automated in the Containerfile, however.
+
 ### Snippet from paper Appendix
 ![Appendix snippet](./docs/snippet.svg)
 

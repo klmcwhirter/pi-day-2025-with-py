@@ -21,21 +21,27 @@ RUN ENABLE_TESTS=$ENABLE_TESTS PI_1M_FILE=$PI_1M_FILE PI_GOSPER_FILE=$PI_GOSPER_
 #*----------------------------------------------------------------------
 #* zigbuild
 #*----------------------------------------------------------------------
-FROM docker.io/library/alpine AS zigbuild
+FROM docker.io/library/fedora:40 AS zigbuild
 ARG ENABLE_TESTS
-ARG ZIGVER=0.13.0
-
+# ARG ZIGVER=0.13.0
+ARG ZIGVER=0.14.0-dev.1298+d9e8671d9
 ENV TZ=PST8PDT
 ENV ZIGARCH=zig-linux-x86_64-$ZIGVER.tar.xz
 ENV ZIGBIN=zig-bin
 
 WORKDIR /app
 
+# TODO for now
+COPY $ZIGARCH /app/
+
 RUN ZIGVER=$ZIGVER ZIGARCH=$ZIGARCH ZIGBIN=$ZIGBIN \
-    apk upgrade && \
-    apk add binaryen && \
-    wget -O $ZIGARCH https://ziglang.org/download/$ZIGVER/$ZIGARCH && \
-    tar xf $ZIGARCH && \
+    dnf update -y && \
+    dnf -y install bash curl wabt && \
+    touch ~/.bashrc && \
+    curl https://wasmtime.dev/install.sh -sSf | bash - && \
+    tar xf /app/$ZIGARCH && \
+    # wget -O $ZIGARCH https://ziglang.org/download/$ZIGVER/$ZIGARCH && \
+    # tar xf $ZIGARCH && \
     rm $ZIGARCH
 
 COPY ./etc/build_run_zig_tests.sh /app/etc/
@@ -43,11 +49,9 @@ COPY pi_wasm/ /app/
     
 RUN ENABLE_TESTS=$ENABLE_TESTS ZIGARCH=$ZIGARCH ZIGBIN=$ZIGBIN ./etc/build_run_zig_tests.sh
 
-RUN wasm-dis zig-out/bin/pi-digits.wasm -o zig-out/bin/pi-digits.wat
-
-# # #*----------------------------------------------------------------------
-# # #* build
-# # #*----------------------------------------------------------------------
+#*----------------------------------------------------------------------
+#* build
+#*----------------------------------------------------------------------
 
 FROM docker.io/library/node:20-alpine AS build
 ENV TZ=PST8PDT

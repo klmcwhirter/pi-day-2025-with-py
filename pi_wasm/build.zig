@@ -10,6 +10,10 @@ pub fn build(b: *std.Build) void {
     // This adds a command line option to zig build via the -D flag. i.e. -Dwasi
     const is_wasi = b.option(bool, "wasi", "build for wasi else freestanding") orelse false;
 
+    const options = b.addOptions();
+    options.addOption(bool, "is_wasm", is_wasm);
+    options.addOption(bool, "is_wasi", is_wasi);
+
     if (is_wasm) {
         const os_tag: std.Target.Os.Tag = if (is_wasi) .wasi else .freestanding;
 
@@ -41,6 +45,8 @@ pub fn build(b: *std.Build) void {
         } else {
             artifact.rdynamic = true;
         }
+
+        artifact.root_module.addOptions("options", options);
         b.installArtifact(artifact);
 
         const install_dir: std.Build.InstallDir = .bin;
@@ -71,13 +77,14 @@ pub fn build(b: *std.Build) void {
         // Creates a step for unit testing. This only builds the test executable
         // but does not run it.
         const unit_tests = b.addTest(.{ //
-            .root_source_file = b.path("src/root.zig"),
+            .root_source_file = b.path("src/main.zig"),
             .target = wasm_target,
             .optimize = .ReleaseSmall,
             .use_lld = false,
             .use_llvm = false,
         });
 
+        unit_tests.root_module.addOptions("options", options);
         const run_unit_tests = b.addRunArtifact(unit_tests);
 
         // Similar to creating the run step earlier, this exposes a `test` step to

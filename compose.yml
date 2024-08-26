@@ -1,5 +1,5 @@
 services:
-  piday2024:
+  piday2025:
     environment:
       TZ: PST8PDT
     restart: unless-stopped

@@ -83,7 +83,7 @@ export const loadWasm = async () => {
             wasmLoadResult.pi_baseline_uint8arr = getWasmView(pi_baseline(), pi_baseline_len());
             wasmLoadResult.pi_gosper = pi_gosper();
             wasmLoadResult.pi_gosper_len = pi_gosper_len();
-            wasmLoadResult.pi_random = pi_random();
+            wasmLoadResult.pi_random = pi_random; // this is going to be called at runtime
             wasmLoadResult.pi_random_len = pi_random_len();
             wasmLoadResult.pi_saha_sinha = pi_saha_sinha();
             wasmLoadResult.pi_saha_sinha_len = pi_saha_sinha_len();

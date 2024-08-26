@@ -6,7 +6,7 @@ pub const pi_1000000_seed = @import("pi_digits/pi_1000000.zig").pi_1000000_seed;
 pub const pi_gosper_seed = @import("pi_digits/pi_gosper.zig").pi_gosper_seed;
 
 pub const pi_random_init = @import("pi_digits/pi_random.zig").pi_random_init;
-pub const pi_random_seed = @import("pi_digits/pi_random.zig").pi_random_seed;
+pub const pi_random_array_len = @import("pi_digits/pi_random.zig").pi_random_array_len;
 
 pub const pi_saha_sinha_seed = @import("pi_digits/pi_saha_sinha.zig").pi_saha_sinha_seed;
 
@@ -40,20 +40,6 @@ test "gosper should have len 1_000_000" {
     try testing.expect(pi_gosper_seed.len == pi_gosper_len());
 }
 
-pub export fn pi_random() [*]const u8 {
-    pi_random_init();
-    return pi_random_seed.ptr;
-}
-
-pub export fn pi_random_len() usize {
-    return pi_random_seed.len;
-}
-
-test "random should have len 1_000_000" {
-    try testing.expect(1000000 == pi_random_seed.len);
-    try testing.expect(pi_random_seed.len == pi_random_len());
-}
-
 pub export fn pi_saha_sinha() [*]const u8 {
     return pi_saha_sinha_seed.ptr;
 }
@@ -78,4 +64,28 @@ pub export fn pi_ten_digits_len() usize {
 test "ten_digits should have len 10" {
     try testing.expect(10 == pi_ten_digits_seed.len);
     try testing.expect(pi_ten_digits_seed.len == pi_saha_sinha_len());
+}
+
+pub var pi_random_array: []u8 = undefined;
+pub export fn pi_random() [*]const u8 {
+    pi_random_array = pi_random_init();
+    return pi_random_array.ptr;
+}
+
+pub export fn pi_random_len() usize {
+    return pi_random_array_len;
+}
+
+test "random should have len 1_000_000" {
+    _ = pi_random();
+
+    try testing.expect(1000000 == pi_random_array.len);
+    try testing.expect(pi_random_array.len == pi_random_len());
+}
+
+test "random should return a diff ptr each time called" {
+    const random1 = pi_random();
+    const random2 = pi_random();
+
+    try testing.expect(random1 != random2);
 }
