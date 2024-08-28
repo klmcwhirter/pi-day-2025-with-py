@@ -1,6 +1,14 @@
 const std = @import("std");
 const testing = std.testing;
 
+comptime {
+    _ = @import("pi_digits/histo.zig");
+}
+
+test {
+    _ = @import("pi_digits/histo.zig");
+}
+
 pub const pi_1000000_seed = @import("pi_digits/pi_1000000.zig").pi_1000000_seed;
 
 pub const pi_gosper_seed = @import("pi_digits/pi_gosper.zig").pi_gosper_seed;

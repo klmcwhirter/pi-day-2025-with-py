@@ -6,6 +6,7 @@ import PyVersionsView from './pi/py-versions';
 export const AppStateEnum = {
   DIGITS: 'DIGITS',
   COMPARE: 'COMPARE',
+  HISTOGRAM: 'HISTOGRAM',
 };
 
 const App: Component = () => {

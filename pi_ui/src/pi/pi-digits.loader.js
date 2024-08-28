@@ -4,6 +4,7 @@ import { current_time } from "./utils";
 const WASMFILE = '/dist/pi-digits.wasm';
 
 export class WasmLoadResult {
+    histogram;
     map_colors;
     pi_baseline;
     pi_baseline_len;
@@ -71,7 +72,7 @@ export const loadWasm = async () => {
             const {
                 pi_baseline, pi_baseline_len, pi_gosper, pi_gosper_len, pi_random, pi_random_len,
                 pi_saha_sinha, pi_saha_sinha_len, pi_ten_digits, pi_ten_digits_len,
-                pi_cmp_digits, map_colors,
+                pi_cmp_digits, map_colors, histogram,
                 alloc, free, memory, zig_version, zlog
             } = wasmModule.instance.exports;
             wasmLoadResult.alloc = alloc;
@@ -92,6 +93,7 @@ export const loadWasm = async () => {
 
             wasmLoadResult.pi_cmp_digits = pi_cmp_digits;
             wasmLoadResult.map_colors = map_colors;
+            wasmLoadResult.histogram = histogram;
 
             // Passing a unicode string across the JS to WASM boundary.
             const [ptr, len, _] = encodeStr("Hello from Zig + JS + WASM 🦎⚡!");

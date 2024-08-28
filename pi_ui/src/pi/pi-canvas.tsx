@@ -77,7 +77,9 @@ function setPiImageData(id: string, piState: PiState, src, src_len, palette_id: 
         ctx.putImageData(imageData, 0, 0);
 
         if (palette_id === 1) {
-            logJS(`setPiImageData: pct_match=${(num_matched * 100) / src_len}`);
+            const pctMatched = (num_matched * 100) / src_len;
+            piState.cmpPctMatch[1](pctMatched);
+            logJS(`setPiImageData: pct_match=${pctMatched}`);
         }
 
         logJS(`setPiImageData: last_i=${last_i}`);
@@ -90,13 +92,15 @@ export const PiCanvas = (props) => {
     const [state] = props.state;
     const id = `canvas-${state()} `;
 
-    const [cmpSource] = piState.cmpSource;
+    const [cmpSource] = props.source;
     const [cmpAgainst] = piState.cmpAgainst;
 
     const sourceAgainstKey = () => `${state()}-${cmpSource()}-${cmpAgainst()}`;
 
-    createResource(sourceAgainstKey, async (key: string): Promise<void> => {
-        const rc = new Promise<void>((resolve) => resolve());
+    let resolveId = 0;
+    createResource(sourceAgainstKey, async (key: string): Promise<number> => {
+        const rc = new Promise<number>((resolve) => resolve(++resolveId));
+
         // Use setTimeout to make sure page has rendered
         setTimeout(() => {
             logJS(`PiCanvas [resource]: setting image data for ${id} because key=${key} changed`);

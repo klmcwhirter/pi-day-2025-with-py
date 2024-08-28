@@ -50,7 +50,36 @@ export const AppDescription = (props) => {
             - shows the differences in the pi digits for 2 different algorithms
           </p>
         </li>
+        <li class='mt-2'>
+          <p>
+            <span class='text-md ml-2 bg-stone-100 p-1 not-italic text-purple-700'>
+              &pi;
+            </span>
+            <span
+              class='rounded-md p-2'
+              classList={classlistFor(state(), AppStateEnum.HISTOGRAM, true)}
+            >
+              HISTOGRAM
+            </span>{' '}
+            - shows the number of times each digit appears in Pi for the selected algorithm
+          </p>
+        </li>
       </ul>
     </div>
   );
 };
+
+export const PiHaiku = () => (
+  <div class='mb-4 m-4 p-4 rounded-lg text-lg font-semibold bg-stone-50 text-stone-400 shadow-inner shadow-emerald-700'>
+    <div class='hover:text-emerald-300'>
+      <p>Three one four.</p>
+      <p>Pi.</p>
+      <p>The best number.</p>
+    </div>
+    <br />
+    <div class='hover:text-emerald-300'>
+      <p>Today is Pi Day.</p>
+      <p>Three point one four one five nine</p>
+      <p>Joy is warm pot pi.</p></div>
+  </div>
+);

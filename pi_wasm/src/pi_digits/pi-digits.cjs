@@ -55,7 +55,7 @@ const call_funcs = wasmModule => {
     const {
         pi_baseline, pi_baseline_len, pi_gosper, pi_gosper_len, pi_random, pi_random_len,
         pi_saha_sinha, pi_saha_sinha_len, pi_ten_digits, pi_ten_digits_len,
-        pi_cmp_digits, map_colors,
+        pi_cmp_digits, map_colors, histogram,
         alloc, free, memory, zlog, zig_version
     } = wasmModule.instance.exports;
     wasm_alloc = alloc;
@@ -87,6 +87,30 @@ const call_funcs = wasmModule => {
 
     jsLog(`pi_ten_digits_len=${pi_ten_digits_len()}, pi_ten_digits=${pi_ten_digits()}`);
     console.log('JS: wasm_pi_ten_digits: ', wasm_pi_ten_digits);
+
+    // histogram baseline
+    let histo_result_wasm = histogram(pi_baseline(), pi_baseline_len());
+    jsLog(`histogram baseline: histo_result_wasm=${histo_result_wasm}`);
+
+    let histo_result = getView(histo_result_wasm, 10);
+    jsLog(`histogram baseline=${histo_result}`)
+    wasm_free(histo_result_wasm, 10);
+
+    // histogram gosper
+    histo_result_wasm = histogram(pi_gosper(), pi_gosper_len());
+    jsLog(`histogram baseline: histo_result_wasm=${histo_result_wasm}`);
+
+    histo_result = getView(histo_result_wasm, 10);
+    jsLog(`histogram baseline=${histo_result}`)
+    wasm_free(histo_result_wasm, 10);
+
+    // histogram random
+    histo_result_wasm = histogram(pi_random(), pi_random_len());
+    jsLog(`histogram random: histo_result_wasm=${histo_result_wasm}`);
+
+    histo_result = getView(histo_result_wasm, 10);
+    jsLog(`histogram random=${histo_result}`)
+    wasm_free(histo_result_wasm, 10);
 
     // Test baseline vs ten_digits - should differ at 10th element
     let cmp_result_wasm = pi_cmp_digits(pi_baseline(), pi_baseline_len(), pi_ten_digits(), pi_ten_digits_len());

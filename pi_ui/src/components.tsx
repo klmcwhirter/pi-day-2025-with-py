@@ -1,9 +1,47 @@
-import { For, Match, Show, Switch, createSignal } from 'solid-js';
+import { For, Match, Resource, Show, Suspense, Switch, createResource, createSignal } from 'solid-js';
 import { AppStateEnum } from './App';
-import { PiAlgorithms, usePiState } from './pi/pi.context';
-import { AlgorithmDetails } from './algodetails';
-import { AppDescription } from './AppDescription';
+import { logJS } from './pi/utils.js';
 import { PiCanvas } from './pi/pi-canvas';
+import { PiAlgorithms, usePiState } from './pi/pi.context';
+import { HistogramItemValues, HistogramValues } from './pi/pi-digits.model';
+import { pi_palette, pi_shadow_palette } from './pi/pi.palette';
+import { AlgorithmDetails, CurrAlgorithmDetails } from './algodetails';
+import { AppDescription, PiHaiku } from './AppDescription';
+
+
+export const Bar = (props) => {
+  const TOTAL_WIDTH = 37; // in rem
+
+  const item = (): HistogramItemValues => props.item;
+  const values = (): Resource<HistogramValues> => props.values;
+
+  const width = `${TOTAL_WIDTH * values()().ratio(item().value * 2)}rem`;
+  const rest = `${TOTAL_WIDTH - TOTAL_WIDTH * values()().ratio(item().value * 2)}rem`;
+
+  return (
+    <div class={`mb-6 bg-stone-200 text-left shadow-lg ${item().shadow}`}>
+      <span class='inline-block h-8 border border-r-stone-400 bg-stone-100 p-0.5 !pr-1 text-center text-lg font-medium'>
+        {item().index}
+      </span>
+      <span
+        class={`${item().color} inline-block h-8 p-0.5 text-left text-lg font-medium`}
+        style={`width: ${width}; max-width: ${width}`}
+      >
+        <p class='inline-block'>{values()().percent(item().value)}</p>
+      </span>
+      <span
+        class='inline-block h-8 bg-stone-200 p-0.5 text-right'
+        classList={{
+          'font-bold text-2xl text-green-500': item().value === values()().maxValue,
+          'font-bold text-xl text-yellow-800': item().value === values()().minValue,
+        }}
+        style={`width: ${rest}; max-width: ${rest}`}
+      >
+        {item().value}
+      </span>
+    </div>
+  );
+};
 
 export const ExpandableSection = (props) => {
   const classes = props.class;
@@ -40,7 +78,7 @@ export const Header = () => {
       <img src='./pi.svg' class='mr-12 inline w-6' />
 
       <h1 class='inline fill-green-300 text-center align-middle text-xl font-semibold text-green-300'>
-        Welcome to Pi Day 2025 with Python (and WASM) !
+        Welcome to Pi Day 2025 with Python, Zig (WASM) and SolidJS !
       </h1>
 
       <div class='w-18 float-right m-0 mr-4 inline aspect-square h-auto align-middle'>
@@ -91,10 +129,13 @@ export const MainSwitcher = (props) => {
       >
         <Switch>
           <Match when={state() === AppStateEnum.DIGITS}>
-            <PiCanvas state={props.state} />
+            <PiCanvas state={props.state} source={piState.digitsAlgo} />
           </Match>
           <Match when={state() === AppStateEnum.COMPARE}>
-            <PiCanvas state={props.state} />
+            <PiCanvas state={props.state} source={piState.cmpSource} />
+          </Match>
+          <Match when={state() === AppStateEnum.HISTOGRAM}>
+            <PiDigitsHistogram />
           </Match>
         </Switch>
       </Show>
@@ -132,7 +173,7 @@ export const NavView = (props) => {
   const piState = usePiState();
 
   const [state, setState] = props.state;
-  const appStates = [AppStateEnum.DIGITS, AppStateEnum.COMPARE];
+  const appStates = [AppStateEnum.DIGITS, AppStateEnum.COMPARE, AppStateEnum.HISTOGRAM];
 
   return (
     <nav class='m-4 h-[89vh] rounded-lg bg-stone-200 text-emerald-600'>
@@ -158,38 +199,95 @@ export const NavView = (props) => {
         </For>
       </ul>
 
-      <p class='m-2 text-xl font-semibold'>1,000,000 digits of pi !</p>
+      <p class='m-1 text-lg font-semibold'>1,000,000 digits of pi !</p>
 
       <AppDescription state={props.state} />
 
-      <Show when={state() === AppStateEnum.COMPARE}>
-        <div class="mt-10">
-          <div class='font-semibold'>Select algorithms to compare</div>
+      <Switch>
+        <Match when={state() === AppStateEnum.DIGITS}>
+          <div class='font-semibold'>Select algorithm for which to display digits of pi</div>
 
-          <CmpSelector signal={piState.cmpSource} label="Source:" />
+          <CmpSelector signal={piState.digitsAlgo} label="Algorithm:" />
 
-          <CmpSelector signal={piState.cmpAgainst} label="Against:" />
+          <CurrAlgorithmDetails algo={piState.digitsAlgo} />
 
-          <AlgorithmDetails />
-        </div>
-      </Show>
+          <PiHaiku />
+        </Match>
 
-      <Show when={state() === AppStateEnum.DIGITS}>
-        <div><img src="./pi.svg" class="m-8 w-40 mx-auto" /></div>
+        <Match when={state() === AppStateEnum.COMPARE}>
+          <div class="mt-4">
+            <div class='font-semibold'>Select algorithms to compare</div>
 
-        <div class='mt-12 m-4 p-4 rounded-lg text-lg font-semibold bg-stone-50 text-stone-400 shadow-inner shadow-emerald-700'>
-          <div class='hover:text-emerald-300'>
-            <p>Three one four.</p>
-            <p>Pi.</p>
-            <p>The best number.</p>
+            <CmpSelector signal={piState.cmpSource} label="Source:" />
+
+            <CmpSelector signal={piState.cmpAgainst} label="Against:" />
+
+            <div class='text-sm font-semibold'>Matches: {piState.cmpPctMatch[0]()} %</div>
+
+            <AlgorithmDetails />
           </div>
-          <br />
-          <div class='hover:text-emerald-300'>
-            <p>Today is Pi Day.</p>
-            <p>Three point one four one five nine</p>
-            <p>Joy is warm pot pi.</p></div>
-        </div>
-      </Show>
+        </Match>
+
+        <Match when={state() === AppStateEnum.HISTOGRAM}>
+          <div class="mt-4">
+            <div class='font-semibold'>Select algorithm for which to display histogram</div>
+
+            <CmpSelector signal={piState.histoAlgo} label="Algorithm:" />
+
+            <CurrAlgorithmDetails algo={piState.histoAlgo} />
+          </div>
+        </Match>
+      </Switch>
     </nav>
+  );
+};
+
+export const PiDigitsHistogram = (props) => {
+  const piState = usePiState();
+
+  const fetchHistogram = async (algo: string): Promise<HistogramValues> => {
+    logJS(`PiDigitsHistogram.fetchHistogram: algo=${algo}`);
+
+    const rc = new Promise<HistogramValues>((resolve) => {
+      const [pi, pi_len] = piState.dataFromAlgo(algo);
+      const numbers: number[] = piState.histogram(pi, pi_len);
+      logJS(`PiDigitsHistogram.fetchHistogram: numbers=${numbers}`);
+
+      const items: HistogramItemValues[] = numbers.map(
+        (v: number, i: number): HistogramItemValues =>
+          new HistogramItemValues(i, v, pi_palette[i], pi_shadow_palette[i]),
+      );
+      const hv = new HistogramValues(algo, pi_len, items);
+      resolve(hv);
+    });
+
+    return rc;
+  }
+
+  const [selected] = piState.histoAlgo;
+  const [values] = createResource<HistogramValues, string>(
+    selected,
+    fetchHistogram,
+  );
+
+  return (
+    <div>
+      <Suspense fallback={<div class='mb-6 mt-4 rounded-lg bg-stone-200 p-4 text-center text-blue-800 shadow-lg'>Loading...</div>}>
+        <div class='mb-6 mt-4 rounded-lg bg-stone-200 p-4 text-center text-blue-800 shadow-lg'>
+          <p class='text-2xl font-semibold'>
+            Number of times each digit appears in Pi
+          </p>
+          <p class='text-lg text-blue-500'>
+            <span class='mr-2'>using the {selected()} algorithm</span>
+          </p>
+        </div>
+
+        <div class='mt-2 ml-96 mr-96 p-2'>
+          <For each={values()?.items}>
+            {(e) => <Bar item={e} values={values} />}
+          </For>
+        </div>
+      </Suspense>
+    </div>
   );
 };
