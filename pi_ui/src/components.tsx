@@ -10,7 +10,7 @@ import { AppDescription, PiHaiku } from './AppDescription';
 
 
 export const Bar = (props) => {
-  const TOTAL_WIDTH = 37; // in rem
+  const TOTAL_WIDTH = 35; // in rem
 
   const item = (): HistogramItemValues => props.item;
   const values = (): Resource<HistogramValues> => props.values;
@@ -272,8 +272,8 @@ export const PiDigitsHistogram = (props) => {
 
   return (
     <div>
-      <Suspense fallback={<div class='mb-6 mt-4 rounded-lg bg-stone-200 p-4 text-center text-blue-800 shadow-lg'>Loading...</div>}>
-        <div class='mb-6 mt-4 rounded-lg bg-stone-200 p-4 text-center text-blue-800 shadow-lg'>
+      <Suspense fallback={<div class='mb-6 mt-0 rounded-lg bg-stone-200 pt-0 p-4 text-center text-blue-800 shadow-lg'>Loading...</div>}>
+        <div class='mb-6 mt-0 rounded-lg bg-stone-200 pt-0 p-4 text-center text-blue-800 shadow-lg'>
           <p class='text-2xl font-semibold'>
             Number of times each digit appears in Pi
           </p>
