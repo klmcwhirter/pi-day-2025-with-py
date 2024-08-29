@@ -57,8 +57,8 @@ pub export fn pi_saha_sinha_len() usize {
     return pi_saha_sinha_seed.len;
 }
 
-test "saha_sinha should have len 10 - TODO 1_000_000" {
-    try testing.expect(10 == pi_saha_sinha_seed.len);
+test "saha_sinha should have len 100 - TODO 1_000_000" {
+    try testing.expect(100 == pi_saha_sinha_seed.len);
     try testing.expect(pi_saha_sinha_seed.len == pi_saha_sinha_len());
 }
 
@@ -72,7 +72,7 @@ pub export fn pi_ten_digits_len() usize {
 
 test "ten_digits should have len 10" {
     try testing.expect(10 == pi_ten_digits_seed.len);
-    try testing.expect(pi_ten_digits_seed.len == pi_saha_sinha_len());
+    try testing.expect(pi_ten_digits_seed.len == pi_ten_digits_len());
 }
 
 pub export fn tachus_pi() [*]const u8 {

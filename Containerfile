@@ -11,7 +11,7 @@ WORKDIR /app
 RUN apk upgrade && \
     mkdir -p /app/etc /app/src
 
-COPY ./etc/gen_run_pytests.sh /app/etc/
+COPY ./etc/gen_run_pytests.sh ./etc/pi_1000000.txt /app/etc/
 COPY ./pi_py/ /app/pi_py/
 COPY conftest.py pdm.lock pyproject.toml tox.ini /app/
 
