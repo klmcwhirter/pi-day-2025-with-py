@@ -10,6 +10,7 @@ test {
 }
 
 pub const pi_1000000_seed = @import("pi_digits/pi_1000000.zig").pi_1000000_seed;
+pub const tpi_1000000_seed = @import("pi_digits/tpi_1000000.zig").tpi_1000000_seed;
 
 pub const pi_gosper_seed = @import("pi_digits/pi_gosper.zig").pi_gosper_seed;
 
@@ -72,6 +73,19 @@ pub export fn pi_ten_digits_len() usize {
 test "ten_digits should have len 10" {
     try testing.expect(10 == pi_ten_digits_seed.len);
     try testing.expect(pi_ten_digits_seed.len == pi_saha_sinha_len());
+}
+
+pub export fn tachus_pi() [*]const u8 {
+    return tpi_1000000_seed.ptr;
+}
+
+pub export fn tachus_pi_len() usize {
+    return tpi_1000000_seed.len;
+}
+
+test "tachus_pi should have len 1_000_000" {
+    try testing.expect(1000000 == tpi_1000000_seed.len);
+    try testing.expect(tpi_1000000_seed.len == tachus_pi_len());
 }
 
 pub var pi_random_array: []u8 = undefined;

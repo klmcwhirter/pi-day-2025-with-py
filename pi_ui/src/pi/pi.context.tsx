@@ -7,6 +7,7 @@ export const PiAlgorithms = {
   'Baseline': 'Baseline',
   'Gosper': 'Gosper',
   'Saha_Sinha': 'Saha_Sinha',
+  'Tachus_Pi': 'Tachus_Pi',  // From https://bellard.org/pi/pi2700e9/index.html
   'Random': 'Random',
   'Ten_Digits': 'Ten_Digits',
 };
@@ -35,6 +36,8 @@ export class PiState {
   public pi_saha_sinha_len;
   public pi_ten_digits;
   public pi_ten_digits_len;
+  public tachus_pi;
+  public tachus_pi_len;
   public alloc;
   public free;
   public memory;
@@ -66,6 +69,8 @@ export class PiState {
         this.pi_saha_sinha_len = rc.pi_saha_sinha_len;
         this.pi_ten_digits = rc.pi_ten_digits;
         this.pi_ten_digits_len = rc.pi_ten_digits_len;
+        this.tachus_pi = rc.tachus_pi;
+        this.tachus_pi_len = rc.tachus_pi_len;
         this.pi_cmp_digits = rc.pi_cmp_digits;
         this.map_colors = rc.map_colors;
         this.histogram_wasm = rc.histogram;
@@ -93,7 +98,9 @@ export class PiState {
       [PiAlgorithms.Random]: [this.pi_random, this.pi_random_len],
       [PiAlgorithms.Saha_Sinha]: [this.pi_saha_sinha, this.pi_saha_sinha_len],
       [PiAlgorithms.Ten_Digits]: [this.pi_ten_digits, this.pi_ten_digits_len],
-    }
+      [PiAlgorithms.Tachus_Pi]: [this.tachus_pi, this.tachus_pi_len],
+    };
+
     let [ptr, len] = piMap[algo];
     if (algo === PiAlgorithms.Random) {
       // generate a new random set of digits each time - note this currently takes 5 secs

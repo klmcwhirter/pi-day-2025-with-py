@@ -40,19 +40,32 @@ const algo_map = {
       </p>
     </li>
   ),
-  [PiAlgorithms.Random]: (
+  [PiAlgorithms.Tachus_Pi]: (
     <li class='mt-2'>
       <p>
         <span class='text-md ml-2 bg-emerald-100 p-1 not-italic text-purple-700'>
           &pi;
         </span>
         <span class='rounded-md p-2 font-semibold'>
-          Random
+          Tachus_Pi
         </span>{' '}
-        <span>- a million random digits 0 - 9.</span>
-      </p>
-    </li>
+        <span>- 1M digits using Bellard's 2009 record breaker. See <a class="underline" target="_empty" href="https://bellard.org/pi/">Bellard's Pi</a> and <a class="underline" target="_empty" href="https://bellard.org/pi/pi2700e9/tpi.html"> software download</a> pages</span>
+    </p>
+    </li >
   ),
+[PiAlgorithms.Random]: (
+  <li class='mt-2'>
+    <p>
+      <span class='text-md ml-2 bg-emerald-100 p-1 not-italic text-purple-700'>
+        &pi;
+      </span>
+      <span class='rounded-md p-2 font-semibold'>
+        Random
+      </span>{' '}
+      <span>- a million random digits 0 - 9.</span>
+    </p>
+  </li>
+),
   [PiAlgorithms.Ten_Digits]: (
     <li class='mt-2'>
       <p>
@@ -77,6 +90,7 @@ export const AlgorithmDetails = () => {
           {algo_map[PiAlgorithms.Baseline]}
           {algo_map[PiAlgorithms.Gosper]}
           {algo_map[PiAlgorithms.Saha_Sinha]}
+          {algo_map[PiAlgorithms.Tachus_Pi]}
         </ul>
       </div>
 

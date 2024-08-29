@@ -53,6 +53,19 @@ def _pi_digits_zig_writer(f: TextIOWrapper, digits: list[int], mod_name: str, fi
     print(' };', file=f)
 
 
+_writer_map = {
+    '.go': _pi_digits_go_writer,
+    '.js': _pi_digits_js_writer,
+    '.py': _pi_digits_py_writer,
+    '.ts': _pi_digits_ts_writer,
+    '.zig': _pi_digits_zig_writer,
+}
+
+
+def pi_digits_writer_supported_exts() -> list[str]:
+    return [k for k in _writer_map.keys()]
+
+
 def pi_digits_writer_from_ext(file_path: str):
     try:
         file_parts = os.path.splitext(file_path)
@@ -60,16 +73,8 @@ def pi_digits_writer_from_ext(file_path: str):
 
         (_, ext) = file_parts
 
-        if ext == '.go':
-            return _pi_digits_go_writer
-        elif ext == '.js':
-            return _pi_digits_js_writer
-        elif ext == '.py':
-            return _pi_digits_py_writer
-        elif ext == '.ts':
-            return _pi_digits_ts_writer
-        elif ext == '.zig':
-            return _pi_digits_zig_writer
+        if ext in _writer_map:
+            return _writer_map[ext]
         else:
             raise ValueError(f'Unsupported file ext: {file_path}')
 

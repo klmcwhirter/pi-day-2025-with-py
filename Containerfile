@@ -11,12 +11,11 @@ WORKDIR /app
 RUN apk upgrade && \
     mkdir -p /app/etc /app/src
 
-COPY ./etc/gen_run_pytests.sh ./etc/pi1000000.txt /app/etc/
+COPY ./etc/gen_run_pytests.sh /app/etc/
 COPY ./pi_py/ /app/pi_py/
 COPY conftest.py pdm.lock pyproject.toml tox.ini /app/
 
-RUN ENABLE_TESTS=$ENABLE_TESTS PI_1M_FILE=$PI_1M_FILE PI_GOSPER_FILE=$PI_GOSPER_FILE PI_SAHA_SINHA_FILE=$PI_SAHA_SINHA_FILE \
-    ./etc/gen_run_pytests.sh
+RUN ENABLE_TESTS=$ENABLE_TESTS ./etc/gen_run_pytests.sh
 
 #*----------------------------------------------------------------------
 #* zigbuild

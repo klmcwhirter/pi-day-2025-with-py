@@ -3,22 +3,22 @@ Celebrate the work done by Saha / Sinha who found another infinite series to cal
 
 **[Design and tasks](./TODO.md)**
 
-* Python during build steps
+* Python use before and during build steps
 * Zig for wasm
 * SolidJS for ui
 * 1,000,000 digits of pi
-  * visualize digits using color pallete like [pi-day-2024-with-py](https://github.com/klmcwhirter/pi-day-2024-with-py)
-  * UI element to modify value for λ (lambda) parameter = default is between 10 and 100 per the Appendix
-  * visualize accuracy against baseline
-  * show histrograms - Saha / Sinha series with several interesting values for λ, Gosper's Series, baseline
+  * visualize digits using color pallete like [pi-day-2024-with-py](https://github.com/klmcwhirter/pi-day-2024-with-py) for any algorithm
+  * compare accuracy between any 2 algorithms
+  * show histrograms - Saha / Sinha series, Gosper's Series, Tachus Pi (F. Bellard), baseline and also (for testing) random digits and ten_digits
+  * samples of algorithms are pre-generated and checked in as .zig source files.
 
 ## Run it
 
 ### Uses Docker as the only dependency ...
 
-The build and deployment process relies on Docker and docker-compose. But those are the only dependencies (aside from an internet connection).
+The build and deployment process relies on Docker and `docker compose`. But those are the only dependencies (aside from an internet connection).
 
-Just run `docker-compose up` and open [http://localhost:9000/](http://localhost:9000/) in a browser.
+Just run `docker compose up` and open [http://localhost:9000/](http://localhost:9000/) in a browser.
 
 The build process takes a little less than 2 mins on my laptop. So be patient before clicking on the link above.
 
@@ -42,12 +42,14 @@ piday2025-1  |   ➜  Local:   http://localhost:9000/
 piday2025-1  |   ➜  Network: http://172.18.0.2:9000/
 ```
 
-Hit CTRl-C in the terminal where `docker-compose up` was executed to exit.
+Hit CTRl-C in the terminal where `docker compose up` was executed to exit.
 
-Then run `docker-compose down`.
+Then run `docker compose down`.
+
 If you have no other docker images that you want to keep then run this to finish the clean up: `docker system prune -af --volumes`.
 
-> Note that to run tests locally python, zig, wasmtime and pnpm also needs to be installed. This is automated in the Containerfile, however.
+
+> Note that to run tests locally python, zig, wasmtime and pnpm also need to be installed. Installation of all dependencies is automated in the Containerfile, however.
 
 ### Snippet from paper Appendix
 ![Appendix snippet](./docs/snippet.svg)
@@ -59,6 +61,9 @@ If you have no other docker images that you want to keep then run this to finish
 * [Scientists Just Discovered A New Formula For Pi Accidentally - MindYourDecisions](https://youtu.be/t1ZnptSEPI8) - 10 min
 * [Pi-oneers (interview with Sinha & Saha) - Numberphile](https://youtu.be/2lvTjEZ-bbw) - 25 mins
 * [Digits of Pi - Up to 1 Million Digits](https://www.angio.net/pi/digits.html)
+* [Bellard's record breaking algorithm from 2009 - 2700 Billion digits of pi](https://bellard.org/pi/)
+  * The software he built was named tpi which is short for [Tachus Pi](https://bellard.org/pi/pi2700e9/tpi.html); where tachus is an ancient Greek word for fast.
+* [Wolfram MathWorld Pi Formulas](https://mathworld.wolfram.com/PiFormulas.html) - about a hundred (I didn't count them) formulas documented
 
 ## Tech References
 * [Compiling Python to Native Wasm](https://youtu.be/_Gq273qvNMg) using [wasmer.io py2wasm](https://wasmer.io/posts/py2wasm-a-python-to-wasm-compiler) - still produces large wasm files & requires Python 3.11 (not 3.12+) - **wait for 3.12 support**

@@ -17,6 +17,8 @@ export class WasmLoadResult {
     pi_saha_sinha_len;
     pi_ten_digits;
     pi_ten_digits_len;
+    tachus_pi;
+    tachus_pi_len;
     pi_cmp_digits;
     zig_version;
     alloc;
@@ -71,7 +73,7 @@ export const loadWasm = async () => {
         .then(wasmModule => {
             const {
                 pi_baseline, pi_baseline_len, pi_gosper, pi_gosper_len, pi_random, pi_random_len,
-                pi_saha_sinha, pi_saha_sinha_len, pi_ten_digits, pi_ten_digits_len,
+                pi_saha_sinha, pi_saha_sinha_len, pi_ten_digits, pi_ten_digits_len, tachus_pi, tachus_pi_len,
                 pi_cmp_digits, map_colors, histogram,
                 alloc, free, memory, zig_version, zlog
             } = wasmModule.instance.exports;
@@ -90,6 +92,8 @@ export const loadWasm = async () => {
             wasmLoadResult.pi_saha_sinha_len = pi_saha_sinha_len();
             wasmLoadResult.pi_ten_digits = pi_ten_digits();
             wasmLoadResult.pi_ten_digits_len = pi_ten_digits_len();
+            wasmLoadResult.tachus_pi = tachus_pi();
+            wasmLoadResult.tachus_pi_len = tachus_pi_len();
 
             wasmLoadResult.pi_cmp_digits = pi_cmp_digits;
             wasmLoadResult.map_colors = map_colors;

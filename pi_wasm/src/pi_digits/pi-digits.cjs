@@ -54,7 +54,7 @@ const call_funcs = wasmModule => {
 
     const {
         pi_baseline, pi_baseline_len, pi_gosper, pi_gosper_len, pi_random, pi_random_len,
-        pi_saha_sinha, pi_saha_sinha_len, pi_ten_digits, pi_ten_digits_len,
+        pi_saha_sinha, pi_saha_sinha_len, pi_ten_digits, pi_ten_digits_len, pi_tpi_digits_len: tachus_pi, tachus_pi_len,
         pi_cmp_digits, map_colors, histogram,
         alloc, free, memory, zlog, zig_version
     } = wasmModule.instance.exports;
@@ -62,11 +62,13 @@ const call_funcs = wasmModule => {
     wasm_free = free;
     wasm_memory = memory;
 
-    wasm_pi_baseline = new Uint8Array(memory.buffer, pi_baseline(), pi_baseline_len());
-    wasm_pi_gosper = new Uint8Array(memory.buffer, pi_gosper(), pi_gosper_len());
-    // wasm_pi_random = new Uint8Array(memory.buffer, pi_random(), pi_random_len());
-    wasm_pi_saha_sinha = new Uint8Array(memory.buffer, pi_saha_sinha(), pi_saha_sinha_len());
-    wasm_pi_ten_digits = new Uint8Array(memory.buffer, pi_ten_digits(), pi_ten_digits_len());
+    wasm_pi_baseline = getView(pi_baseline(), pi_baseline_len());
+    wasm_pi_gosper = getView(pi_gosper(), pi_gosper_len());
+    // wasm_pi_random = getView(pi_random(), pi_random_len());
+    wasm_pi_saha_sinha = getView(pi_saha_sinha(), pi_saha_sinha_len());
+    wasm_pi_ten_digits = getView(pi_ten_digits(), pi_ten_digits_len());
+
+    jsLog(`tachus_pi_len=${tachus_pi_len()}`);
 
     zig_version();
 

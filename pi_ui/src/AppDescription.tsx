@@ -8,7 +8,7 @@ export const AppDescription = (props) => {
     section: string,
     isListItem: boolean = false,
   ) => {
-    let key = '!text-lg font-semibold not-italic';
+    let key = '!text-base font-semibold not-italic';
     if (isListItem) {
       key += ' underline';
     }
@@ -18,7 +18,7 @@ export const AppDescription = (props) => {
   };
 
   return (
-    <div class='m-4 rounded-lg bg-stone-100 p-2 text-left text-lg italic text-emerald-600 shadow-xl shadow-stone-400'>
+    <div class='m-1 rounded-lg bg-stone-100 p-2 text-left text-base italic text-emerald-600 shadow-xl shadow-stone-400'>
 
       <ul>
         <li class='mt-2'>
