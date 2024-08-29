@@ -30,6 +30,7 @@
 ## UI Ideas
 * [X] show digits with input from different PiAlgorithms
   * [ ] select different values for λ (lambda) parameter - paper says 10 to 100; but is that the correct range for million digits of pi?
+  * this [Numberphiles video](https://youtu.be/nXexsSWrc1Q?t=672) show values of λ < 10 are more likely to closely approximate pi.
 * [X] show histogram with 1_000_000 digits for Saha / Sinha series with different values for λ (lambda) parameter, Gosper's series and baseline
 * [X] show comparison of digit accuracy - what should be the source of truth? see pi1000000.txt as baseline
   * [X] pct match in console.log

@@ -70,7 +70,7 @@ export const AppDescription = (props) => {
 };
 
 export const PiHaiku = () => (
-  <div class='mb-4 m-4 p-4 rounded-lg text-lg font-semibold bg-stone-50 text-stone-400 shadow-inner shadow-emerald-700'>
+  <div class='!mb-4 mt-0 mx-4 p-4 rounded-lg text-lg font-semibold bg-stone-50 text-stone-400 shadow-inner shadow-emerald-700'>
     <div class='hover:text-emerald-300'>
       <p>Three one four.</p>
       <p>Pi.</p>

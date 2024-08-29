@@ -209,7 +209,9 @@ export const NavView = (props) => {
 
           <CmpSelector signal={piState.digitsAlgo} label="Algorithm:" />
 
-          <CurrAlgorithmDetails algo={piState.digitsAlgo} />
+          <CurrAlgorithmDetails algo={piState.digitsAlgo} state={props.state} />
+
+          <div><img src="./pi.svg" class="m-0 w-28 mx-auto" /></div>
 
           <PiHaiku />
         </Match>
@@ -234,7 +236,7 @@ export const NavView = (props) => {
 
             <CmpSelector signal={piState.histoAlgo} label="Algorithm:" />
 
-            <CurrAlgorithmDetails algo={piState.histoAlgo} />
+            <CurrAlgorithmDetails algo={piState.histoAlgo} state={props.state}/>
           </div>
         </Match>
       </Switch>
