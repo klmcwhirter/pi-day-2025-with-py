@@ -76,6 +76,7 @@ pub fn build(b: *std.Build) void {
 
         // Creates a step for unit testing. This only builds the test executable
         // but does not run it.
+        b.enable_wasmtime = true;
         const unit_tests = b.addTest(.{ //
             .root_source_file = b.path("src/main.zig"),
             .target = wasm_target,

@@ -7,6 +7,8 @@ touch step.out
 # run tests if enabled
 echo "ENABLE_TESTS=$ENABLE_TESTS"  | tee -a step.out
 
+echo 'VITE_PYTHON_VER='$(python -c 'import platform; print(platform.python_version())') >/app/.env
+
 if [ "$ENABLE_TESTS" = "1" ]
 then
     set -o pipefail

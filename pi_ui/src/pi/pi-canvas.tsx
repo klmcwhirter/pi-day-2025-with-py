@@ -1,4 +1,4 @@
-import { createResource } from "solid-js";
+import { createResource, Signal } from "solid-js";
 import { AppStateEnum } from "../App";
 import { logJS } from './utils.js';
 import { PiState, usePiState } from "./pi.context";
@@ -83,45 +83,52 @@ function setPiImageData(id: string, piState: PiState, src, src_len, palette_id: 
         }
 
         logJS(`setPiImageData: last_i=${last_i}`);
+    } else {
+        logJS('setPiImageData: canvas is null');
     }
 }
+
+let resolveId = 0;
 
 export const PiCanvas = (props) => {
     const piState = usePiState();
 
-    const [state] = props.state;
+    const [state] = props.state as Signal<string>;
     const id = `canvas-${state()} `;
 
-    const [cmpSource] = props.source;
+    const [source] = props.source as Signal<string>;
     const [cmpAgainst] = piState.cmpAgainst;
 
-    const sourceAgainstKey = () => `${state()}-${cmpSource()}-${cmpAgainst()}`;
+    const sourceAgainstKey = () => `${state()}-${source()}-${cmpAgainst()}`;
 
-    let resolveId = 0;
     createResource(sourceAgainstKey, async (key: string): Promise<number> => {
-        const rc = new Promise<number>((resolve) => resolve(++resolveId));
+        const rc = new Promise<number>((resolve) => { resolveId += 1; logJS(`PiCanvas.updateNumber: resolveId = ${resolveId}`); resolve(resolveId); });
 
-        // Use setTimeout to make sure page has rendered
-        setTimeout(() => {
-            logJS(`PiCanvas [resource]: setting image data for ${id} because key=${key} changed`);
+        if (piState.stateInitialized() && source() !== null) {
+            // Use setTimeout(..., 0) to make sure page has rendered
+            setTimeout(() => {
+                logJS(`PiCanvas[resource]: setting image data for ${id} because key = ${key} changed`);
 
-            const [src, src_len] = piState.dataFromAlgo(cmpSource());
-            let [digits, digits_len] = [src, src_len];
+                const [src, src_len] = piState.dataFromAlgo(source());
+                let [digits, digits_len] = [src, src_len];
 
-            let palette_id = 0;
-            if (state() === AppStateEnum.COMPARE) {
-                const [trg, trg_len] = piState.dataFromAlgo(cmpAgainst());
-                [digits, digits_len] = diffDigits(piState, src, src_len, trg, trg_len);
-                palette_id = 1;
-            }
+                let palette_id = 0;
+                if (state() === AppStateEnum.COMPARE) {
+                    const [trg, trg_len] = piState.dataFromAlgo(cmpAgainst());
+                    [digits, digits_len] = diffDigits(piState, src, src_len, trg, trg_len);
+                    palette_id = 1;
+                }
 
-            setPiImageData(id, piState, digits, digits_len, palette_id);
+                setPiImageData(id, piState, digits, digits_len, palette_id);
 
-            if (state() === AppStateEnum.COMPARE) {
-                piState.free(digits, digits_len);
-            }
+                if (state() === AppStateEnum.COMPARE) {
+                    piState.free(digits, digits_len);
+                }
+            }, 0);
+        } else {
+            logJS(`PiCanvas[resource]: skip setting image data for ${id} because key = ${key} `);
+        }
 
-        }, 0);
         return rc;
     });
 

@@ -1,5 +1,5 @@
 # π pi-day-2025-with-py
-Celebrate the work done by Saha / Sinha who found another infinite series to calculate pi that converges much quicker than the Madhava series.
+Celebrate the work done by several people over the years, including  Saha / Sinha who found another inf. series to calculate pi that converges much quicker than the Madhava series.
 
 **[Design and tasks](./TODO.md)**
 
@@ -11,6 +11,15 @@ Celebrate the work done by Saha / Sinha who found another infinite series to cal
   * compare accuracy between any 2 algorithms
   * show histrograms - Saha / Sinha series, Gosper's Series, Tachus Pi (F. Bellard), baseline and also (for testing) random digits and ten_digits
   * samples of algorithms are pre-generated and checked in as .zig source files.
+
+### Snippet from Saha / Sinha paper Appendix
+![Appendix snippet](./docs/snippet.svg)
+
+
+---
+![1,000,000 digits of pi](https://github.com/klmcwhirter/stuff/blob/master/pi-day-2025-demo.gif)
+---
+
 
 ## Run it
 
@@ -51,8 +60,11 @@ If you have no other docker images that you want to keep then run this to finish
 
 > Note that to run tests locally python, zig, wasmtime and pnpm also need to be installed. Installation of all dependencies is automated in the Containerfile, however.
 
-### Snippet from paper Appendix
-![Appendix snippet](./docs/snippet.svg)
+### Wasmtime Dependency for zig Tests
+
+In order to enable running tests from x86_64.wasm.* targets, zig now utilizes the bytecodealliance's [`wasmtime`](https://github.com/bytecodealliance/wasmtime).
+
+> Note that version v18+ of wasmtime is required to integrate with zig. And because of that a nightly 0.14 build of zig is required. All of this is automated in the `Containerfile`.
 
 ## References
 * [Appendix - Field Theory Expansions of String Theory Amplitudes - journals.aps.org](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.132.221601#d5e8137)

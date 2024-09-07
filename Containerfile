@@ -23,30 +23,33 @@ RUN ENABLE_TESTS=$ENABLE_TESTS ./etc/gen_run_pytests.sh
 FROM docker.io/library/fedora:40 AS zigbuild
 ARG ENABLE_TESTS
 # ARG ZIGVER=0.13.0
-ARG ZIGVER=0.14.0-dev.1298+d9e8671d9
+ARG ZIGARCH=x86_64
+ARG ZIGVER=0.14.0-dev.1417+242d268a0
 ENV TZ=PST8PDT
-ENV ZIGARCH=zig-linux-x86_64-$ZIGVER.tar.xz
+ENV ZIGTAR=zig-linux-$ZIGARCH-$ZIGVER.tar.xz
 ENV ZIGBIN=zig-bin
 
 WORKDIR /app
 
 # TODO for now
-COPY $ZIGARCH /app/
+# COPY $ZIGTAR /app/
 
-RUN ZIGVER=$ZIGVER ZIGARCH=$ZIGARCH ZIGBIN=$ZIGBIN \
+RUN \
+    --mount=type=bind,source=${ZIGTAR},target=/app/${ZIGTAR} \
+    ZIGVER=${ZIGVER} ZIGTAR=${ZIGTAR} ZIGBIN=${ZIGBIN} \
     dnf update -y && \
     dnf -y install bash curl wabt && \
+    tar xf /app/${ZIGTAR} && \
+    # wget -O ${ZIGTAR} https://ziglang.org/download/${ZIGVER}/${ZIGTAR} && \
+    # tar xf ${ZIGTAR} && \
     touch ~/.bashrc && \
     curl https://wasmtime.dev/install.sh -sSf | bash - && \
-    tar xf /app/$ZIGARCH && \
-    # wget -O $ZIGARCH https://ziglang.org/download/$ZIGVER/$ZIGARCH && \
-    # tar xf $ZIGARCH && \
-    rm $ZIGARCH
+    true
 
 COPY ./etc/build_run_zig_tests.sh /app/etc/
 COPY pi_wasm/ /app/
     
-RUN ENABLE_TESTS=$ENABLE_TESTS ZIGARCH=$ZIGARCH ZIGBIN=$ZIGBIN ./etc/build_run_zig_tests.sh
+RUN ENABLE_TESTS=$ENABLE_TESTS ZIGTAR=$ZIGTAR ZIGBIN=$ZIGBIN ./etc/build_run_zig_tests.sh
 
 #*----------------------------------------------------------------------
 #* build
@@ -55,13 +58,17 @@ RUN ENABLE_TESTS=$ENABLE_TESTS ZIGARCH=$ZIGARCH ZIGBIN=$ZIGBIN ./etc/build_run_z
 FROM docker.io/library/node:20-alpine AS build
 ENV TZ=PST8PDT
 
-RUN apk upgrade
+RUN apk upgrade && apk add jq
 
 WORKDIR /app
+
+COPY --from=pythonbuild /app/.env /app/
 
 COPY pi_ui/package.json /app/package.json
 
 RUN rm -fr node_modules && npm install
+
+RUN echo 'VITE_SOLIDJS_VER='$(cat /app/package.json | jq -cr '.dependencies["solid-js"]') | tee -a /app/.env
 
 COPY pi_ui/public/ /app/public/
 COPY pi_ui/src/ /app/src/

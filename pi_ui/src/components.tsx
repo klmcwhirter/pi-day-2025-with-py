@@ -10,7 +10,7 @@ import { AppDescription, PiHaiku } from './AppDescription';
 
 
 export const Bar = (props) => {
-  const TOTAL_WIDTH = 35; // in rem
+  const TOTAL_WIDTH = 34; // in rem; for zen and firefox browsers (at least)
 
   const item = (): HistogramItemValues => props.item;
   const values = (): Resource<HistogramValues> => props.values;
@@ -211,7 +211,7 @@ export const NavView = (props) => {
 
           <CurrAlgorithmDetails algo={piState.digitsAlgo} state={props.state} />
 
-          <div><img src="./pi.svg" class="m-0 w-28 mx-auto" /></div>
+          <div><img src="./pi.svg" class="m-0 w-24 mx-auto" /></div>
 
           <PiHaiku />
         </Match>

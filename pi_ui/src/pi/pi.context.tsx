@@ -75,7 +75,9 @@ export class PiState {
         this.map_colors = rc.map_colors;
         this.histogram_wasm = rc.histogram;
 
-        this.version = [rc.zig_version, 'solidjs: 1.8.21', 'python: 3.12.4'];
+        const pythonVer = import.meta.env.VITE_PYTHON_VER || '3.12.*';
+        const solidjsVer = import.meta.env.VITE_SOLIDJS_VER || '1.8.*';
+        this.version = [rc.zig_version, `solidjs: ${solidjsVer}`, `python: ${pythonVer}`];
 
         this.alloc = rc.alloc;
         this.free = rc.free;
@@ -120,17 +122,17 @@ export class PiState {
   }
 }
 
-const PiStateContext = createContext<PiState>();
+const piStateContext = createContext<PiState>(new PiState());
 
 export const PiAdapterProvider = (props) => {
-  const piState = new PiState();
+  const piState = piStateContext.defaultValue;  // new PiState();
   piState.init();
 
   return (
-    <PiStateContext.Provider value={piState}>
+    <piStateContext.Provider value={piState}>
       {props.children}
-    </PiStateContext.Provider>
+    </piStateContext.Provider>
   );
 };
 
-export const usePiState = () => useContext<PiState>(PiStateContext);
+export const usePiState = () => useContext<PiState>(piStateContext);

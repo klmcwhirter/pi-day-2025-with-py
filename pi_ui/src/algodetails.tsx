@@ -113,8 +113,8 @@ export const CurrAlgorithmDetails = (props) => {
 
   return (
     <div class='m-4 rounded-lg bg-emerald-100 p-2 text-left text-base italic text-emerald-600 shadow-inner shadow-stone-400'
-      classList={{ 'h-24': state() == AppStateEnum.DIGITS }}>
-      <div class='h-24 hidden'></div>
+      classList={{ 'h-24 mb-0': state() == AppStateEnum.DIGITS }}>
+      <div class='h-24 mb-0 hidden'></div>
       <ul>
         {algo_map[algo()]}
       </ul>

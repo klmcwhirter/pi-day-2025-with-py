@@ -1,4 +1,4 @@
 {
-    "comment": "For testing with pi-as-tester.js",
+    "comment": "For testing with pi_digits.cjs (see /pi_wasm/src/pi-digits/)",
     "type": "module"
 }
