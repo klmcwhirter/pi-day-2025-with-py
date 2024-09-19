@@ -22,9 +22,9 @@ RUN ENABLE_TESTS=$ENABLE_TESTS ./etc/gen_run_pytests.sh
 #*----------------------------------------------------------------------
 FROM docker.io/library/fedora:40 AS zigbuild
 ARG ENABLE_TESTS
-# ARG ZIGVER=0.13.0
+# ARG ZIGVER=0.14.0
 ARG ZIGARCH=x86_64
-ARG ZIGVER=0.14.0-dev.1417+242d268a0
+ARG ZIGVER=0.14.0-dev.1588+2111f4c38
 ENV TZ=PST8PDT
 ENV ZIGTAR=zig-linux-$ZIGARCH-$ZIGVER.tar.xz
 ENV ZIGBIN=zig-bin

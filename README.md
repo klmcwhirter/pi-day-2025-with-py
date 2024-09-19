@@ -60,6 +60,23 @@ If you have no other docker images that you want to keep then run this to finish
 
 > Note that to run tests locally python, zig, wasmtime and pnpm also need to be installed. Installation of all dependencies is automated in the Containerfile, however.
 
+### Temporary Local zig Dependency
+The ziglang project is moving towards a [cap on download frequency in an effort to reduce their infrastructure costs](https://ziglang.org/news/migrate-to-self-hosting/).
+
+In order to help with this, I have moved the Containerfile logic to use a local copy of zig-linux-x86_64-0.14.0-dev.*.tar.gz file.
+_This temporary local dependency will be removed once 0.14.0 is officially released._
+
+> See the zigbuild section of [Containerfile](./Containerfile) to determine the version expected.
+
+To get this dependency setup, download the expected file and place it in the root of the local repo dir.
+
+```
+$ cd ~repo-root-dir~
+$ wget -O zig-linux-x86_64-0.14.0-dev.1588+2111f4c38.tar.xz https://ziglang.org/builds/zig-linux-x86_64-0.14.0-dev.1588+2111f4c38.tar.xz
+$ docker compose build
+...
+```
+
 ### Wasmtime Dependency for zig Tests
 
 In order to enable running tests from x86_64.wasm.* targets, zig now utilizes the bytecodealliance's [`wasmtime`](https://github.com/bytecodealliance/wasmtime).
