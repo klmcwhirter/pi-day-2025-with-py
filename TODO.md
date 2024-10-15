@@ -6,7 +6,7 @@
 * [X] add Madhava Python impl
 * [X] Dockerfile(s), associated scripts and compose.yml
 * [X] create pi_digits.gosper wasm module - generalize design as much as possible
-* [X] add pi_digits.saha_sinha wasm stub
+* [X] add pi_digits.sinha_saha wasm stub
 * [X] create web app for visualization
   * [X] prepare app skeleton
   * [X] Create PiCanvas component
@@ -19,10 +19,10 @@
 * [X] Add Random pi algorithm that provides 1,000,000 random digits to provide some more test data for the compare screen
 * [X] Make tests work again
   * [X] document wasmtime dependency and -Dwasi & -fwasmtime options to run tests
-* [x] Add histogram page - select algo: baseline, gosper and saha_sinha, random, ten_digits
-* [ ] add Saha / Sinha Python impl
+* [x] Add histogram page - select algo: baseline, gosper and sinha_saha, random, ten_digits
+* [!] add Sinha / Saha Python impl
   * [ ] generate zig source module
-* [ ] add SahaSinha λ = 10 to 100 to PiAlogorithms
+* [ ] add SinhaSaha λ = 10 to 100 to PiAlogorithms
 * [ ] finalize wasm module(s) and/or component(s) needed
 * [ ] test deploy to Raspberry Pi 4b
 
@@ -31,7 +31,7 @@
 * [X] show digits with input from different PiAlgorithms
   * [ ] select different values for λ (lambda) parameter - paper says 10 to 100; but is that the correct range for million digits of pi?
   * this [Numberphiles video](https://youtu.be/nXexsSWrc1Q?t=672) show values of λ < 10 are more likely to closely approximate pi.
-* [X] show histogram with 1_000_000 digits for Saha / Sinha series with different values for λ (lambda) parameter, Gosper's series and baseline
+* [X] show histogram with 1_000_000 digits for Sinha / Saha series with different values for λ (lambda) parameter, Gosper's series and baseline
 * [X] show comparison of digit accuracy - what should be the source of truth? see pi1000000.txt as baseline
   * [X] pct match in console.log
   * [X] pct match on comparison screen
@@ -70,12 +70,12 @@
     #
     # pdm run python -m pi_py.pi_1000000 pi_wasm/src/pi_1000000.zig
     # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_gosper.zig gosper
-    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_saha_sinha.zig saha_sinha
+    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_sinha_saha.zig sinha_saha
 ```
 
 * python - generate pi_1000000.zig from pi1000000.txt (baseline) - []u8
 * python - generate pi_gosper.zig - []u8
-* python - generate pi_saha_sinha.zig - hash where key is a value of the λ (lambda) param
+* python - generate pi_sinha_saha.zig - hash where key is a value of the λ (lambda) param
 
 ### wasm
 * zig build to wasm

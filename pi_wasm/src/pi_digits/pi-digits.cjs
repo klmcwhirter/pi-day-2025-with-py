@@ -8,7 +8,7 @@ const jsLog = (msg) => {
 // Functions imported from WASM.
 let wasm_alloc, wasm_free, wasm_memory;
 
-let wasm_pi_baseline, wasm_pi_gosper, wasm_pi_random, wasm_pi_saha_sinha, wasm_pi_ten_digits;
+let wasm_pi_baseline, wasm_pi_gosper, wasm_pi_random, wasm_pi_sinha_saha, wasm_pi_ten_digits;
 
 // Convenience function to prepare a typed byte array
 // from a pointer and a length into WASM memory.
@@ -54,7 +54,7 @@ const call_funcs = wasmModule => {
 
     const {
         pi_baseline, pi_baseline_len, pi_gosper, pi_gosper_len, pi_random, pi_random_len,
-        pi_saha_sinha, pi_saha_sinha_len, pi_ten_digits, pi_ten_digits_len, pi_tpi_digits_len: tachus_pi, tachus_pi_len,
+        pi_sinha_saha, pi_sinha_saha_len, pi_ten_digits, pi_ten_digits_len, pi_tpi_digits_len: tachus_pi, tachus_pi_len,
         pi_cmp_digits, map_colors, histogram,
         alloc, free, memory, zlog, zig_version
     } = wasmModule.instance.exports;
@@ -65,7 +65,7 @@ const call_funcs = wasmModule => {
     wasm_pi_baseline = getView(pi_baseline(), pi_baseline_len());
     wasm_pi_gosper = getView(pi_gosper(), pi_gosper_len());
     // wasm_pi_random = getView(pi_random(), pi_random_len());
-    wasm_pi_saha_sinha = getView(pi_saha_sinha(), pi_saha_sinha_len());
+    wasm_pi_sinha_saha = getView(pi_sinha_saha(), pi_sinha_saha_len());
     wasm_pi_ten_digits = getView(pi_ten_digits(), pi_ten_digits_len());
 
     jsLog(`tachus_pi_len=${tachus_pi_len()}`);
@@ -84,8 +84,8 @@ const call_funcs = wasmModule => {
     jsLog(`pi_random_len=${pi_random_len()}, pi_random=${pi_random()}`);
     // console.log('JS: wasm_pi_random: ', wasm_pi_random);
 
-    jsLog(`pi_saha_sinha_len=${pi_saha_sinha_len()}, pi_saha_sinha=${pi_saha_sinha()}`);
-    console.log('JS: wasm_pi_saha_sinha: ', wasm_pi_saha_sinha);
+    jsLog(`pi_sinha_saha_len=${pi_sinha_saha_len()}, pi_sinha_saha=${pi_sinha_saha()}`);
+    console.log('JS: wasm_pi_sinha_saha: ', wasm_pi_sinha_saha);
 
     jsLog(`pi_ten_digits_len=${pi_ten_digits_len()}, pi_ten_digits=${pi_ten_digits()}`);
     console.log('JS: wasm_pi_ten_digits: ', wasm_pi_ten_digits);
@@ -129,7 +129,7 @@ const call_funcs = wasmModule => {
 
     jsLog(`pi_baseline_len=${pi_baseline_len()}, pi_baseline=${pi_baseline()}`);
     jsLog(`pi_gosper_len=${pi_gosper_len()}, pi_gosper=${pi_gosper()}`);
-    jsLog(`pi_saha_sinha_len=${pi_saha_sinha_len()}, pi_saha_sinha=${pi_saha_sinha()}`);
+    jsLog(`pi_sinha_saha_len=${pi_sinha_saha_len()}, pi_sinha_saha=${pi_sinha_saha()}`);
     jsLog(`pi_ten_digits_len=${pi_ten_digits_len()}, pi_ten_digits=${pi_ten_digits()}`);
 
     // Test baseline vs gosper - should all be the same
@@ -147,7 +147,7 @@ const call_funcs = wasmModule => {
 
     jsLog(`pi_baseline_len=${pi_baseline_len()}, pi_baseline=${pi_baseline()}`);
     jsLog(`pi_gosper_len=${pi_gosper_len()}, pi_gosper=${pi_gosper()}`);
-    jsLog(`pi_saha_sinha_len=${pi_saha_sinha_len()}, pi_saha_sinha=${pi_saha_sinha()}`);
+    jsLog(`pi_sinha_saha_len=${pi_sinha_saha_len()}, pi_sinha_saha=${pi_sinha_saha()}`);
     jsLog(`pi_ten_digits_len=${pi_ten_digits_len()}, pi_ten_digits=${pi_ten_digits()}`);
 
     // Test baseline vs random - should not all be the same
@@ -178,7 +178,7 @@ const call_funcs = wasmModule => {
 
     jsLog(`pi_baseline_len=${pi_baseline_len()}, pi_baseline=${pi_baseline()}`);
     jsLog(`pi_gosper_len=${pi_gosper_len()}, pi_gosper=${pi_gosper()}`);
-    jsLog(`pi_saha_sinha_len=${pi_saha_sinha_len()}, pi_saha_sinha=${pi_saha_sinha()}`);
+    jsLog(`pi_sinha_saha_len=${pi_sinha_saha_len()}, pi_sinha_saha=${pi_sinha_saha()}`);
     jsLog(`pi_ten_digits_len=${pi_ten_digits_len()}, pi_ten_digits=${pi_ten_digits()}`);
 
     jsLog(`map_colors: pi_ten_digits ... starting`);

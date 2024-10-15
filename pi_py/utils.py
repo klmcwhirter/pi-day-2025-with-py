@@ -1,6 +1,18 @@
+import logging
 import os
+from collections.abc import Callable
+from functools import wraps
 from io import TextIOWrapper
-from typing import Sequence
+from itertools import islice
+from typing import Generator, Sequence
+
+
+def _pi_digits_generator(gen_func: Callable[[None], Generator[int, None, None]]) -> Callable[[None], Generator[int, None, None]]:
+    @wraps(gen_func)
+    def wrapper(num_digits: int, **kwargs) -> Generator[int, None, None]:
+        logging.info(f'{gen_func.__name__}({num_digits=:_})')
+        return islice(gen_func(**kwargs), num_digits)
+    return wrapper
 
 
 def batched(sequence: Sequence, n: int = 1):

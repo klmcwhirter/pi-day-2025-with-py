@@ -6,7 +6,7 @@ import { logJS } from './utils.js';
 export const PiAlgorithms = {
   'Baseline': 'Baseline',
   'Gosper': 'Gosper',
-  'Saha_Sinha': 'Saha_Sinha',
+  'Sinha_Saha': 'Sinha_Saha',
   'Tachus_Pi': 'Tachus_Pi',  // From https://bellard.org/pi/pi2700e9/index.html
   'Random': 'Random',
   'Ten_Digits': 'Ten_Digits',
@@ -32,8 +32,8 @@ export class PiState {
   public pi_gosper_len;
   public pi_random;
   public pi_random_len;
-  public pi_saha_sinha;
-  public pi_saha_sinha_len;
+  public pi_sinha_saha;
+  public pi_sinha_saha_len;
   public pi_ten_digits;
   public pi_ten_digits_len;
   public tachus_pi;
@@ -44,7 +44,7 @@ export class PiState {
 
   constructor() {
     this.cmpSource = createSignal(PiAlgorithms.Baseline);
-    this.cmpAgainst = createSignal(PiAlgorithms.Saha_Sinha);
+    this.cmpAgainst = createSignal(PiAlgorithms.Sinha_Saha);
     this.cmpPctMatch = createSignal(0.0);
     this.digitsAlgo = createSignal(PiAlgorithms.Baseline);
     this.histoAlgo = createSignal(PiAlgorithms.Baseline);
@@ -65,8 +65,8 @@ export class PiState {
         this.pi_gosper_len = rc.pi_gosper_len;
         this.pi_random = rc.pi_random;
         this.pi_random_len = rc.pi_random_len;
-        this.pi_saha_sinha = rc.pi_saha_sinha;
-        this.pi_saha_sinha_len = rc.pi_saha_sinha_len;
+        this.pi_sinha_saha = rc.pi_sinha_saha;
+        this.pi_sinha_saha_len = rc.pi_sinha_saha_len;
         this.pi_ten_digits = rc.pi_ten_digits;
         this.pi_ten_digits_len = rc.pi_ten_digits_len;
         this.tachus_pi = rc.tachus_pi;
@@ -98,7 +98,7 @@ export class PiState {
       [PiAlgorithms.Baseline]: [this.pi_baseline, this.pi_baseline_len],
       [PiAlgorithms.Gosper]: [this.pi_gosper, this.pi_gosper_len],
       [PiAlgorithms.Random]: [this.pi_random, this.pi_random_len],
-      [PiAlgorithms.Saha_Sinha]: [this.pi_saha_sinha, this.pi_saha_sinha_len],
+      [PiAlgorithms.Sinha_Saha]: [this.pi_sinha_saha, this.pi_sinha_saha_len],
       [PiAlgorithms.Ten_Digits]: [this.pi_ten_digits, this.pi_ten_digits_len],
       [PiAlgorithms.Tachus_Pi]: [this.tachus_pi, this.tachus_pi_len],
     };

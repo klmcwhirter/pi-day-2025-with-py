@@ -2,20 +2,12 @@
 
 import logging
 import math
-from collections.abc import Callable
-from functools import partial, wraps
-from itertools import islice
+from functools import partial
 # from pprint import pformat
 from typing import Generator
 
-
-def _pi_digits_generator(gen_func: Callable[[None], Generator[int, None, None]]) -> Callable[[None], Generator[int, None, None]]:
-    @wraps(gen_func)
-    def wrapper(num_digits: int, **kwargs) -> Generator[int, None, None]:
-        logging.info(f'{gen_func.__name__}({num_digits=:_})')
-        return islice(gen_func(**kwargs), num_digits)
-    return wrapper
-
+from pi_py.pi_digits_sinha_saha import sinha_saha_pi_digits
+from pi_py.utils import _pi_digits_generator
 
 max_len = {
     'q': (0, 0),
@@ -83,11 +75,6 @@ def madhava_pi_digits(**kwargs) -> Generator[int, None, None]:
         yield int(digit)
 
 
-@_pi_digits_generator
-def saha_sinha_pi_digits(**_kwargs):
-    for n in [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]:
-        yield n
-
 # region
 
 # def pi_digit_generator_orig(num_digits: int) -> Generator[int, None, None]:
@@ -126,12 +113,12 @@ if __name__ == '__main__':
     #
     # pdm run python -m pi_py.pi_1000000 pi_wasm/src/pi_1000000.zig
     # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_gosper.zig gosper
-    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_saha_sinha.zig saha_sinha
+    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_sinha_saha.zig sinha_saha
 
     if len(sys.argv) < 3:
         print('''Usage: python -m pi_py.pi_digits filename.ext generator [num_digits]
               where
-              generator is one of gosper, madhava or saha_sinha
+              generator is one of gosper, madhava or sinha_saha
               ext is one of go, js, py, ts, zig''')
         sys.exit(1)
 
@@ -140,8 +127,8 @@ if __name__ == '__main__':
         generator = gosper_pi_digits
     elif gen_code == 'madhava':
         generator = partial(madhava_pi_digits, terms=150_000)
-    elif gen_code == 'saha_sinha':
-        generator = saha_sinha_pi_digits
+    elif gen_code == 'sinha_saha':
+        generator = sinha_saha_pi_digits
     else:
         logging.error(f'Unsupported generator: {gen_code}')
 

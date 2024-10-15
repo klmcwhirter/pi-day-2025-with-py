@@ -29,7 +29,7 @@ pub fn build(b: *std.Build) void {
         });
         artifact.entry = .disabled;
         // artifact.export_symbol_names = &.{
-        //     "pi_baseline",   "pi_baseline_len", "pi_gosper", "pi_gosper_len", "pi_saha_sinha", "pi_saha_sinha",
+        //     "pi_baseline",   "pi_baseline_len", "pi_gosper", "pi_gosper_len", "pi_sinha_saha", "pi_sinha_saha_len",
         //     "pi_cmp_digits", "alloc",           "free",      "memory",        "zlog",          "zig_version",
         // };
         // artifact.import_memory = false;

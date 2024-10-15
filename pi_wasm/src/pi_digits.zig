@@ -17,7 +17,7 @@ pub const pi_gosper_seed = @import("pi_digits/pi_gosper.zig").pi_gosper_seed;
 pub const pi_random_init = @import("pi_digits/pi_random.zig").pi_random_init;
 pub const pi_random_array_len = @import("pi_digits/pi_random.zig").pi_random_array_len;
 
-pub const pi_saha_sinha_seed = @import("pi_digits/pi_saha_sinha.zig").pi_saha_sinha_seed;
+pub const pi_sinha_saha_seed = @import("pi_digits/pi_sinha_saha.zig").pi_sinha_saha_seed;
 
 pub const pi_ten_digits_seed = @import("pi_digits/pi_ten_digits.zig").pi_ten_digits_seed;
 
@@ -49,17 +49,17 @@ test "gosper should have len 1_000_000" {
     try testing.expect(pi_gosper_seed.len == pi_gosper_len());
 }
 
-pub export fn pi_saha_sinha() [*]const u8 {
-    return pi_saha_sinha_seed.ptr;
+pub export fn pi_sinha_saha() [*]const u8 {
+    return pi_sinha_saha_seed.ptr;
 }
 
-pub export fn pi_saha_sinha_len() usize {
-    return pi_saha_sinha_seed.len;
+pub export fn pi_sinha_saha_len() usize {
+    return pi_sinha_saha_seed.len;
 }
 
-test "saha_sinha should have len 100 - TODO 1_000_000" {
-    try testing.expect(100 == pi_saha_sinha_seed.len);
-    try testing.expect(pi_saha_sinha_seed.len == pi_saha_sinha_len());
+test "sinha_saha should have len 100 - TODO 1_000_000" {
+    try testing.expect(100 == pi_sinha_saha_seed.len);
+    try testing.expect(pi_sinha_saha_seed.len == pi_sinha_saha_len());
 }
 
 pub export fn pi_ten_digits() [*]const u8 {
