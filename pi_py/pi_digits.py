@@ -111,9 +111,9 @@ if __name__ == '__main__':
     #
     # pre-generate these - gosper takes ~3 hrs for 1_000_000 digits!
     #
-    # pdm run python -m pi_py.pi_1000000 pi_wasm/src/pi_1000000.zig
-    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_gosper.zig gosper
-    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_sinha_saha.zig sinha_saha
+    # pdm run python -m pi_py.pi_1000000 pi_wasm/src/pi_digits/pi_1000000.zig
+    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_gosper.zig gosper
+    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_sinha_saha.zig sinha_saha 500
 
     if len(sys.argv) < 3:
         print('''Usage: python -m pi_py.pi_digits filename.ext generator [num_digits]

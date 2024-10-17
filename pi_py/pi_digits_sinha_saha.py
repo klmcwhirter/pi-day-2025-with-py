@@ -1,11 +1,49 @@
 '''
 Implememntation of the Sinha/Saha algorithm described at: https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.132.221601#d5e8137
 '''
+import logging
+from typing import Generator
+
+import sympy as sym
+
 from pi_py.utils import _pi_digits_generator
+
+N_TERMS = 2300
+λ_VAL = 575
+PREC = 500
 
 
 @_pi_digits_generator
-def sinha_saha_pi_digits(**_kwargs):
+def sinha_saha_pi_digits(**_kwargs) -> Generator[int, None, None]:
+    n, nterms = sym.symbols('n nterms', integer=True, positive=True)
+    λ, π = sym.symbols('λ π', real=True)
+    # SinhaSaha = sym.symbols('SinhaSaha', cls=sym.Function)
+
+    sum_left_no_factorial = 1 / (n+λ) - 4 / (2*n + 1)
+    sum_right = (2*n + 1)**2 / (4 * (n + λ)).factor() - n
+
+    sum_inner = sum_left_no_factorial * sym.RisingFactorial(sum_right, n-1)
+
+    SinhaSaha = 4 + sym.Sum((1 / sym.factorial(n)) * sum_inner, (n, 1, nterms))
+
+    SinhaSaha_subs = SinhaSaha.subs({λ: λ_VAL, nterms: N_TERMS})
+
+    pi = SinhaSaha_subs.evalf(PREC)
+
+    logging.debug(f'sinha_saha_pi_digits: {N_TERMS=}, {pi=}')
+
+    # note that partition will cause problems for large values of digit precision
+    # TODO look for a Generator expression instead
+    pi_chars = ['3', *str(pi).partition('.')[2]]
+
+    # for digit in pi_chars:
+    #     yield int(digit)
+
+    return (int(digit) for digit in pi_chars)
+
+
+@_pi_digits_generator
+def sinha_saha_pi_digits_100(**_kwargs):
     for n in [
         #  1  2  3  4  5  6  7  8  9
         3, 1, 4, 1, 5, 9, 2, 6, 5, 3,  # 0

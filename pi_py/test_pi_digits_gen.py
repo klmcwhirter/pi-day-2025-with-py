@@ -14,7 +14,7 @@ from pi_py.pi_digits_sinha_saha import sinha_saha_pi_digits
     [
         [gosper_pi_digits],
         [madhava_pi_digits],
-        [sinha_saha_pi_digits],
+        pytest.param(sinha_saha_pi_digits, marks=[pytest.mark.slow, pytest.mark.skip]),
     ]
 )
 def test_pi_digit_generator_first_10(generator: Callable[[None], Generator[int, None, None]]):
@@ -29,11 +29,14 @@ def test_pi_digit_generator_first_10(generator: Callable[[None], Generator[int, 
     [
         [10, gosper_pi_digits],
         [10, madhava_pi_digits],
-        [10, sinha_saha_pi_digits],
+        pytest.param(10, sinha_saha_pi_digits, marks=[pytest.mark.slow, pytest.mark.skip]),
 
         [100, gosper_pi_digits],
         pytest.param(100, madhava_pi_digits, marks=pytest.mark.skip),
-        pytest.param(100, sinha_saha_pi_digits),
+        pytest.param(100, sinha_saha_pi_digits, marks=[pytest.mark.slow, pytest.mark.skip]),
+
+        [500, gosper_pi_digits],
+        pytest.param(500, sinha_saha_pi_digits, marks=[pytest.mark.slow]),
 
         [1_000, gosper_pi_digits],
         pytest.param(1_000, madhava_pi_digits, marks=pytest.mark.skip),

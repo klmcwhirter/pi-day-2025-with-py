@@ -57,8 +57,8 @@ pub export fn pi_sinha_saha_len() usize {
     return pi_sinha_saha_seed.len;
 }
 
-test "sinha_saha should have len 100 - TODO 1_000_000" {
-    try testing.expect(100 == pi_sinha_saha_seed.len);
+test "sinha_saha should have len 500 - TODO 1_000_000" {
+    try testing.expect(500 == pi_sinha_saha_seed.len);
     try testing.expect(pi_sinha_saha_seed.len == pi_sinha_saha_len());
 }
 

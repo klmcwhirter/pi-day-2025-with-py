@@ -2,7 +2,7 @@
 #* pythonbuild
 #*----------------------------------------------------------------------
 
-FROM docker.io/library/python:3.12-alpine AS pythonbuild
+FROM docker.io/library/python:3.13-alpine AS pythonbuild
 ARG ENABLE_TESTS
 ENV TZ=PST8PDT
 
