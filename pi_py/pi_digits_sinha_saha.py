@@ -8,9 +8,9 @@ import sympy as sym
 
 from pi_py.utils import _pi_digits_generator
 
-N_TERMS = 2300
+N_TERMS = [5000, 2300][0]
 λ_VAL = 575
-PREC = 500
+PREC = [711, 500][0]
 
 
 @_pi_digits_generator
@@ -26,7 +26,7 @@ def sinha_saha_pi_digits(**_kwargs) -> Generator[int, None, None]:
 
     SinhaSaha = 4 + sym.Sum((1 / sym.factorial(n)) * sum_inner, (n, 1, nterms))
 
-    SinhaSaha_subs = SinhaSaha.subs({λ: λ_VAL, nterms: N_TERMS})
+    SinhaSaha_subs = SinhaSaha.subs({λ: λ_VAL, nterms: N_TERMS}).gammasimp()
 
     pi = SinhaSaha_subs.evalf(PREC)
 
@@ -35,9 +35,6 @@ def sinha_saha_pi_digits(**_kwargs) -> Generator[int, None, None]:
     # note that partition will cause problems for large values of digit precision
     # TODO look for a Generator expression instead
     pi_chars = ['3', *str(pi).partition('.')[2]]
-
-    # for digit in pi_chars:
-    #     yield int(digit)
 
     return (int(digit) for digit in pi_chars)
 
