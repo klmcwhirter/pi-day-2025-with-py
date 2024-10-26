@@ -12,6 +12,8 @@ test {
 pub const pi_1000000_seed = @import("pi_digits/pi_1000000.zig").pi_1000000_seed;
 pub const tpi_1000000_seed = @import("pi_digits/tpi_1000000.zig").tpi_1000000_seed;
 
+pub const pi_bbp_seed = @import("pi_digits/pi_bbp.zig").pi_bbp_seed;
+
 pub const pi_gosper_seed = @import("pi_digits/pi_gosper.zig").pi_gosper_seed;
 
 pub const pi_random_init = @import("pi_digits/pi_random.zig").pi_random_init;
@@ -34,6 +36,19 @@ pub export fn pi_baseline_len() usize {
 test "baseline should have len 1_000_000" {
     try testing.expect(1000000 == pi_1000000_seed.len);
     try testing.expect(pi_1000000_seed.len == pi_baseline_len());
+}
+
+pub export fn pi_bbp() [*]const u8 {
+    return pi_bbp_seed.ptr;
+}
+
+pub export fn pi_bbp_len() usize {
+    return pi_bbp_seed.len;
+}
+
+test "bbp should have len 1_000_000" {
+    try testing.expect(1000000 == pi_bbp_seed.len);
+    try testing.expect(pi_bbp_seed.len == pi_bbp_len());
 }
 
 pub export fn pi_gosper() [*]const u8 {

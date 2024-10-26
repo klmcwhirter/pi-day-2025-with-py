@@ -15,6 +15,19 @@ const algo_map = {
       </p>
     </li>
   ),
+  [PiAlgorithms.BBP]: (
+    <li class='mt-2'>
+      <p>
+        <span class='text-md ml-2 bg-emerald-100 p-1 not-italic text-purple-700'>
+          &pi;
+        </span>
+        <span class='rounded-md p-2 font-semibold'>
+          BBP
+        </span>{' '}
+        <span>- The BBP (named after <a class="underline" target="_empty" href="https://mathworld.wolfram.com/BBPFormula.html">Bailey-Borwein-Plouffe</a>) is a formula for calculating pi discovered by Simon Plouffe in 1995</span>
+      </p>
+    </li>
+  ),
   [PiAlgorithms.Gosper]: (
     <li class='mt-2'>
       <p>
@@ -86,16 +99,17 @@ export const AlgorithmDetails = () => {
 
   return (
     <>
-      <div class='m-2 rounded-lg bg-emerald-100 p-2 text-left text-base italic text-emerald-600 shadow-inner shadow-stone-400'>
+      <div class='m-2 rounded-lg bg-emerald-100 p-2 text-left text-sm italic text-emerald-600 shadow-inner shadow-stone-400'>
         <ul>
           {algo_map[PiAlgorithms.Baseline]}
+          {algo_map[PiAlgorithms.BBP]}
           {algo_map[PiAlgorithms.Gosper]}
           {algo_map[PiAlgorithms.Sinha_Saha]}
           {algo_map[PiAlgorithms.Tachus_Pi]}
         </ul>
       </div>
 
-      <div class='m-2 rounded-lg bg-emerald-100 p-2 text-left text-base italic text-emerald-600 shadow-inner shadow-stone-400'>
+      <div class='m-2 rounded-lg bg-emerald-100 p-2 text-left text-sm italic text-emerald-600 shadow-inner shadow-stone-400'>
         <p class='m-2 font-semibold'>For testing comparison ...</p>
 
         <ul>

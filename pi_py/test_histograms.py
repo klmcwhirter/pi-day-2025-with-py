@@ -83,7 +83,7 @@ def test_histogram_perf(n: int, expected_secs: float):
         stmt = f'collect_histogram_for_n_digits({n})'
         # print(f'Executing {stmt}')
 
-        secs = 0
+        secs = 0.0
         try:
             with time_limit(MAX_SECS):
                 secs = timeit.timeit(stmt=stmt, number=1, globals=globals())

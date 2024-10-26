@@ -9,6 +9,8 @@ export class WasmLoadResult {
     pi_baseline;
     pi_baseline_len;
     pi_baseline_uint8arr;
+    pi_bbp;
+    pi_bbp_len;
     pi_gosper;
     pi_gosper_len;
     pi_random;
@@ -72,7 +74,7 @@ export const loadWasm = async () => {
         .instantiateStreaming(fetch(WASMFILE), importObject)
         .then(wasmModule => {
             const {
-                pi_baseline, pi_baseline_len, pi_gosper, pi_gosper_len, pi_random, pi_random_len,
+                pi_baseline, pi_baseline_len, pi_bbp, pi_bbp_len, pi_gosper, pi_gosper_len, pi_random, pi_random_len,
                 pi_sinha_saha, pi_sinha_saha_len, pi_ten_digits, pi_ten_digits_len, tachus_pi, tachus_pi_len,
                 pi_cmp_digits, map_colors, histogram,
                 alloc, free, memory, zig_version, zlog
@@ -84,6 +86,8 @@ export const loadWasm = async () => {
             wasmLoadResult.pi_baseline = pi_baseline();
             wasmLoadResult.pi_baseline_len = pi_baseline_len();
             wasmLoadResult.pi_baseline_uint8arr = getWasmView(pi_baseline(), pi_baseline_len());
+            wasmLoadResult.pi_bbp = pi_bbp();
+            wasmLoadResult.pi_bbp_len = pi_bbp_len();
             wasmLoadResult.pi_gosper = pi_gosper();
             wasmLoadResult.pi_gosper_len = pi_gosper_len();
             wasmLoadResult.pi_random = pi_random; // this is going to be called at runtime

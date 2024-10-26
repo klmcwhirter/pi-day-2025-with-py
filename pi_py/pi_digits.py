@@ -6,6 +6,7 @@ from functools import partial
 # from pprint import pformat
 from typing import Generator
 
+from pi_py.pi_digits_bbp import bbp_pi_digits
 from pi_py.pi_digits_sinha_saha import sinha_saha_pi_digits
 from pi_py.utils import _pi_digits_generator
 
@@ -112,6 +113,7 @@ if __name__ == '__main__':
     # pre-generate these - gosper takes ~3 hrs for 1_000_000 digits!
     #
     # pdm run python -m pi_py.pi_1000000 pi_wasm/src/pi_digits/pi_1000000.zig
+    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_bbp.zig bbp 1_000_000
     # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_gosper.zig gosper
     # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_sinha_saha.zig sinha_saha 711
 
@@ -122,18 +124,20 @@ if __name__ == '__main__':
               ext is one of go, js, py, ts, zig''')
         sys.exit(1)
 
+    if len(sys.argv) > 3:
+        num_digits = int(sys.argv[3])
+
     gen_code = sys.argv[2]
     if gen_code == 'gosper':
         generator = gosper_pi_digits
     elif gen_code == 'madhava':
         generator = partial(madhava_pi_digits, terms=150_000)
+    elif gen_code == 'bbp':
+        generator = partial(bbp_pi_digits, n=num_digits)
     elif gen_code == 'sinha_saha':
         generator = sinha_saha_pi_digits
     else:
         logging.error(f'Unsupported generator: {gen_code}')
-
-    if len(sys.argv) > 3:
-        num_digits = int(sys.argv[3])
 
     logging.basicConfig(level=logging.DEBUG, format='{asctime} - {module} - {funcName} - {levelname} - {message}', style='{')
     # logging.getLogger().setLevel(level=logging.DEBUG)

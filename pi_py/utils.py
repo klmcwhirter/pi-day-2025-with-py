@@ -4,12 +4,12 @@ from collections.abc import Callable
 from functools import wraps
 from io import TextIOWrapper
 from itertools import islice
-from typing import Generator, Sequence
+from typing import Generator, Iterator, Sequence
 
 
-def _pi_digits_generator(gen_func: Callable[[None], Generator[int, None, None]]) -> Callable[[None], Generator[int, None, None]]:
+def _pi_digits_generator(gen_func: Callable[[], Generator[int, None, None]]) -> Callable[[], Generator[int, None, None]]:
     @wraps(gen_func)
-    def wrapper(num_digits: int, **kwargs) -> Generator[int, None, None]:
+    def wrapper(num_digits: int, **kwargs) -> Iterator[int]:
         logging.info(f'{gen_func.__name__}({num_digits=:_})')
         return islice(gen_func(**kwargs), num_digits)
     return wrapper

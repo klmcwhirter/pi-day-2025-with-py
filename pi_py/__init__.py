@@ -5,6 +5,7 @@ import os
 import sys
 from dataclasses import dataclass
 from functools import cache
+from typing import Optional
 
 from pi_py.pi_digits import gosper_pi_digits
 from pi_py.utils import batched
@@ -22,8 +23,8 @@ logging.basicConfig(level=logging.DEBUG, format='PYTHON: {asctime} - {module} - 
 class PiAdapter:
     def __init__(self) -> None:
         self._cached_pi: list[int] = []
-        self.histograms = []
-        self._version = None
+        self.histograms: dict[int, list[int]] = {}
+        self._version: Optional[list[str]] = None
 
     def __repr__(self) -> str:
         return 'PiAdapter()'
