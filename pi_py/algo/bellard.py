@@ -9,26 +9,30 @@ from pi_py.algo.decorator import PiAlgoGenerator, pi_digits_generator
 from pi_py.algo.mpmath_executor import mpmath_generator_executor
 
 
-def pi_digits_bellard_term(n: int) -> mpf_type:
+def bellard_term(n: int) -> mpf_type:
 
     return (mp.power(-1, n) / mp.power(2, 10*n)) * \
         (
-        mp.mpf(-1)*(2**5 / (4*n + 1)) -
-        (mp.mpf(1) / (4*n + 3)) +
-        (mp.power(2, 8) / (10*n + 1)) -
-        (mp.power(2, 6) / (10*n + 3)) -
-        (mp.power(2, 2) / (10*n + 5)) -
-        (mp.power(2, 2) / (10*n + 7)) -
-        (mp.mpf(1) / (10*n + 9))
+        mp.mpf(-1)*(mp.power(2, 5) / (4*n + 1))
+        - (mp.mpf(1) / (4*n + 3))
+        + (mp.power(2, 8) / (10*n + 1))
+        - (mp.power(2, 6) / (10*n + 3))
+        - (mp.power(2, 2) / (10*n + 5))
+        - (mp.power(2, 2) / (10*n + 7))
+        + (mp.mpf(1) / (10*n + 9))
     )
 
 
+def _collector(results: list[mpf_type]) -> mpf_type:
+    pi = mp.power(2, -6) * mp.fsum(results)
+    return pi
+
+
 @pi_digits_generator
-def bellard_pi_digits(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGenerator:
+def bellard(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGenerator:
     '''From https://en.wikipedia.org/wiki/Bellard%27s_formula'''
 
-    sum_factor = mp.power(2, -6)
-    return mpmath_generator_executor(terms_worker_func=pi_digits_bellard_term, num_digits=num_digits, terms=terms, sum_factor=sum_factor)
+    return mpmath_generator_executor(terms_worker_func=bellard_term, num_digits=num_digits+10, terms=max(100_000, terms), collector=_collector)
 
 
 # @pi_digits_generator

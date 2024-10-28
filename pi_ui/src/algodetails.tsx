@@ -28,6 +28,19 @@ const algo_map = {
       </p>
     </li>
   ),
+  [PiAlgorithms.Bellard]: (
+    <li class='mt-2'>
+      <p>
+        <span class='text-md ml-2 bg-emerald-100 p-1 not-italic text-purple-700'>
+          &pi;
+        </span>
+        <span class='rounded-md p-2 font-semibold'>
+          Bellard
+        </span>{' '}
+        <span>- The <a class="underline" target="_empty" href="https://en.wikipedia.org/wiki/Bellard%27s_formula">Bellard</a> formula set several records - including the quadriollionth digit!</span>
+      </p>
+    </li>
+  ),
   [PiAlgorithms.Gosper]: (
     <li class='mt-2'>
       <p>
@@ -103,12 +116,18 @@ export const AlgorithmDetails = () => {
         <ul>
           {algo_map[PiAlgorithms.Baseline]}
           {algo_map[PiAlgorithms.BBP]}
+          {algo_map[PiAlgorithms.Bellard]}
           {algo_map[PiAlgorithms.Gosper]}
           {algo_map[PiAlgorithms.Sinha_Saha]}
           {algo_map[PiAlgorithms.Tachus_Pi]}
         </ul>
+        {/* <p class='m-2 font-semibold'>For testing comparison ...</p> */}
+        <ul>
+          {algo_map[PiAlgorithms.Random]}
+          {algo_map[PiAlgorithms.Ten_Digits]}
+        </ul>
       </div>
-
+{/* 
       <div class='m-2 rounded-lg bg-emerald-100 p-2 text-left text-sm italic text-emerald-600 shadow-inner shadow-stone-400'>
         <p class='m-2 font-semibold'>For testing comparison ...</p>
 
@@ -116,7 +135,7 @@ export const AlgorithmDetails = () => {
           {algo_map[PiAlgorithms.Random]}
           {algo_map[PiAlgorithms.Ten_Digits]}
         </ul>
-      </div>
+      </div> */}
     </>
   );
 };

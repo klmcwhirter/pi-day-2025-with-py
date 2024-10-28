@@ -6,6 +6,7 @@ import { logJS } from './utils.js';
 export const PiAlgorithms = {
   'Baseline': 'Baseline',
   'BBP': 'BBP',
+  'Bellard': 'Bellard',
   'Gosper': 'Gosper',
   'Sinha_Saha': 'Sinha_Saha',
   'Tachus_Pi': 'Tachus_Pi',  // From https://bellard.org/pi/pi2700e9/index.html
@@ -22,6 +23,7 @@ export class PiState {
   public stateInitialized: Accessor<boolean>;
   public cmpSource: Signal<string>;
   public cmpAgainst: Signal<string>;
+  public cmpNumMatch: Signal<number>;
   public cmpPctMatch: Signal<number>;
   public histoAlgo: Signal<string>;
   public digitsAlgo: Signal<string>;
@@ -31,6 +33,8 @@ export class PiState {
   public pi_baseline_uint8arr: Uint8Array = new Uint8Array();
   public pi_bbp;
   public pi_bbp_len;
+  public pi_bellard;
+  public pi_bellard_len;
   public pi_gosper;
   public pi_gosper_len;
   public pi_random;
@@ -48,6 +52,7 @@ export class PiState {
   constructor() {
     this.cmpSource = createSignal(PiAlgorithms.Baseline);
     this.cmpAgainst = createSignal(PiAlgorithms.Sinha_Saha);
+    this.cmpNumMatch = createSignal(0.0);
     this.cmpPctMatch = createSignal(0.0);
     this.digitsAlgo = createSignal(PiAlgorithms.Baseline);
     this.histoAlgo = createSignal(PiAlgorithms.Baseline);
@@ -66,6 +71,8 @@ export class PiState {
         this.pi_baseline_uint8arr = rc.pi_baseline_uint8arr;
         this.pi_bbp = rc.pi_bbp;
         this.pi_bbp_len = rc.pi_bbp_len;
+        this.pi_bellard = rc.pi_bellard;
+        this.pi_bellard_len = rc.pi_bellard_len;
         this.pi_gosper = rc.pi_gosper;
         this.pi_gosper_len = rc.pi_gosper_len;
         this.pi_random = rc.pi_random;
@@ -102,6 +109,7 @@ export class PiState {
     const piMap = {
       [PiAlgorithms.Baseline]: [this.pi_baseline, this.pi_baseline_len],
       [PiAlgorithms.BBP]: [this.pi_bbp, this.pi_bbp_len],
+      [PiAlgorithms.Bellard]: [this.pi_bellard, this.pi_bellard_len],
       [PiAlgorithms.Gosper]: [this.pi_gosper, this.pi_gosper_len],
       [PiAlgorithms.Random]: [this.pi_random, this.pi_random_len],
       [PiAlgorithms.Sinha_Saha]: [this.pi_sinha_saha, this.pi_sinha_saha_len],

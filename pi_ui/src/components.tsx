@@ -224,7 +224,7 @@ export const NavView = (props) => {
 
             <CmpSelector signal={piState.cmpAgainst} label="Against:" />
 
-            <div class='text-sm font-semibold'>Matches: {piState.cmpPctMatch[0]()} %</div>
+            <div class='text-sm font-semibold'>Matches: {piState.cmpPctMatch[0]()} %, {piState.cmpNumMatch[0]()} digits</div>
 
             <AlgorithmDetails />
           </div>

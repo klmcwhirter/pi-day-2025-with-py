@@ -8,7 +8,7 @@ const jsLog = (msg) => {
 // Functions imported from WASM.
 let wasm_alloc, wasm_free, wasm_memory;
 
-let wasm_pi_baseline, wasm_pi_bbp, wasm_pi_gosper, wasm_pi_random, wasm_pi_sinha_saha, wasm_pi_ten_digits;
+let wasm_pi_baseline, wasm_pi_bbp, wasm_pi_bellard, wasm_pi_gosper, wasm_pi_random, wasm_pi_sinha_saha, wasm_pi_ten_digits;
 
 // Convenience function to prepare a typed byte array
 // from a pointer and a length into WASM memory.
@@ -53,7 +53,7 @@ const call_funcs = wasmModule => {
     jsLog(wasmModule.instance.exports);
 
     const {
-        pi_baseline, pi_baseline_len, pi_bbp, pi_bbp_len, pi_gosper, pi_gosper_len, pi_random, pi_random_len,
+        pi_baseline, pi_baseline_len, pi_bbp, pi_bbp_len, pi_bellard, pi_bellard_len, pi_gosper, pi_gosper_len, pi_random, pi_random_len,
         pi_sinha_saha, pi_sinha_saha_len, pi_ten_digits, pi_ten_digits_len, pi_tpi_digits_len: tachus_pi, tachus_pi_len,
         pi_cmp_digits, map_colors, histogram,
         alloc, free, memory, zlog, zig_version
@@ -64,6 +64,7 @@ const call_funcs = wasmModule => {
 
     wasm_pi_baseline = getView(pi_baseline(), pi_baseline_len());
     wasm_pi_bbp = getView(pi_bbp(), pi_bbp_len());
+    wasm_pi_bellard = getView(pi_bellard(), pi_bellard_len());
     wasm_pi_gosper = getView(pi_gosper(), pi_gosper_len());
     // wasm_pi_random = getView(pi_random(), pi_random_len());
     wasm_pi_sinha_saha = getView(pi_sinha_saha(), pi_sinha_saha_len());
@@ -82,6 +83,9 @@ const call_funcs = wasmModule => {
     jsLog(`pi_bbp_len=${pi_bbp_len()}, pi_bbp=${pi_bbp()}`);
     console.log('JS: wasm_pi_bbp: ', wasm_pi_bbp);
 
+    jsLog(`pi_bellard_len=${pi_bellard_len()}, pi_bellard=${pi_bellard()}`);
+    console.log('JS: wasm_pi_bellard: ', wasm_pi_bellard);
+        
     jsLog(`pi_gosper_len=${pi_gosper_len()}, pi_gosper=${pi_gosper()}`);
     console.log('JS: wasm_pi_gosper: ', wasm_pi_gosper);
 

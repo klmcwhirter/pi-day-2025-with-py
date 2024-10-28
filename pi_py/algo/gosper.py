@@ -20,7 +20,7 @@ def _update_max_len(q: int, r: int, t: int, i: int, n: int):
 
 
 @pi_digits_generator
-def gosper_pi_digits(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGenerator:
+def gosper(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGenerator:
     '''
     This algorithm is based on an unproven conjecture but successfully produces at least the first 1 million digits.
     Read more about it here: https://www.gavalas.dev/blog/spigot-algorithms-for-pi-in-python/#using-gospers-series

@@ -1,6 +1,7 @@
 import concurrent.futures
 import logging
 import os
+from typing import Callable
 
 from mpmath import mp
 from mpmath.ctx_mp_python import mpf as mpf_type
@@ -54,7 +55,7 @@ def _terms_sum(terms_worker_func, num_digits: int, rng: tuple[int], idx: int = 0
 
 
 def mpmath_generator_executor(*, terms_worker_func, num_digits: int, terms: int,
-                              sum_factor: mpf_type = mp.mpf(1.0)) -> PiAlgoGenerator:
+                              collector: Callable[[list[mpf_type]], mpf_type]) -> PiAlgoGenerator:
     mp.dps = num_digits
 
     num_workers = _max_workers()
@@ -80,7 +81,7 @@ def mpmath_generator_executor(*, terms_worker_func, num_digits: int, terms: int,
     #     print(f'{i}: "{mp.nstr(results[i], 20)}..."')
     # print()
 
-    pi = sum_factor * mp.fsum(results)
+    pi = collector(results)
 
     pi_partition = mp.nstr(pi, num_digits, min_fixed=num_digits).partition('.')
     pi_chars = [pi_partition[0], *pi_partition[2]]

@@ -9,7 +9,7 @@ from pi_py.algo.decorator import PiAlgoGenerator, pi_digits_generator
 from pi_py.algo.mpmath_executor import mpmath_generator_executor
 
 
-def pi_digits_bbp_term(n: int) -> mpf_type:
+def bbp_term(n: int) -> mpf_type:
     return (
         mp.mpf(4)/(8*n + 1) -
         mp.mpf(2)/(8*n + 4) -
@@ -19,10 +19,10 @@ def pi_digits_bbp_term(n: int) -> mpf_type:
 
 
 @pi_digits_generator
-def bbp_pi_digits(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGenerator:
+def bbp(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGenerator:
     '''From https://stackoverflow.com/a/28285228
         Also, https://en.wikipedia.org/wiki/Bailey%E2%80%93Borwein%E2%80%93Plouffe_formula
         https://mathworld.wolfram.com/BBPFormula.html
     '''
 
-    return mpmath_generator_executor(terms_worker_func=pi_digits_bbp_term, num_digits=num_digits+10, terms=max(10_000, terms))
+    return mpmath_generator_executor(terms_worker_func=bbp_term, num_digits=num_digits+10, terms=max(10_000, terms), collector=mp.fsum)

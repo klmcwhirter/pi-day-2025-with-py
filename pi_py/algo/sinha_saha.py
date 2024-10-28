@@ -13,7 +13,7 @@ PREC = [711, 500][0]
 
 
 @pi_digits_generator
-def sinha_saha_pi_digits(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGenerator:
+def sinha_saha(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGenerator:
     n, nterms = sym.symbols('n nterms', integer=True, positive=True)
     λ, π = sym.symbols('λ π', real=True)
     # SinhaSaha = sym.symbols('SinhaSaha', cls=sym.Function)
@@ -29,7 +29,7 @@ def sinha_saha_pi_digits(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGene
 
     pi = SinhaSaha_subs.evalf(PREC)
 
-    logging.debug(f'sinha_saha_pi_digits: {N_TERMS=}, {pi=}')
+    logging.debug(f'sinha_saha: {N_TERMS=}, {pi=}')
 
     pi_parts = str(pi).partition('.')
     pi_chars = [pi_parts[0], *pi_parts[2]]

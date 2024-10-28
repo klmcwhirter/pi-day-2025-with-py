@@ -6,7 +6,7 @@ from pi_py.algo.decorator import PiAlgoGenerator, pi_digits_generator
 
 
 @pi_digits_generator
-def madhava_pi_digits(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGenerator:
+def madhava(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGenerator:
     '''From https://scipython.com/book/chapter-2-the-core-python-language-i/questions/the-madhava-series/
 
     Unfortanately, the formula as written does not lend itself easily to a Generator. Do the simnple thing for readability.

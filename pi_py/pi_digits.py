@@ -4,7 +4,7 @@ import logging
 import multiprocessing
 import sys
 
-from pi_py.algo import digits_gen_from_algo
+from pi_py.algo.generators import digits_gen_from_algo
 from pi_py.utils import config_logging
 from pi_py.writer import pi_digits_writer_from_ext
 

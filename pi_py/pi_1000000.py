@@ -2,6 +2,7 @@ import logging
 import string
 import sys
 
+from pi_py.utils import config_logging
 from pi_py.writer import (pi_digits_writer_from_ext,
                           pi_digits_writer_supported_exts)
 
@@ -16,8 +17,7 @@ def read_digits(file_path: str) -> list[int]:
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG, format='{asctime} - {module} - {funcName} - {levelname} - {message}', style='{')
-    logging.getLogger().setLevel(level=logging.DEBUG)
+    config_logging()
 
     if len(sys.argv) < 3:
         logging.error(

@@ -77,6 +77,8 @@ function setPiImageData(id: string, piState: PiState, src, src_len, palette_id: 
         ctx.putImageData(imageData, 0, 0);
 
         if (palette_id === 1) {
+            piState.cmpNumMatch[1](num_matched);
+
             const pctMatched = (num_matched * 100) / src_len;
             piState.cmpPctMatch[1](pctMatched);
             logJS(`setPiImageData: pct_match=${pctMatched}`);
