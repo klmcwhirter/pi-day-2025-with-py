@@ -2,8 +2,8 @@ import logging
 import string
 import sys
 
-from pi_py.utils import (pi_digits_writer_from_ext,
-                         pi_digits_writer_supported_exts)
+from pi_py.writer import (pi_digits_writer_from_ext,
+                          pi_digits_writer_supported_exts)
 
 
 def read_digits(file_path: str) -> list[int]:
@@ -16,8 +16,7 @@ def read_digits(file_path: str) -> list[int]:
 
 
 def main():
-    logging.basicConfig(
-        level=logging.DEBUG, format='{asctime} - {module} - {funcName} - {levelname} - {message}', style='{')
+    logging.basicConfig(level=logging.DEBUG, format='{asctime} - {module} - {funcName} - {levelname} - {message}', style='{')
     logging.getLogger().setLevel(level=logging.DEBUG)
 
     if len(sys.argv) < 3:

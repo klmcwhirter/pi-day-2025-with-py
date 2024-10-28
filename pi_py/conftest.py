@@ -1,25 +1,10 @@
-import signal
-from contextlib import contextmanager
 from itertools import islice
-from typing import Generator
 
 from pi_py.pi_1000000 import read_digits
 
 
 class TimeoutException(Exception):
     pass
-
-
-@contextmanager
-def time_limit(max_secs: int) -> Generator[None, None, None]:
-    def signal_handler(signum: int, frame):
-        raise TimeoutException('Timed out!')
-    signal.signal(signal.SIGALRM, signal_handler)
-    signal.alarm(max_secs)
-    try:
-        yield
-    finally:
-        signal.alarm(0)
 
 
 _pi_1_000_000: list[int] | None = None
