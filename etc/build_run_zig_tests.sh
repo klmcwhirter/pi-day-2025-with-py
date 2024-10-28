@@ -9,7 +9,6 @@ rm -f ${ZIG_BUILD}.out ${ZIG_TESTS}.out step.out
 
 echo "ZIGARCH=${ZIGARCH}" | tee -a step.out
 echo "ZIGBIN=${ZIGBIN}" | tee -a step.out
-echo "ZIGTAR=${ZIGTAR}" | tee -a step.out
 
 function clean_up
 {
@@ -25,20 +24,6 @@ function clean_up
 }
 
 set -o pipefail
-
-if [ -z "$ZIGTAR" ]
-then
-    echo "ZIGTAR cannot be empty" | tee -a step.out
-
-    clean_up $rc ${ZIG_BUILD}
-    echo "zig build failed" >${ZIG_TESTS}.skipped
-    exit 1
-fi
-
-zig_dir=`echo $ZIGTAR | sed 's/.tar.xz$//'`
-echo mv ${zig_dir} $ZIGBIN | tee -a step.out
-mv ${zig_dir} $ZIGBIN 2>&1 | tee -a step.out
-
 
 echo "ENABLE_TESTS=$ENABLE_TESTS" | tee -a step.out
 if [ "$ENABLE_TESTS" = "1" ]

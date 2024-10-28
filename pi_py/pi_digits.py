@@ -17,7 +17,7 @@ def main() -> None:
     #
     # pdm run python -m pi_py.pi_1000000 pi_wasm/src/pi_digits/pi_1000000.zig
     # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_bbp.zig bbp 1_000_000
-    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_bellard.zig bellard 1_000_000
+    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_bellard.zig bellard 1_000_000 350_000
     # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_gosper.zig gosper
     # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_sinha_saha.zig sinha_saha 711
 
