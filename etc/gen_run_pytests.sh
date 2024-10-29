@@ -17,8 +17,8 @@ then
     pip install -U pdm 2>&1 | tee -a step.out
 
     export PDM_CHECK_UPDATE=false
-    echo pdm create | tee -a step.out
-    pdm create 2>&1 | tee -a step.out
+    echo pdm create --with default,dev| tee -a step.out
+    pdm create --with default,dev 2>&1 | tee -a step.out
 
     echo pdm run tox | tee -a step.out
     pdm run tox 2>&1 | tee -a step.out
