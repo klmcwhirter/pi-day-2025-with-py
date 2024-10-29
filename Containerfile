@@ -26,22 +26,21 @@ ARG ENABLE_TESTS
 ARG ZIGARCH=x86_64
 ARG ZIGVER=0.14.0-dev.1588+2111f4c38
 ENV TZ=PST8PDT
+ENV ZIGDIR=zig-linux-$ZIGARCH-$ZIGVER
 ENV ZIGTAR=zig-linux-$ZIGARCH-$ZIGVER.tar.xz
 ENV ZIGBIN=zig-bin
 
 WORKDIR /app
 
-# TODO for now
-# COPY $ZIGTAR /app/
-
 RUN \
     --mount=type=bind,source=${ZIGTAR},target=/app/${ZIGTAR} \
-    ZIGVER=${ZIGVER} ZIGTAR=${ZIGTAR} ZIGBIN=${ZIGBIN} \
+    ZIGVER=${ZIGVER} ZIGTAR=${ZIGTAR} ZIGDIR=${ZIGDIR} ZIGBIN=${ZIGBIN} \
     dnf update -y && \
     dnf -y install bash curl wabt && \
     tar xf /app/${ZIGTAR} && \
     # wget -O ${ZIGTAR} https://ziglang.org/download/${ZIGVER}/${ZIGTAR} && \
     # tar xf ${ZIGTAR} && \
+    mv ${ZIGDIR} ${ZIGBIN} && \
     touch ~/.bashrc && \
     curl https://wasmtime.dev/install.sh -sSf | bash - && \
     true
@@ -49,7 +48,7 @@ RUN \
 COPY ./etc/build_run_zig_tests.sh /app/etc/
 COPY pi_wasm/ /app/
     
-RUN ENABLE_TESTS=$ENABLE_TESTS ZIGTAR=$ZIGTAR ZIGBIN=$ZIGBIN ./etc/build_run_zig_tests.sh
+RUN ENABLE_TESTS=$ENABLE_TESTS ZIGBIN=$ZIGBIN ./etc/build_run_zig_tests.sh
 
 #*----------------------------------------------------------------------
 #* build

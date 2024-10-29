@@ -14,14 +14,14 @@ def _max_workers() -> int:
     return min(12, os.process_cpu_count() or 1)
 
 
-def _number_ranges(max_n: int, num_workers: int) -> list[tuple[int, int]]:
+def _number_ranges(start: int, max_n: int, num_workers: int) -> list[tuple[int, int]]:
     '''Distribute work evenly across all workers; returns list of begin/end number ranges'''
 
     windows = [(0, 0)] * num_workers
 
     items_per_worker = int(max_n // num_workers) + 1
 
-    last_idx = 0
+    last_idx = start
     for t in range(num_workers):
         next_idx = min(max_n, last_idx + items_per_worker)
 
@@ -54,7 +54,7 @@ def _terms_sum(terms_worker_func, num_digits: int, rng: tuple[int], idx: int = 0
     return rc
 
 
-def mpmath_generator_executor(*, terms_worker_func, num_digits: int, terms: int,
+def mpmath_generator_executor(*, terms_worker_func, num_digits: int, start: int, terms: int,
                               collector: Callable[[list[mpf_type]], mpf_type]) -> PiAlgoGenerator:
     mp.dps = num_digits
 
@@ -66,7 +66,7 @@ def mpmath_generator_executor(*, terms_worker_func, num_digits: int, terms: int,
 
         futures = {
             executor.submit(_terms_sum, terms_worker_func=terms_worker_func, num_digits=num_digits, terms=terms, rng=rng, idx=idx): idx
-            for idx, rng in enumerate(_number_ranges(terms, num_workers))
+            for idx, rng in enumerate(_number_ranges(start, terms, num_workers))
         }
 
         for future in concurrent.futures.as_completed(futures):

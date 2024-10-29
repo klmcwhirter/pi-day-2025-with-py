@@ -25,4 +25,4 @@ def bbp(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGenerator:
         https://mathworld.wolfram.com/BBPFormula.html
     '''
 
-    return mpmath_generator_executor(terms_worker_func=bbp_term, num_digits=num_digits+10, terms=max(10_000, terms), collector=mp.fsum)
+    return mpmath_generator_executor(terms_worker_func=bbp_term, num_digits=num_digits+10, start=0, terms=max(10_000, terms), collector=mp.fsum)
