@@ -1,0 +1,64 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+	"name": "pi-day-2025",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/base:noble",
+	"containerEnv": {
+		"TZ": "PST8PDT"
+	},
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		"ghcr.io/devcontainers-extra/features/node-asdf:0": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/python:1": {
+			"installTools": false,
+			"version": "3.13.1"
+		},
+		"ghcr.io/rchaganti/vsc-devcontainer-features/wabt:1": {
+			"version": "latest"
+		},
+		"devwasm.azurecr.io/dev-wasm/dev-wasm-feature/wasmtime-wasi:0": {
+			"version": "24",
+			"wasmtime_version": "v24.0.0",
+			"wit_version": "0.30.0",
+			"wasm_tools_version": "1.214.0",
+			"location": "/usr/local"
+		} //,
+		// "ghcr.io/devcontainers-extra/features/zig:1": {
+		// THIS DOES NOT WORK - only released versions are supported
+		// 	"version": "0.14.0-dev.2571+01081cc8e"
+		// }
+	},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [
+		9000
+	],
+	"onCreateCommand": {
+		"recreate pi_ui/.env": "rm -f pi_ui/.env && touch pi_ui/.env",
+		"install zig": "etc/vsc-install-zig.sh"
+	},
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": {
+		"pwd": "pwd",
+		"uname": "uname -a",
+		"node version": "node --version",
+		"python version": "python --version",
+		"wasmtime version": "wasmtime --version",
+		"zig version": "zig version",
+		"install pdm & run pytests": "ENABLE_TESTS=1 etc/vsc-run-pytests.sh",
+		"build & run zig tests": "ENABLE_TESTS=0 etc/vsc-run-zig-tests.sh"
+	},
+	// Use 'postStartCommand' to run commands after the container is created.
+	"postStartCommand": "etc/vsc-build-ui.sh",
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"dtsvet.vscode-wasm",
+				"ziglang.vscode-zig"
+			]
+		}
+	}
+}

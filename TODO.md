@@ -4,7 +4,7 @@
 * [X] init py, ui and wasm
 * [X] copy pi_digits.py
 * [X] add Madhava Python impl
-* [X] Dockerfile(s), associated scripts and compose.yml
+* [X] devcontainer.json and associated scripts
 * [X] create pi_digits.gosper wasm module - generalize design as much as possible
 * [X] add pi_digits.sinha_saha wasm stub
 * [X] create web app for visualization
@@ -21,30 +21,31 @@
   * [X] document wasmtime dependency and -Dwasi & -fwasmtime options to run tests
 * [x] Add histogram page - select algo: baseline, gosper and sinha_saha, random, ten_digits
 * [!] add Sinha / Saha Python impl
-  * [ ] generate zig source module
-* [ ] add SinhaSaha λ = 10 to 100 to PiAlogorithms
+  * [!] generate zig source module
+* [-] ~~add SinhaSaha λ = 10 to 100 to PiAlogorithms - the value of λ is tighly coupled to the number of terms and precision - no good way to do this easily~~
 * [ ] finalize wasm module(s) and/or component(s) needed
-* [ ] test deploy to Raspberry Pi 4b
+* [ ] test deploy to Raspberry Pi 4b - **ENABLE_TESTS=0 must be set in compose.yml - especially for zigbuild; wasmtime is only available for x86_64**
 
 
 ## UI Ideas
 * [X] show digits with input from different PiAlgorithms
-  * [ ] select different values for λ (lambda) parameter - paper says 10 to 100; but is that the correct range for million digits of pi?
-  * this [Numberphiles video](https://youtu.be/nXexsSWrc1Q?t=672) show values of λ < 10 are more likely to closely approximate pi.
-* [X] show histogram with 1_000_000 digits for Sinha / Saha series with different values for λ (lambda) parameter, Gosper's series and baseline
+  * [-] ~~select different values for λ (lambda) parameter - paper says 10 to 100; but is that the correct range for million digits of pi?~~
+  * ~~this [Numberphiles video](https://youtu.be/nXexsSWrc1Q?t=672) show values of λ < 10 are more likely to closely approximate pi.~~
+* [X] show histogram with 1_000_000 digits for suuported formula
+  * [-] ~~for Sinha / Saha series with different values for λ (lambda) parameter~~
 * [X] show comparison of digit accuracy - what should be the source of truth? see pi1000000.txt as baseline
   * [X] pct match in console.log
   * [X] pct match on comparison screen
 
 
 ## Technology
-* python 3.12 - pdm
+* python 3.13 - pdm
 * solidjs - vite
-* wasm - zig 0.13.0
-* docker compose
+* wasm - zig 0.14.0
+* devcontainers
 
 ## High Level App Architecture (Conceptual View)
-* rely on docker compose build
+* rely on devcontainers build
 
 ```
 +----+
@@ -53,7 +54,7 @@
   |   \
   v    +-> Canvas to visualize digits and digit diffs - 1000 px x 1000 px square (1_000_000 pixels)
 +----+
-|WASM| <-- built from zig and/or python
+|WASM| <-- built from zig
 +----+
 ```
 
@@ -62,24 +63,31 @@
 
 ## Docker Build Pipelines
 
-### python
+### pythonbuild
+
+> This build step is to run tests only. The code is used to pre-generate zig source files.
 
 ```
     #
     # pre-generate these - gosper takes ~3 hrs to generate 1_000_000 digits!
     #
     # pdm run python -m pi_py.pi_1000000 pi_wasm/src/pi_1000000.zig
+    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_bbp.zig bbp 1_000_000
+    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_bellard.zig bellard 1_000_000 350_000
     # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_gosper.zig gosper
-    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_sinha_saha.zig sinha_saha
+    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_sinha_saha.zig sinha_saha 711 5_000
 ```
 
 * python - generate pi_1000000.zig from pi1000000.txt (baseline) - []u8
+* python - generate pi_bbp.zig - []u8
+* python - generate pi_bellard.zig - []u8
 * python - generate pi_gosper.zig - []u8
-* python - generate pi_sinha_saha.zig - hash where key is a value of the λ (lambda) param
+* python - generate pi_sinha_saha.zig - []u8
 
-### wasm
+### zigbuild
 * zig build to wasm
 
-### ui
+### build
 * vite build of solidjs
+* pythonbuild and zigbuild logs
 * wasm reference(s)

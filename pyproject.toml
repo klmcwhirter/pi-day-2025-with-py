@@ -48,11 +48,14 @@ envclean.shell = "for d in ${TO_DEL};do echo $d;rm -fr $d;done"
 envclean.env = { TO_DEL = "pi_ui/node_modules .venv" }
 envclean.help = "Clean environment"
 allclean.composite = [ "clean", "envclean" ]
-start = "python -m pi_py.pi_digits"
-build.shell = "docker compose build"
-compose.shell = "docker compose up"
-up.composite = [ "build", "compose" ]
-down.shell = "docker compose down"
+
+wasmbuild.shell = "ENABLE_TESTS=0 etc/vsc-run-zig-tests.sh"
+wasmtest.shell = "ENABLE_TESTS=1 etc/vsc-run-zig-tests.sh"
+
+uibuild.shell = "etc/vsc-build-ui.sh"
+ui.shell = "cd pi_ui && npm start"
+
+gen = "python -m pi_py.pi_digits"
 gitignore.shell = "source ~/.local/.bashrc.d/gitignore.io; gi -s -- python,zig >.gitignore;echo '\n.pdm-python\n.zig-cache/' >>.gitignore"
 gitignore.help = "generate .gitignore"
 
