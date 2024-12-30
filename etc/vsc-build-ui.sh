@@ -2,9 +2,9 @@
 
 source etc/vsc-utils.sh
 
-echo $0: `pwd`
+echo $0: $(pwd)
 
-cd pi_ui
+echo_eval cd pi_ui
 
 if ! grep -E '^VITE_SOLIDJS_VER=' .env
 then

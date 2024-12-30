@@ -2,9 +2,9 @@
 
 source etc/vsc-utils.sh
 
-echo $0: `pwd`
+echo $0: $(pwd)
 
-cd pi_wasm
+echo_eval cd pi_wasm
 
 [ -z "$ENABLE_TESTS" ] && ENABLE_TESTS=0
 

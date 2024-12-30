@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 source etc/vsc-utils.sh
 
-echo $0: `pwd`
+echo $0: $(pwd)
 
 echo_eval asdf plugin add pdm
 echo_eval asdf install pdm latest

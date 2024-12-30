@@ -2,7 +2,9 @@
 
 source etc/vsc-utils.sh
 
-echo $0: `pwd`
+workdir=$(pwd)
+
+echo $0: ${workdir}
 
 ZIGARCH=x86_64
 ZIGVER=0.14.0-dev.2571+01081cc8e
@@ -11,19 +13,39 @@ ZIGTAR=$ZIGDIR.tar.xz
 # ZIGURL=https://ziglang.org/download/${ZIGVER}/  # only for released version
 ZIGURL=https://ziglang.org/builds
 
-if [ ! -f ~/.local/bin/zig ]
+if [ ! -h ~/.local/bin/zig ]
 then
     if [ ! -d ~/.local/bin -o ! -d ~/.local/share ]
     then
-        echo_eval mkdir -p ~/.local/share ~/.local/bin && cd ~/.local/share
+        echo_eval mkdir -p ~/.local/bin ~/.local/share
     fi
+
+    echo_eval cd ~/.local/share
 
     if [ ! -d ${ZIGDIR} ]
     then
-        echo Retrieving ${ZIGTAR}
-        echo_eval wget --progress=none -O ${ZIGTAR} ${ZIGURL}/${ZIGTAR} && tar xf ${ZIGTAR}
+        if [ -f ${ZIGTAR} ]
+        then
+            echo Reusing already retrieved tar file ...
+
+            # NOP - fall through
+        elif [ -f ${workdir}/${ZIGTAR} ]
+        then
+            # This is common for nightly builds as the zig project limits the # of times a build can be d/l-ed per day.
+            # I have learned to d/l a local copy and place it in the workspace dir and use it instead.
+
+            echo Reusing local tar file ...
+            echo_eval cp ${workdir}/${ZIGTAR} ${ZIGTAR}
+        else
+            echo Retrieving ${ZIGTAR}
+            echo_eval wget --quiet -O ${ZIGTAR} ${ZIGURL}/${ZIGTAR}
+        fi
+
+        echo_eval tar xf ${ZIGTAR}
     fi
-    echo_eval cd ../bin && ln -fs ../share/${ZIGDIR}/zig .
+
+    echo_eval cd ../bin
+    echo_eval ln -fs ../share/${ZIGDIR}/zig .
 else
     echo zig already installed ...
 fi
