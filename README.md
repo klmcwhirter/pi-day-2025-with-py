@@ -18,7 +18,7 @@ Celebrate the work done by several people over the years, including Sinha / Saha
 ---
 ![1,000,000 digits of pi](https://github.com/klmcwhirter/stuff/blob/master/pi-day-2025-demo.gif)
 ---
-They never claimed that it was an earth shattering new way to calculate digits of pi. And I can tell you it is not. I have struggled to get it to produce 2000 digits in a reasonable amount of time (~25 mins).
+They never claimed that it was an [earth shattering new way to calculate digits of pi](https://youtu.be/2lvTjEZ-bbw?t=44). And I can tell you it is not. I have struggled to get it to produce 2000 digits in a reasonable amount of time (~25 mins).
 
 But the fact that they saw this side-effect of their research into aspects of *string theory*, in my opinion, brings credence and validation to their work because they recognized this hidden jewel in the formula that was taking shape.
 
@@ -87,7 +87,7 @@ Then, **Rebuild Container**.
 * [New Recipe for Pi - Numberphile](https://youtu.be/nXexsSWrc1Q?t=605s) - shows analysis of values for &lambda; - 14 mins
 * [Pi-oneers (interview with Sinha & Saha) - Numberphile](https://youtu.be/2lvTjEZ-bbw) - 25 mins
 * [Digits of Pi - Up to 1 Million Digits](https://www.angio.net/pi/digits.html)
-* [Bellard's record breaking algorithm from 2009 - 2700 Billion digits of pi](https://bellard.org/pi/)tkinter
+* [Bellard's record breaking algorithm from 2009 - 2700 Billion digits of pi](https://bellard.org/pi/)
   * The software he built was named tpi which is short for [Tachus Pi](https://bellard.org/pi/pi2700e9/tpi.html); where tachus is an ancient Greek word for fast.
 * [Wolfram MathWorld Pi Formulas](https://mathworld.wolfram.com/PiFormulas.html) - about a hundred (I didn't count them) formulas documented
 
