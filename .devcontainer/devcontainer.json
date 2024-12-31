@@ -48,7 +48,7 @@
 		"wasmtime version": "wasmtime --version",
 		"zig version": "zig version",
 		"install pdm & run pytests": "ENABLE_TESTS=1 etc/vsc-run-pytests.sh",
-		"build & run zig tests": "ENABLE_TESTS=0 etc/vsc-run-zig-tests.sh"
+		"build & run zig tests": "ENABLE_TESTS=1 etc/vsc-run-zig-tests.sh"
 	},
 	// Use 'postStartCommand' to run commands after the container is created.
 	"postStartCommand": "etc/vsc-build-ui.sh",
