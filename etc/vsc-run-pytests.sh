@@ -16,8 +16,6 @@ fi
 
 if [ "$ENABLE_TESTS" = "1" ]
 then
-    /bin/sh -c etc/vsc-install-pdm.sh
-
     echo_eval pdm run tox
     rc=$?
     echo rc=${rc}

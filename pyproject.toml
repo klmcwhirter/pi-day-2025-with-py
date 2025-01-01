@@ -49,15 +49,21 @@ envclean.env = { TO_DEL = "pi_ui/node_modules .venv" }
 envclean.help = "Clean environment"
 allclean.composite = [ "clean", "envclean" ]
 
+pybuild.shell = "ENABLE_TESTS=0 etc/vsc-run-pytests.sh"
+pytest.shell = "ENABLE_TESTS=1 etc/vsc-run-pytests.sh"
+
 wasmbuild.shell = "ENABLE_TESTS=0 etc/vsc-run-zig-tests.sh"
 wasmtest.shell = "ENABLE_TESTS=1 etc/vsc-run-zig-tests.sh"
 
 uibuild.shell = "etc/vsc-build-ui.sh"
-ui.shell = "cd pi_ui && npm start"
+uistart.shell = "cd pi_ui && pnpm start"
+
+ui.composite = [ "pybuild", "wasmtest", "uibuild", "uistart" ]
+ui.help = "Build wasm & ui; then start ui"
 
 gen = "python -m pi_py.pi_digits"
-gitignore.shell = "source ~/.local/.bashrc.d/gitignore.io; gi -s -- python,zig >.gitignore;echo '\n.pdm-python\n.zig-cache/' >>.gitignore"
-gitignore.help = "generate .gitignore"
+gitignore.shell = "source ~/.local/.bash.d/gitignore.io && gi -s -- python,zig >.gitignore && echo -e \"\n.pdm-python\n.tool-versions\n.zig-cache/\" >>.gitignore"
+gitignore.help = "generate .gitignore - WIP"
 
 flake8.cmd = "flake8 pi_py/"
 mypy.cmd = "mypy pi_py/"

@@ -52,10 +52,11 @@ pub fn build(b: *std.Build) void {
         const install_dir: std.Build.InstallDir = .bin;
 
         const wat = b.addSystemCommand(&[_][]const u8{
-            "wasm2wat",
-            b.getInstallPath(install_dir, "pi-digits.wasm"),
+            "wasm-tools",
+            "print",
             "-o",
             b.getInstallPath(install_dir, "pi-digits.wat"),
+            b.getInstallPath(install_dir, "pi-digits.wasm"),
         });
         wat.step.dependOn(b.getInstallStep());
 

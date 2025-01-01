@@ -10,15 +10,14 @@
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
 		"ghcr.io/devcontainers-extra/features/node-asdf:0": {
-			"version": "latest"
+			"version": "latest",
+			"nvmInstallPath": "/home/vscode/.local",
+			"pnpmVersion": "latest"
 		},
-		"ghcr.io/devcontainers/features/python:1": {
-			"installTools": false,
-			"version": "3.13.1"
-		},
-		"ghcr.io/rchaganti/vsc-devcontainer-features/wabt:1": {
-			"version": "latest"
-		},
+		// "ghcr.io/devcontainers/features/python:1": {
+		// 	"installTools": false,
+		// 	"version": "3.13.1"
+		// },
 		"devwasm.azurecr.io/dev-wasm/dev-wasm-feature/wasmtime-wasi:0": {
 			"version": "24",
 			"wasmtime_version": "v24.0.0",
@@ -27,7 +26,7 @@
 			"location": "/usr/local"
 		} //,
 		// "ghcr.io/devcontainers-extra/features/zig:1": {
-		// THIS DOES NOT WORK - only released versions are supported
+		// THIS DOES NOT WORK - only released versions are supported; try again when zig 0.14 is released
 		// 	"version": "0.14.0-dev.2571+01081cc8e"
 		// }
 	},
@@ -36,29 +35,58 @@
 		9000
 	],
 	"onCreateCommand": {
+		"start time": "date",
 		"recreate pi_ui/.env": "rm -f pi_ui/.env && touch pi_ui/.env",
-		"install zig": "etc/vsc-install-zig.sh"
+		"install pdm": "etc/vsc-install-pdm.sh",
+		"install pnpm": "etc/vsc-install-pnpm.sh",
+		"install zig": "etc/vsc-install-zig.sh" // remove this line when zig 0.14 is released
 	},
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": {
 		"pwd": "pwd",
 		"uname": "uname -a",
 		"node version": "node --version",
+		"pdm version": "pdm --version",
+		"pnpm version": "pnpm --version",
 		"python version": "python --version",
+		"wasm-tools version": "wasm-tools --version",
 		"wasmtime version": "wasmtime --version",
 		"zig version": "zig version",
-		"install pdm & run pytests": "ENABLE_TESTS=1 etc/vsc-run-pytests.sh",
-		"build & run zig tests": "ENABLE_TESTS=1 etc/vsc-run-zig-tests.sh"
+		"zls version": "zls version"  //,
+		// "build & run pytests": "ENABLE_TESTS=1 etc/vsc-run-pytests.sh",
+		// "build & run zig tests": "ENABLE_TESTS=1 etc/vsc-run-zig-tests.sh",
 	},
 	// Use 'postStartCommand' to run commands after the container is created.
-	"postStartCommand": "etc/vsc-build-ui.sh",
+	"postStartCommand": {
+		// "etc/vsc-build-ui.sh",
+		"end time": "date"
+	},
 	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				"dbaeumer.vscode-eslint",
+				"ms-python.flake8",
+				"ms-toolsai.jupyter",
+				"streetsidesoftware.code-spell-checker",
+				"bradlc.vscode-tailwindcss",
 				"dtsvet.vscode-wasm",
 				"ziglang.vscode-zig"
-			]
+			],
+			"settings": {
+				"[tailwindcss]": {
+					"editor.quickSuggestions": {
+						"strings": "on"
+					}
+				},
+				"files.associations": {
+					"*.css": "tailwindcss"
+				},
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"zig.path": "zig",
+				"zig.zls.enabled": "on",
+				"zig.zls.path": "zls"
+			}
 		}
 	}
 }

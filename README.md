@@ -1,16 +1,7 @@
 # π pi-day-2025-with-py
+
+
 Celebrate the work done by several people over the years, including Sinha / Saha who found another inf. series to calculate pi that converges much quicker than the Madhava series.
-
-**[Design and tasks](./TODO.md)**
-
-* Python use before and during build steps
-* Zig for wasm
-* SolidJS for ui
-* 1,000,000 digits of pi
-  * visualize digits using color pallete like [pi-day-2024-with-py](https://github.com/klmcwhirter/pi-day-2024-with-py) for any algorithm
-  * compare accuracy between any 2 algorithms
-  * show histrograms - Sinha / Saha series, Gosper's Series, Tachus Pi (F. Bellard), baseline and also (for testing) random digits and ten_digits
-  * samples of algorithms are pre-generated and checked in as .zig source files.
 
 ### Snippet from Sinha / Saha paper Appendix
 ![Appendix snippet](./docs/snippet.svg)
@@ -25,6 +16,19 @@ But the fact that they saw this side-effect of their research into aspects of *s
 > And so, this project is dedicated to Aninda Sinha and Arnab Priya Saha for their contribution to our common pursuit of adding to the ways we consume π.
 
 Good job, men!
+
+### [HL Design](./TODO.md)
+* Developed using [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers) on:
+
+  [![project bluefin](./docs/project-bluefin.svg)](https://projectbluefin.io/)
+* Python use before and during build steps
+* Zig for wasm
+* SolidJS for ui
+* 1,000,000 digits of pi
+  * visualize digits using color pallete like [pi-day-2024-with-py](https://github.com/klmcwhirter/pi-day-2024-with-py) for any algorithm
+  * compare accuracy between any 2 algorithms
+  * show histrograms - Sinha / Saha series, Gosper's Series, Tachus Pi (F. Bellard), BBP, baseline and also (for testing) random digits and ten_digits
+  * samples of algorithms are pre-generated and checked in as .zig source files.
 
 ## Run it
 

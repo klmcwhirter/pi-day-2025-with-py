@@ -11,12 +11,12 @@ then
     echo 'VITE_SOLIDJS_VER='$(cat package.json | jq -cr '.dependencies["solid-js"]') | tee -a .env
 fi
 
-echo_eval npm install
+echo_eval pnpm install
 rc=$?
 echo rc=${rc}
 [ $rc -ne 0 ] && exit $rc
 
-echo_eval npm run build
+echo_eval pnpm run build
 rc=$?
 echo rc=${rc}
 [ $rc -ne 0 ] && exit $rc
