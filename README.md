@@ -73,7 +73,7 @@ The ziglang project is moving towards a [cap on download frequency in an effort 
 In order to help with this, I have moved the devcontainer logic to use a local copy of zig-linux-x86_64-0.14.0-dev.*.tar.gz file.
 _This temporary local dependency will be removed once 0.14.0 is officially released._
 
-> See the ZIGTAR variable declaration section near the top of [vsc-install-zig.sh](./etc/vsc-install-zig.sh) to determine the version expected.
+> See the ZIGTAR variable declaration section near the top of [vsc-install-zig.sh](./.devcontainer/vsc-install-zig.sh) to determine the version expected.
 
 To get this dependency setup, download the expected file and place it in the root of the local repo dir.
 
