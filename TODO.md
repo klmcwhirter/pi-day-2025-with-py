@@ -20,18 +20,18 @@
 * [X] Make tests work again
   * [X] document wasmtime dependency and -Dwasi & -fwasmtime options to run tests
 * [x] Add histogram page - select algo: baseline, gosper and sinha_saha, random, ten_digits
-* [!] add Sinha / Saha Python impl
-  * [!] generate zig source module
+* [X] add Sinha / Saha Python impl
+  * [X] generate zig source module
 * [-] ~~add SinhaSaha λ = 10 to 100 to PiAlogorithms - the value of λ is tighly coupled to the number of terms and precision - no good way to do this easily~~
-* [ ] finalize wasm module(s) and/or component(s) needed
-* [ ] test deploy to Raspberry Pi 4b - **ENABLE_TESTS=0 must be set in compose.yml - especially for zigbuild; wasmtime is only available for x86_64**
+* [X] finalize wasm module(s) and/or component(s) needed
+* [-] ~~test deploy to Raspberry Pi 4b - **ENABLE_TESTS=0 must be set in compose.yml - especially for zigbuild; wasmtime is only available for x86_64**~~
 
 
 ## UI Ideas
 * [X] show digits with input from different PiAlgorithms
   * [-] ~~select different values for λ (lambda) parameter - paper says 10 to 100; but is that the correct range for million digits of pi?~~
   * ~~this [Numberphiles video](https://youtu.be/nXexsSWrc1Q?t=672) show values of λ < 10 are more likely to closely approximate pi.~~
-* [X] show histogram with 1_000_000 digits for suuported formula
+* [X] show histogram with 1_000_000 digits for supported formulae
   * [-] ~~for Sinha / Saha series with different values for λ (lambda) parameter~~
 * [X] show comparison of digit accuracy - what should be the source of truth? see pi1000000.txt as baseline
   * [X] pct match in console.log

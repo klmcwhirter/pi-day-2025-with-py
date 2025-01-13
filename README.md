@@ -17,6 +17,16 @@ But the fact that they saw this side-effect of their research into aspects of *s
 
 Good job, men!
 
+### Summary
+
+This project was a crazy amount of fun. I dug deep into many things from WebAssembly, Bluefin and devcontainers, to testing wasm from zig build, to the math involved with the various algorithms to generate digits of π.
+
+I found while profiling the Python code that it is certainly the right language to evaluate these kinds of series with simple syntax. In at least one of them (Gosper's), the individual terms were getting to ~4,000 integer digits long! Wow. I had no idea.
+
+And while I did not get to 1,000,000 digits of π with the Saha / Sinha algorithm, I learned a lot - including pochhammer mark (rising factorial) - something to which I had not been exposed before. A very cool byproduct of physics research, but too computationally complex for me to go much further than a couple thousand digits for a hobby project.
+
+I greatly appreciate the fact that they shared that side-effect of the research they were doing. And I sincerely hope the weird reaction from the press that they experienced will not prevent them from sharing unexpected mathematical advancements in the future. Physicists and mathematicians working together - awesome!
+
 ### [HL Design](./TODO.md)
 * Developed using [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers) on:
 
