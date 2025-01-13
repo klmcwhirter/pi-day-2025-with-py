@@ -55,4 +55,6 @@ jobs:
 
       - name: Run tests
         run: |
+          pwd
+          ls -a
           just test
