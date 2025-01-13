@@ -11,25 +11,44 @@ jobs:
       matrix:
         # See https://github.com/actions/runner-images#available-images
         os: [ubuntu-latest]
-        python-version: ['3.13']
-
+        python-version: ["3.13"]
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: pdm-project/setup-pdm@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-        cache: true
+      - uses: extractions/setup-just@v2
 
-    - name: Install dependencies
-      run: |
-        pdm install
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: true
 
-    - name: Clean environment
-      run: |
-        pdm clean
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          # Install a specific version of uv.
+          version: "0.5.18"
 
-    - name: Test with tox
-      run: |
-        pdm tox
+      - name: Setup zig
+        uses: mlugg/setup-zig@v1
+        with:
+          version: 0.14.0-dev.2571+01081cc8e
+          cache: true
+
+      - name: Setup wasmtime
+        uses: jcbhmr/setup-wasmtime@v2
+        with:
+          wasmtime-version: v28.0.0
+          cache: true
+
+      - name: Install dependencies
+        run: |
+          just create
+
+      - name: Clean environment
+        run: |
+          just clean
+
+      - name: Run tests
+        run: |
+          just test
