@@ -1,0 +1,86 @@
+shell: bash
+
+commands:
+    create:
+        description: Create .venv
+        cmd: uv sync --group dev
+
+    clean:
+        description: Clean build artifacts
+        cmd: |
+            find . -type d -name __pycache__ -exec rm -fr {} \;
+
+            TO_DEL="build .coverage coverage.xml .lets/ log .mypy_cache .pdm-build pi_py.egg-info pi_ui/dist pi_wasm/build pi_wasm/.zig-cache pi_wasm/zig-out __pycache__ .pytest_cache .tox"
+            for d in ${TO_DEL}
+            do
+                echo $d
+                rm -fr $d
+            done
+
+    envclean:
+        description: Clean environment
+        cmd: |
+            TO_DEL="pi_ui/node_modules .venv"
+            for d in ${TO_DEL}
+            do
+                echo $d
+                rm -fr $d
+            done
+
+    allclean:
+        depends: [ clean, envclean ]
+        description: Clean build artifacts and environment
+        cmd: echo
+
+    gitignore:
+        description: generate .gitignore
+        cmd: |
+            source $HOME/.local/.bash.d/gitignore.io
+            gi -s -- python,zig >.gitignore
+            echo -e '\nuv.lock\n.zig-cache/' >>.gitignore
+
+
+    pybuild:
+        cmd: ENABLE_TESTS=0 .devcontainer/vsc-run-pytests.sh
+
+    wasmbuild:
+        cmd: ENABLE_TESTS=0 .devcontainer/vsc-run-zig-tests.sh
+
+    uibuild:
+        cmd: .devcontainer/vsc-build-ui.sh
+
+
+    gen:
+        description: Build wasm & ui; then start ui
+        cmd: uv run python -m pi_py.pi_digits "$@"
+
+    ui:
+        depends: [ pybuild, wasmbuild, uibuild, uistart ]
+        description: Build wasm & ui; then start ui
+
+    uistart:
+        cmd: cd pi_ui && pnpm start
+
+
+    flake8:
+        cmd: uv run flake8 pi_py/
+
+    mypy:
+        cmd: uv run mypy pi_py/
+
+    test:
+        depends: [ pytest, wasmtest ]
+        cmd: echo
+
+    pytest:
+        cmd: ENABLE_TESTS=1 .devcontainer/vsc-run-pytests.sh
+
+    wasmtest:
+        cmd: ENABLE_TESTS=1 .devcontainer/vsc-run-zig-tests.sh
+
+    testcov:
+        description: Produce test coverage xml and term reports
+        cmd: uv run pytest --cov=pi_py --cov-report xml:coverage.xml --cov-report term
+
+    tox:
+        cmd: uv run tox "$@"

@@ -44,16 +44,16 @@ I greatly appreciate the fact that they shared that side-effect of the research 
 
 ### Uses Docker as the only dependency ...
 
-The build and deployment process relies on Docker and a vscode [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers). But those are the only dependencies (aside from an internet connection).
+The build and deployment process relies on Docker and a vscode [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers).
 
-Just **Open Folder in Container** and run `pdm ui` in a terminal. Then open [http://localhost:9000/](http://localhost:9000/) in a browser.
+Just **Open Folder in Container** and run `lets ui` in a terminal. Then open [http://localhost:9000/](http://localhost:9000/) in a browser.
 
 The build process takes a little less than 4 mins on my laptop. So be patient before clicking on the link above.
 
 You will see output like the following when it is done building and is ready for the browser:
 
 ```
-$ pdm ui
+$ lets ui
 ...
 
   VITE v5.4.11  ready in 224 ms
@@ -64,7 +64,7 @@ $ pdm ui
 
 ```
 
-Hit CTRl-C in the terminal where `pdm ui` was executed to exit.
+Hit CTRl-C in the terminal where `lets ui` was executed to exit.
 
 If you have no other docker images that you want to keep then run this to finish the clean up: `docker system prune -af --volumes`.
 
@@ -92,6 +92,10 @@ $ cd ~repo-root-dir~
 $ wget -O zig-linux-x86_64-0.14.0-dev.1588+2111f4c38.tar.xz https://ziglang.org/builds/zig-linux-x86_64-0.14.0-dev.1588+2111f4c38.tar.xz
 ```
 Then, **Rebuild Container**.
+
+## Build Local OCI Image Pre-requisite
+
+Please see [klmcwhirter/oci-shared-images](https://github.com/klmcwhirter/oci-shared-images) for instructions on building the `fedora41-python-dx:latest` image used by the [devcontainer.json](./.devcontainer/devcontainer.json).
 
 ## References
 * [Appendix - Field Theory Expansions of String Theory Amplitudes - journals.aps.org](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.132.221601#d5e8137)

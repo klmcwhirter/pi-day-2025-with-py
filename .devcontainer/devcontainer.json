@@ -1,0 +1,91 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+	"name": "pi-day-2025-with-py",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "fedora41-python-dx:latest",
+	"runArgs": [
+		"--name",
+		"pi-day-2025-with-py"
+	],
+	"containerEnv": {
+		"HOME": "/var/home/klmcw",
+		"TZ": "PST8PDT",
+		"USER": "klmcw"
+	},
+	"mounts": [
+		{
+			"source": "/var/home/klmcw",
+			"target": "/var/home/klmcw",
+			"type": "bind"
+		}
+	],
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [
+		9000
+	],
+	"onCreateCommand": {
+		"start time": "date",
+		"recreate pi_ui/.env": "rm -f pi_ui/.env && touch pi_ui/.env",
+		"install pnpm": ".devcontainer/vsc-install-pnpm.sh",
+		"install wasi / wasmtime": "WASMTIME_VERSION=v28.0.0 WASM_TOOLS_VERSION=1.223.0 .devcontainer/vsc-install-wasmtime-tools.sh",
+		"install zig": ".devcontainer/vsc-install-zig.sh"
+	},
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": {
+		"pwd": "pwd",
+		"uname": "uname -a",
+		"lets version": "lets --version",
+		"node version": "node --version",
+		"pnpm version": "pnpm --version",
+		"python version": "python --version",
+		"uv version": "uv --version",
+		"wasm-tools version": "wasm-tools --version",
+		"wasmtime version": "wasmtime --version",
+		"zig version": "zig version",
+		"zls version": "zls version",
+		// "build & run pytests": "ENABLE_TESTS=1 .devcontainer/vsc-run-pytests.sh",
+		// "build & run zig tests": "ENABLE_TESTS=1 .devcontainer/vsc-run-zig-tests.sh",
+	},
+	// Use 'postStartCommand' to run commands after the container is created.
+	"postStartCommand": {
+		// ".devcontainer/vsc-build-ui.sh",
+		"end time": "date"
+	},
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"dbaeumer.vscode-eslint",
+				"ms-python.flake8",
+				"ms-toolsai.jupyter",
+				"streetsidesoftware.code-spell-checker",
+				"bradlc.vscode-tailwindcss",
+				"dtsvet.vscode-wasm",
+				"redhat.vscode-yaml",
+				"ianic.zig-language-extras",
+				"ziglang.vscode-zig"
+			],
+			"settings": {
+				"[tailwindcss]": {
+					"editor.quickSuggestions": {
+						"strings": "on"
+					}
+				},
+				"files.associations": {
+					"*.css": "tailwindcss"
+				},
+				"python.terminal.activateEnvironment": false,
+				"redhat.telemetry.enabled": false,
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"zig.path": "zig",
+				"zig.zls.enabled": "on",
+				"zig.zls.path": "zls",
+				"zig-language-extras.testArgs": "-Dwasm=true -Dwasi=true"
+			}
+		}
+	},
+	"remoteUser": "klmcw"
+}

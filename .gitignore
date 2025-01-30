@@ -183,6 +183,5 @@ docgen_tmp/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,zig
 
-.devcontainer/
 uv.lock
 .zig-cache/
