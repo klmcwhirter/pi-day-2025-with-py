@@ -40,6 +40,8 @@ I greatly appreciate the fact that they shared that side-effect of the research 
   * show histrograms - Sinha / Saha series, Gosper's Series, Tachus Pi (F. Bellard), BBP, baseline and also (for testing) random digits and ten_digits
   * samples of algorithms are pre-generated and checked in as .zig source files.
 
+> See [with-compose](https://github.com/klmcwhirter/pi-day-2025-with-py/tree/with-compose) for the code before devcontainer was used.
+
 ## Run it
 
 ### Uses Docker as the only dependency ...
