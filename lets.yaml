@@ -30,7 +30,6 @@ commands:
     allclean:
         depends: [ clean, envclean ]
         description: Clean build artifacts and environment
-        cmd: echo
 
     gitignore:
         description: generate .gitignore
@@ -55,7 +54,7 @@ commands:
         cmd: uv run python -m pi_py.pi_digits "$@"
 
     ui:
-        depends: [ pybuild, wasmbuild, uibuild, uistart ]
+        depends: [ allclean, pybuild, wasmbuild, uibuild, uistart ]
         description: Build wasm & ui; then start ui
 
     uistart:
@@ -70,7 +69,6 @@ commands:
 
     test:
         depends: [ pytest, wasmtest ]
-        cmd: echo
 
     pytest:
         cmd: ENABLE_TESTS=1 .devcontainer/vsc-run-pytests.sh

@@ -11,7 +11,7 @@ Celebrate the work done by several people over the years, including Sinha / Saha
 ---
 They never claimed that it was an [earth shattering new way to calculate digits of pi](https://youtu.be/2lvTjEZ-bbw?t=44). And I can tell you it is not. I have struggled to get it to produce 2000 digits in a reasonable amount of time (~25 mins).
 
-But the fact that they saw this side-effect of their research into aspects of *string theory*, in my opinion, brings credence and validation to their work because they recognized this hidden jewel in the formula that was taking shape.
+But the fact that they saw this side-effect of their research into aspects of *string theory* brings credence and validation to their work because they recognized this hidden jewel in the formula that was taking shape. In my opinion, it demonstrates the level of analysis and review was above and beyond.
 
 > And so, this project is dedicated to Aninda Sinha and Arnab Priya Saha for their contribution to our common pursuit of adding to the ways we consume π.
 
@@ -22,6 +22,8 @@ Good job, men!
 This project was a crazy amount of fun. I dug deep into many things from WebAssembly, Bluefin and devcontainers, to testing wasm from zig build, to the math involved with the various algorithms to generate digits of π.
 
 I found while profiling the Python code that it is certainly the right language to evaluate these kinds of series with simple syntax. In at least one of them (Gosper's), the individual terms were getting to ~4,000 integer digits long! Wow. I had no idea.
+
+> I have gained new appreciation for Python's int type.
 
 And while I did not get to 1,000,000 digits of π with the Saha / Sinha algorithm, I learned a lot - including pochhammer mark (rising factorial) - something to which I had not been exposed before. A very cool byproduct of physics research, but too computationally complex for me to go much further than a couple thousand digits for a hobby project.
 
