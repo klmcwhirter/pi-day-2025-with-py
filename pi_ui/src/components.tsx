@@ -205,7 +205,7 @@ export const NavView = (props) => {
 
       <Switch>
         <Match when={state() === AppStateEnum.DIGITS}>
-          <div class='font-semibold'>Select algorithm for which to display digits of pi</div>
+          <div class='mt-2 font-semibold'>Select algorithm for which to display digits of pi</div>
 
           <CmpSelector signal={piState.digitsAlgo} label="Algorithm:" />
 
