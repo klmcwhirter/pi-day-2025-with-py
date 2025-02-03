@@ -39,9 +39,9 @@
 		"uname": "uname -a",
 		"lets version": "lets --version",
 		"node version": "node --version",
+		"pdm version": "pdm --version",
 		"pnpm version": "pnpm --version",
 		"python version": "python --version",
-		"uv version": "uv --version",
 		"wasm-tools version": "wasm-tools --version",
 		"wasmtime version": "wasmtime --version",
 		"zig version": "zig version",
@@ -86,6 +86,9 @@
 				"zig-language-extras.testArgs": "-Dwasm=true -Dwasi=true"
 			}
 		}
+	},
+	"remoteEnv": {
+		"HOSTNAME": "pi-day-2025-with-py"
 	},
 	"remoteUser": "klmcw"
 }

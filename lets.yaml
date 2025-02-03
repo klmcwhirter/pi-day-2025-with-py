@@ -3,7 +3,7 @@ shell: bash
 commands:
     create:
         description: Create .venv
-        cmd: uv sync --group dev
+        cmd: pdm sync --group dev
 
     clean:
         description: Clean build artifacts
@@ -36,7 +36,7 @@ commands:
         cmd: |
             source $HOME/.local/.bash.d/gitignore.io
             gi -s -- python,zig >.gitignore
-            echo -e '\nuv.lock\n.zig-cache/' >>.gitignore
+            echo -e '\n.pdm-python\n.zig-cache/' >>.gitignore
 
 
     pybuild:
@@ -51,7 +51,7 @@ commands:
 
     gen:
         description: Build wasm & ui; then start ui
-        cmd: uv run python -m pi_py.pi_digits "$@"
+        cmd: pdm run python -m pi_py.pi_digits "$@"
 
     ui:
         depends: [ allclean, pybuild, wasmbuild, uibuild, uistart ]
@@ -62,10 +62,10 @@ commands:
 
 
     flake8:
-        cmd: uv run flake8 pi_py/
+        cmd: pdm run flake8 pi_py/
 
     mypy:
-        cmd: uv run mypy pi_py/
+        cmd: pdm run mypy pi_py/
 
     test:
         depends: [ pytest, wasmtest ]
@@ -78,7 +78,7 @@ commands:
 
     testcov:
         description: Produce test coverage xml and term reports
-        cmd: uv run pytest --cov=pi_py --cov-report xml:coverage.xml --cov-report term
+        cmd: pdm run pytest --cov=pi_py --cov-report xml:coverage.xml --cov-report term
 
     tox:
-        cmd: uv run tox "$@"
+        cmd: pdm run tox "$@"

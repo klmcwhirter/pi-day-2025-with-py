@@ -13,11 +13,10 @@ readme = "README.md"
 license = {text = "MIT"}
 
 
-[tool.uv]
-managed = true
-package = false
+[tool.pdm]
+distribution = false
 
-[dependency-groups]
+[tool.pdm.dev-dependencies]
 dev = [
     "autopep8>=2.3.1",
     "flake8>=7.1.1",
@@ -26,6 +25,8 @@ dev = [
     "pytest-cov>=5.0.0",
     "tox>=4.18.0",
 ]
+
+[dependency-groups]
 jupyter = [
     "gmpy2>=2.2.1",
     "ipykernel>=6.29.5",
