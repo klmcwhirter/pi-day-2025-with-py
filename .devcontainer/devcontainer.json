@@ -37,7 +37,6 @@
 	"postCreateCommand": {
 		"pwd": "pwd",
 		"uname": "uname -a",
-		"lets version": "lets --version",
 		"node version": "node --version",
 		"pdm version": "pdm --version",
 		"pnpm version": "pnpm --version",

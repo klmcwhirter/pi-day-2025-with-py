@@ -16,7 +16,7 @@ fi
 
 if [ "$ENABLE_TESTS" = "1" ]
 then
-    echo_eval lets create
+    echo_eval pdm run create
     echo_eval pdm run pytest
     rc=$?
     echo rc=${rc}

@@ -50,14 +50,14 @@ I greatly appreciate the fact that they shared that side-effect of the research 
 
 The build and deployment process relies on Docker and a vscode [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers).
 
-Just **Open Folder in Container** and run `lets ui` in a terminal. Then open [http://localhost:9000/](http://localhost:9000/) in a browser.
+Just **Open Folder in Container** and run `pdm run ui` in a terminal. Then open [http://localhost:9000/](http://localhost:9000/) in a browser.
 
 The build process takes a little less than 4 mins on my laptop. So be patient before clicking on the link above.
 
 You will see output like the following when it is done building and is ready for the browser:
 
 ```
-$ lets ui
+$ pdm run ui
 ...
 
   VITE v5.4.11  ready in 224 ms
@@ -68,7 +68,7 @@ $ lets ui
 
 ```
 
-Hit CTRl-C in the terminal where `lets ui` was executed to exit.
+Hit CTRl-C in the terminal where `pdm run ui` was executed to exit.
 
 If you have no other docker images that you want to keep then run this to finish the clean up: `docker system prune -af --volumes`.
 
