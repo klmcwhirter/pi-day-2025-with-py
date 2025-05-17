@@ -34,7 +34,7 @@ I greatly appreciate the fact that they shared that side-effect of the research 
 
   [![project bluefin](./docs/project-bluefin.svg)](https://projectbluefin.io/)
 * Python use before and during build steps
-* Zig for wasm
+* AssemblyScript for wasm
 * SolidJS for ui
 * 1,000,000 digits of pi
   * visualize digits using color pallete like [pi-day-2024-with-py](https://github.com/klmcwhirter/pi-day-2024-with-py) for any algorithm
@@ -73,33 +73,11 @@ Hit CTRl-C in the terminal where `pdm run ui` was executed to exit.
 If you have no other docker images that you want to keep then run this to finish the clean up: `docker system prune -af --volumes`.
 
 
-> Note that to run tests locally python, zig, wasmtime and pnpm also need to be installed. Installation of all dependencies is automated in the devcontainer, however.
-
-### Wasmtime Dependency for zig Tests
-
-In order to enable running tests from x86_64.wasm.* targets, zig now utilizes the bytecodealliance's [`wasmtime`](https://github.com/bytecodealliance/wasmtime).
-
-> Note that version v18+ of wasmtime is required to integrate with zig. And because of that a nightly 0.14 build of zig is required. All of this is automated in the `devcontainer`.
-
-### Temporary Local zig Dependency
-The ziglang project is moving towards a [cap on download frequency in an effort to reduce their infrastructure costs](https://ziglang.org/news/migrate-to-self-hosting/).
-
-In order to help with this, I have moved the devcontainer logic to use a local copy of zig-linux-x86_64-0.14.0-dev.*.tar.gz file.
-_This temporary local dependency will be removed once 0.14.0 is officially released._
-
-> See the ZIGTAR variable declaration section near the top of [vsc-install-zig.sh](./.devcontainer/vsc-install-zig.sh) to determine the version expected.
-
-To get this dependency setup, download the expected file and place it in the root of the local repo dir.
-
-```
-$ cd ~repo-root-dir~
-$ wget -O zig-linux-x86_64-0.14.0-dev.1588+2111f4c38.tar.xz https://ziglang.org/builds/zig-linux-x86_64-0.14.0-dev.1588+2111f4c38.tar.xz
-```
-Then, **Rebuild Container**.
+> Note that to run tests locally python, assemblyscript and pnpm also need to be installed. Installation of all dependencies is automated in the devcontainer, however.
 
 ## Build Local OCI Image Pre-requisite
 
-Please see [klmcwhirter/oci-shared-images](https://github.com/klmcwhirter/oci-shared-images) for instructions on building the `fedora41-python-dx:latest` image used by the [devcontainer.json](./.devcontainer/devcontainer.json).
+Please see [klmcwhirter/oci-shared-images](https://github.com/klmcwhirter/oci-shared-images) for instructions on building the `fedora-python-dx:latest` image used by the [devcontainer.json](./.devcontainer/devcontainer.json).
 
 ## References
 * [Appendix - Field Theory Expansions of String Theory Amplitudes - journals.aps.org](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.132.221601#d5e8137)
@@ -114,5 +92,5 @@ Please see [klmcwhirter/oci-shared-images](https://github.com/klmcwhirter/oci-sh
 * [Wolfram MathWorld Pi Formulas](https://mathworld.wolfram.com/PiFormulas.html) - about a hundred (I didn't count them) formulas documented
 
 ## Tech References
-* [Compiling Python to Native Wasm](https://youtu.be/_Gq273qvNMg) using [wasmer.io py2wasm](https://wasmer.io/posts/py2wasm-a-python-to-wasm-compiler) - still produces large wasm files & requires Python 3.11 (not 3.12+) - **wait for 3.12 support**
+* [Compiling Python to Native Wasm](https://youtu.be/_Gq273qvNMg) using [wasmer.io py2wasm](https://wasmer.io/posts/py2wasm-a-python-to-wasm-compiler) - still produces large wasm files & requires Python 3.11 (not 3.12+) - **wait for at least 3.12 support**
 * [MDN Web - Canvas API Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial)

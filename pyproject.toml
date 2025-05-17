@@ -40,7 +40,7 @@ jupyter = [
 [tool.pdm.scripts]
 create.shell = "pdm sync --dev"
 clean.shell = "find . -type d -name __pycache__ -exec rm -fr {} \\;;for d in ${TO_DEL};do echo $d;rm -fr $d;done"
-clean.env = { TO_DEL = "build .coverage coverage.xml log .mypy_cache .pdm-build pi_py.egg-info pi_ui/dist pi_wasm/build pi_wasm/.zig-cache pi_wasm/zig-out __pycache__ .pytest_cache .tox" }
+clean.env = { TO_DEL = "build .coverage coverage.xml log .mypy_cache .pdm-build pi_py.egg-info pi_ui/dist pi_ui/src/pi-wasm pi_wasm/build __pycache__ .pytest_cache .tox" }
 clean.help = "Clean build artifacts"
 envclean.shell = "for d in ${TO_DEL};do echo $d;rm -fr $d;done"
 envclean.env = { TO_DEL = "pi_ui/node_modules .venv" }
@@ -49,12 +49,12 @@ allclean.composite = [ "clean", "envclean" ]
 allclean.help = "Clean build artifacts and environment"
 
 _pybuild.shell = "ENABLE_TESTS=0 .devcontainer/vsc-run-pytests.sh"
-_wasmbuild.shell = "ENABLE_TESTS=0 .devcontainer/vsc-run-zig-tests.sh"
+_wasmbuild.shell = "ENABLE_TESTS=1 .devcontainer/vsc-run-wasm-tests.sh"
 _uibuild.shell = ".devcontainer/vsc-build-ui.sh"
 _uistart.shell = "cd pi_ui && pnpm start"
 
 gen.cmd = "python -m pi_py.pi_digits"
-gen.help = "Build wasm & ui; then start ui"
+gen.help = "generate digits of pi"
 
 ui.composite = [ "_pybuild", "_wasmbuild", "_uibuild", "_uistart" ]
 ui.help = "Build wasm & ui; then start ui"
@@ -64,7 +64,7 @@ flake8 = "flake8 pi_py/"
 mypy = "mypy pi_py/"
 
 _pytest.shell = "ENABLE_TESTS=1 .devcontainer/vsc-run-pytests.sh"
-_wasmtest.shell = "ENABLE_TESTS=1 .devcontainer/vsc-run-zig-tests.sh"
+_wasmtest.shell = "ENABLE_TESTS=1 .devcontainer/vsc-run-wasm-tests.sh"
 test.composite = [ "_pytest", "_wasmtest" ]
 
 testcov.cmd = "pytest --cov=pi_py --cov-report xml:coverage.xml --cov-report term"

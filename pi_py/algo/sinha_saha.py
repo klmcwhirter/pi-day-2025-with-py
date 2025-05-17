@@ -10,7 +10,7 @@ from pi_py.algo.decorator import PiAlgoGenerator, pi_digits_generator
 from pi_py.algo.mpmath_executor import mpmath_generator_executor
 
 N_TERMS = [8_501, 5_000, 2_300][1]
-λ_VAL = 575  # DO NOT rename this until no longer using sympy
+λ_VAL = 575
 PREC = [2_000, 711, 500][1]
 
 

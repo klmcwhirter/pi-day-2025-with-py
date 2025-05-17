@@ -1,6 +1,6 @@
 from itertools import islice
 
-from pi_py.pi_1000000 import read_digits
+from pi_py.algo.from_file import read_digits
 
 
 class TimeoutException(Exception):

@@ -23,6 +23,8 @@ def bbp(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGenerator:
     '''From https://stackoverflow.com/a/28285228
         Also, https://en.wikipedia.org/wiki/Bailey%E2%80%93Borwein%E2%80%93Plouffe_formula
         https://mathworld.wolfram.com/BBPFormula.html
+
+        executes in about 00:06:30
     '''
 
     return mpmath_generator_executor(terms_worker_func=bbp_term, num_digits=num_digits+10, start=0, terms=max(10_000, terms), collector=mp.fsum)

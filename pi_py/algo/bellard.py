@@ -30,7 +30,7 @@ def _collector(results: list[mpf_type]) -> mpf_type:
 
 @pi_digits_generator
 def bellard(*, num_digits: int, terms: int, **kwargs) -> PiAlgoGenerator:
-    '''From https://en.wikipedia.org/wiki/Bellard%27s_formula'''
+    '''From https://en.wikipedia.org/wiki/Bellard%27s_formula - executes in about 00:04:20'''
 
     return mpmath_generator_executor(terms_worker_func=bellard_term, num_digits=num_digits+10, start=0, terms=max(100_000, terms), collector=_collector)
 

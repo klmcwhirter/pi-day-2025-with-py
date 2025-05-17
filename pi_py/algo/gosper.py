@@ -4,19 +4,23 @@ import math
 
 from pi_py.algo.decorator import PiAlgoGenerator, pi_digits_generator
 
-max_len = {
-    'q': (0, 0),
-    'r': (0, 0),
-    't': (0, 0),
-    'i': (0, 0),
-}
+PERF = False
 
+if PERF:
+    max_len = {
+        'q': (0, 0),
+        'r': (0, 0),
+        't': (0, 0),
+        'i': (0, 0),
+    }
 
-def _update_max_len(q: int, r: int, t: int, i: int, n: int):
-    for v, k in zip([q, r, t, i], ['q', 'r', 't', 'i']):
-        l: int = int(math.log10(v)) + 1
-        if l > max_len[k][0]:
-            max_len[k] = (l, n)
+if PERF:
+    def _update_max_len(q: int, r: int, t: int, i: int, n: int):
+        for v, k in zip([q, r, t, i], ['q', 'r', 't', 'i']):
+            l: int = int(math.log10(v)) + 1
+
+            if l > max_len[k][0]:
+                max_len[k] = (l, n)
 
 
 @pi_digits_generator

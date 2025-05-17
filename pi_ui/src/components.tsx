@@ -78,7 +78,7 @@ export const Header = () => {
       <img src='./pi.svg' class='mr-12 inline w-6' />
 
       <h1 class='inline fill-green-300 text-center align-middle text-xl font-semibold text-green-300'>
-        Welcome to Pi Day 2025 with Python, Zig (WASM) and SolidJS !
+        Welcome to Pi Day 2025 with Python, AssemblyScript (WASM) and SolidJS !
       </h1>
 
       <div class='w-18 float-right m-0 mr-4 inline aspect-square h-auto align-middle'>
@@ -182,7 +182,7 @@ export const NavView = (props) => {
           {(s) => (
             <li class='m-1 p-2 inline-block'>
               <button
-                disabled={!piState.pi_baseline_uint8arr}
+                disabled={!piState.stateInitialized}
                 class='hover:disabled::cursor-auto m-2 block p-2 rounded-lg bg-emerald-50 text-lg text-blue-700
                 hover:cursor-pointer hover:rounded-lg hover:bg-emerald-700 hover:font-bold
                 hover:text-white disabled:rounded-lg disabled:bg-stone-300 disabled:text-stone-700'
@@ -251,15 +251,16 @@ export const PiDigitsHistogram = (props) => {
     logJS(`PiDigitsHistogram.fetchHistogram: algo=${algo}`);
 
     const rc = new Promise<HistogramValues>((resolve) => {
-      const [pi, pi_len] = piState.dataFromAlgo(algo);
-      const numbers: number[] = piState.histogram(pi, pi_len);
-      logJS(`PiDigitsHistogram.fetchHistogram: numbers=${numbers}`);
+      const pi = piState.dataFromAlgo(algo);
+      logJS(`pi length for ${algo} = ${pi.length}`);
+      const numbers: number[] = piState.histogram(pi);
+      logJS(`PiDigitsHistogram.fetchHistogram: numbers=${numbers}, sum=${numbers.reduce((accumulator, currentValue) => accumulator + currentValue, 0)}`);
 
       const items: HistogramItemValues[] = numbers.map(
         (v: number, i: number): HistogramItemValues =>
           new HistogramItemValues(i, v, pi_palette[i], pi_shadow_palette[i]),
       );
-      const hv = new HistogramValues(algo, pi_len, items);
+      const hv = new HistogramValues(algo, pi.length, items);
       resolve(hv);
     });
 

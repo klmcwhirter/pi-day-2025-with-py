@@ -29,24 +29,19 @@
 	"onCreateCommand": {
 		"start time": "date",
 		"recreate pi_ui/.env": "rm -f pi_ui/.env && touch pi_ui/.env",
-		"install pnpm": ".devcontainer/vsc-install-pnpm.sh",
-		"install wasi / wasmtime": ".devcontainer/vsc-install-wasmtime-tools.sh",
-		"install zig": ".devcontainer/vsc-install-zig.sh"
+		"install pnpm": ".devcontainer/vsc-install-pnpm.sh"
 	},
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": {
 		"pwd": "pwd",
 		"uname": "uname -a",
+		// "asc version": "pdm asc-version",
 		"node version": "node --version",
 		"pdm version": "pdm --version",
 		"pnpm version": "pnpm --version",
-		"python version": "python --version",
-		"wasm-tools version": "wasm-tools --version",
-		"wasmtime version": "wasmtime --version",
-		"zig version": "zig version",
-		"zls version": "zls version",
+		"python version": "python --version"
 		// "build & run pytests": "ENABLE_TESTS=1 .devcontainer/vsc-run-pytests.sh",
-		// "build & run zig tests": "ENABLE_TESTS=1 .devcontainer/vsc-run-zig-tests.sh",
+		// "build & run wasm tests": "ENABLE_TESTS=1 .devcontainer/vsc-run-wasm-tests.sh",
 	},
 	// Use 'postStartCommand' to run commands after the container is created.
 	"postStartCommand": {
@@ -58,14 +53,14 @@
 		"vscode": {
 			"extensions": [
 				"dbaeumer.vscode-eslint",
+				"ms-python.autopep8",
 				"ms-python.flake8",
+				"ms-python.isort",
 				"ms-toolsai.jupyter",
 				"streetsidesoftware.code-spell-checker",
 				"bradlc.vscode-tailwindcss",
 				"dtsvet.vscode-wasm",
-				"redhat.vscode-yaml",
-				"ianic.zig-language-extras",
-				"ziglang.vscode-zig"
+				"redhat.vscode-yaml"
 			],
 			"settings": {
 				"[tailwindcss]": {
@@ -78,11 +73,7 @@
 				},
 				"python.terminal.activateEnvironment": false,
 				"redhat.telemetry.enabled": false,
-				"terminal.integrated.defaultProfile.linux": "bash",
-				"zig.path": "zig",
-				"zig.zls.enabled": "on",
-				"zig.zls.path": "zls",
-				"zig-language-extras.testArgs": "-Dwasm=true -Dwasi=true"
+				"terminal.integrated.defaultProfile.linux": "bash"
 			}
 		}
 	},

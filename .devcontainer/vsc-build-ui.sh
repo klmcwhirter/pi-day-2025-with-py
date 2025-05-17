@@ -16,12 +16,14 @@ rc=$?
 echo rc=${rc}
 [ $rc -ne 0 ] && exit $rc
 
-echo_eval pnpm run build
+echo_eval mkdir -p ./src/pi-wasm
+
+echo_eval cp ../pi_wasm/build/{pi-wasm-tester.mjs,pi-wasm.d.ts,pi-wasm.js,pi-wasm.wasm,pi-wasm.wasm.map,pi-wasm.wat,utils.mjs} ./src/pi-wasm/
 rc=$?
 echo rc=${rc}
 [ $rc -ne 0 ] && exit $rc
 
-echo_eval cp ../pi_wasm/zig-out/bin/* dist/
+echo_eval pnpm run build
 rc=$?
 echo rc=${rc}
 [ $rc -ne 0 ] && exit $rc

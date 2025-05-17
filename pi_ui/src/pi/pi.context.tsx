@@ -10,14 +10,13 @@ export const PiAlgorithms = {
   'Gosper': 'Gosper',
   'Sinha_Saha': 'Sinha_Saha',
   'Tachus_Pi': 'Tachus_Pi',  // From https://bellard.org/pi/pi2700e9/index.html
-  'Random': 'Random',
   'Ten_Digits': 'Ten_Digits',
 };
 
 export class PiState {
-  public pi_cmp_digits;
+  public cmp_digits;
   public map_colors;
-  public histogram_wasm: (pi: number, n: number) => number;
+  public histogram_wasm: (pi: number[]) => number[];
 
   public version = [];
   public stateInitialized: Accessor<boolean>;
@@ -28,26 +27,13 @@ export class PiState {
   public histoAlgo: Signal<string>;
   public digitsAlgo: Signal<string>;
 
-  public pi_baseline;
-  public pi_baseline_len;
-  public pi_baseline_uint8arr: Uint8Array = new Uint8Array();
-  public pi_bbp;
-  public pi_bbp_len;
-  public pi_bellard;
-  public pi_bellard_len;
-  public pi_gosper;
-  public pi_gosper_len;
-  public pi_random;
-  public pi_random_len;
-  public pi_sinha_saha;
-  public pi_sinha_saha_len;
-  public pi_ten_digits;
-  public pi_ten_digits_len;
-  public tachus_pi;
-  public tachus_pi_len;
-  public alloc;
-  public free;
-  public memory;
+  public pi_baseline: () => number[];
+  public pi_bbp: () => number[];
+  public pi_bellard: () => number[];
+  public pi_gosper: () => number[];
+  public pi_sinha_saha: () => number[];
+  public pi_ten_digits: () => number[];
+  public pi_tachus: () => number[];
 
   constructor() {
     this.cmpSource = createSignal(PiAlgorithms.Baseline);
@@ -67,33 +53,20 @@ export class PiState {
     await loadWasm()
       .then((rc: WasmLoadResult) => {
         this.pi_baseline = rc.pi_baseline;
-        this.pi_baseline_len = rc.pi_baseline_len;
-        this.pi_baseline_uint8arr = rc.pi_baseline_uint8arr;
         this.pi_bbp = rc.pi_bbp;
-        this.pi_bbp_len = rc.pi_bbp_len;
         this.pi_bellard = rc.pi_bellard;
-        this.pi_bellard_len = rc.pi_bellard_len;
         this.pi_gosper = rc.pi_gosper;
-        this.pi_gosper_len = rc.pi_gosper_len;
-        this.pi_random = rc.pi_random;
-        this.pi_random_len = rc.pi_random_len;
         this.pi_sinha_saha = rc.pi_sinha_saha;
-        this.pi_sinha_saha_len = rc.pi_sinha_saha_len;
         this.pi_ten_digits = rc.pi_ten_digits;
-        this.pi_ten_digits_len = rc.pi_ten_digits_len;
-        this.tachus_pi = rc.tachus_pi;
-        this.tachus_pi_len = rc.tachus_pi_len;
-        this.pi_cmp_digits = rc.pi_cmp_digits;
-        this.map_colors = rc.map_colors;
+        this.pi_tachus = rc.pi_tachus;
+
+        this.cmp_digits = rc.cmp_digits;
         this.histogram_wasm = rc.histogram;
+        this.map_colors = rc.map_colors;
 
         const pythonVer = import.meta.env.VITE_PYTHON_VER || '3.12.*';
         const solidjsVer = import.meta.env.VITE_SOLIDJS_VER || '1.8.*';
-        this.version = [rc.zig_version, `solidjs: ${solidjsVer}`, `python: ${pythonVer}`];
-
-        this.alloc = rc.alloc;
-        this.free = rc.free;
-        this.memory = rc.memory;
+        this.version = [rc.as_version(), `solidjs: ${solidjsVer}`, `python: ${pythonVer}`];
 
         // Use setTimeout(..., 0) to make sure page has rendered
         setTimeout(() => setStateInitialized(true), 0);
@@ -107,31 +80,22 @@ export class PiState {
     logJS(`PiState.dataFromAlgo: algo=${algo}`);
 
     const piMap = {
-      [PiAlgorithms.Baseline]: [this.pi_baseline, this.pi_baseline_len],
-      [PiAlgorithms.BBP]: [this.pi_bbp, this.pi_bbp_len],
-      [PiAlgorithms.Bellard]: [this.pi_bellard, this.pi_bellard_len],
-      [PiAlgorithms.Gosper]: [this.pi_gosper, this.pi_gosper_len],
-      [PiAlgorithms.Random]: [this.pi_random, this.pi_random_len],
-      [PiAlgorithms.Sinha_Saha]: [this.pi_sinha_saha, this.pi_sinha_saha_len],
-      [PiAlgorithms.Ten_Digits]: [this.pi_ten_digits, this.pi_ten_digits_len],
-      [PiAlgorithms.Tachus_Pi]: [this.tachus_pi, this.tachus_pi_len],
+      [PiAlgorithms.Baseline]: this.pi_baseline,
+      [PiAlgorithms.BBP]: this.pi_bbp,
+      [PiAlgorithms.Bellard]: this.pi_bellard,
+      [PiAlgorithms.Gosper]: this.pi_gosper,
+      [PiAlgorithms.Sinha_Saha]: this.pi_sinha_saha,
+      [PiAlgorithms.Ten_Digits]: this.pi_ten_digits,
+      [PiAlgorithms.Tachus_Pi]: this.pi_tachus,
     };
 
-    let [ptr, len] = piMap[algo];
-    if (algo === PiAlgorithms.Random) {
-      // generate a new random set of digits each time - note this currently takes 5 secs
-      ptr = this.pi_random();
-    }
-
-    const rc = Object.keys(piMap).includes(algo) ? [ptr, len] : [this.pi_baseline, this.pi_baseline_len];
+    const rc = Object.keys(piMap).includes(algo) ? piMap[algo]() : [];
     logJS(`PiState.dataFromAlgo: rc=${rc}`);
     return rc;
   }
 
-  histogram(pi: number, n: number): number[] {
-    const rc_wasm_ptr = this.histogram_wasm(pi, n);
-    const rc: number[] = [...new Int32Array(this.memory.buffer, rc_wasm_ptr, 10)];
-    this.free(rc_wasm_ptr, 10);
+  histogram(pi: number[]): number[] {
+    const rc = this.histogram_wasm(pi);
     return rc;
   }
 }

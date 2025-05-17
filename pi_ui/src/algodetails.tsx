@@ -80,19 +80,6 @@ const algo_map = {
       </p>
     </li >
   ),
-  [PiAlgorithms.Random]: (
-    <li class='mt-2'>
-      <p>
-        <span class='text-md ml-2 bg-emerald-100 p-1 not-italic text-purple-700'>
-          &pi;
-        </span>
-        <span class='rounded-md p-2 font-semibold'>
-          Random
-        </span>{' '}
-        <span>- a million random digits 0 - 9.</span>
-      </p>
-    </li>
-  ),
   [PiAlgorithms.Ten_Digits]: (
     <li class='mt-2'>
       <p>
@@ -123,19 +110,9 @@ export const AlgorithmDetails = () => {
         </ul>
         {/* <p class='m-2 font-semibold'>For testing comparison ...</p> */}
         <ul>
-          {algo_map[PiAlgorithms.Random]}
           {algo_map[PiAlgorithms.Ten_Digits]}
         </ul>
       </div>
-{/* 
-      <div class='m-2 rounded-lg bg-emerald-100 p-2 text-left text-sm italic text-emerald-600 shadow-inner shadow-stone-400'>
-        <p class='m-2 font-semibold'>For testing comparison ...</p>
-
-        <ul>
-          {algo_map[PiAlgorithms.Random]}
-          {algo_map[PiAlgorithms.Ten_Digits]}
-        </ul>
-      </div> */}
     </>
   );
 };

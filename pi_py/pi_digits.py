@@ -15,20 +15,20 @@ def main() -> None:
     #
     # pre-generate these - gosper takes ~3 hrs for 1_000_000 digits!
     #
-    # pdm run python -m pi_py.pi_1000000 pi_wasm/src/pi_digits/pi_1000000.zig
-    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_bbp.zig bbp 1_000_000
-    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_bellard.zig bellard 1_000_000 350_000
-    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_gosper.zig gosper
-    # pdm run python -m pi_py.pi_digits pi_wasm/src/pi_digits/pi_sinha_saha.zig sinha_saha 711 5_000
+    # pdm gen pi_wasm/assembly/pi-digits/pi_baseline.ts baseline
+    # pdm gen pi_wasm/assembly/pi-digits/pi_bbp.ts bbp 1_000_000
+    # pdm gen pi_wasm/assembly/pi-digits/pi_bellard.ts bellard 1_000_000 350_000
+    # pdm gen pi_wasm/assembly/pi-digits/pi_gosper.ts gosper
+    # pdm gen pi_wasm/assembly/pi-digits/pi_sinha_saha.ts sinha_saha 711 5_000
 
     if len(sys.argv) < 3:
         print('''Usage: python -m pi_py.pi_digits filename.ext generator [num_digits] [terms]
               where
-              generator is one of bbp, bellard, gosper, madhava or sinha_saha
+              generator is one of baseline, bbp, bellard, gosper, madhava, sinha_saha, tachus
               ext is one of go, js, py, ts, zig''')
         sys.exit(1)
 
-    num_digits = int(sys.argv[3]) if len(sys.argv) > 3 else 50_000
+    num_digits = int(sys.argv[3]) if len(sys.argv) > 3 else 1_000_000
     terms = int(sys.argv[4]) if len(sys.argv) > 4 else num_digits
 
     algo = sys.argv[2]
