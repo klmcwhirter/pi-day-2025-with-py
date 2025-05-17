@@ -39,57 +39,57 @@ test "baseline should have len 1_000_000" {
     try testing.expect(pi_1000000_seed.len == pi_baseline_len());
 }
 
-pub export fn pi_bbp() [*]const u8 {
-    return pi_bbp_seed.ptr;
-}
+// pub export fn pi_bbp() [*]const u8 {
+//     return pi_bbp_seed.ptr;
+// }
 
-pub export fn pi_bbp_len() usize {
-    return pi_bbp_seed.len;
-}
+// pub export fn pi_bbp_len() usize {
+//     return pi_bbp_seed.len;
+// }
 
-test "bbp should have len 1_000_000" {
-    try testing.expect(1000000 == pi_bbp_seed.len);
-    try testing.expect(pi_bbp_seed.len == pi_bbp_len());
-}
+// test "bbp should have len 1_000_000" {
+//     try testing.expect(1000000 == pi_bbp_seed.len);
+//     try testing.expect(pi_bbp_seed.len == pi_bbp_len());
+// }
 
-pub export fn pi_bellard() [*]const u8 {
-    return pi_bellard_seed.ptr;
-}
+// pub export fn pi_bellard() [*]const u8 {
+//     return pi_bellard_seed.ptr;
+// }
 
-pub export fn pi_bellard_len() usize {
-    return pi_bellard_seed.len;
-}
+// pub export fn pi_bellard_len() usize {
+//     return pi_bellard_seed.len;
+// }
 
-test "bellard should have len 1_000_000" {
-    try testing.expect(1000000 == pi_bellard_seed.len);
-    try testing.expect(pi_bellard_seed.len == pi_bellard_len());
-}
+// test "bellard should have len 1_000_000" {
+//     try testing.expect(1000000 == pi_bellard_seed.len);
+//     try testing.expect(pi_bellard_seed.len == pi_bellard_len());
+// }
 
-pub export fn pi_gosper() [*]const u8 {
-    return pi_gosper_seed.ptr;
-}
+// pub export fn pi_gosper() [*]const u8 {
+//     return pi_gosper_seed.ptr;
+// }
 
-pub export fn pi_gosper_len() usize {
-    return pi_gosper_seed.len;
-}
+// pub export fn pi_gosper_len() usize {
+//     return pi_gosper_seed.len;
+// }
 
-test "gosper should have len 1_000_000" {
-    try testing.expect(1000000 == pi_gosper_seed.len);
-    try testing.expect(pi_gosper_seed.len == pi_gosper_len());
-}
+// test "gosper should have len 1_000_000" {
+//     try testing.expect(1000000 == pi_gosper_seed.len);
+//     try testing.expect(pi_gosper_seed.len == pi_gosper_len());
+// }
 
-pub export fn pi_sinha_saha() [*]const u8 {
-    return pi_sinha_saha_seed.ptr;
-}
+// pub export fn pi_sinha_saha() [*]const u8 {
+//     return pi_sinha_saha_seed.ptr;
+// }
 
-pub export fn pi_sinha_saha_len() usize {
-    return pi_sinha_saha_seed.len;
-}
+// pub export fn pi_sinha_saha_len() usize {
+//     return pi_sinha_saha_seed.len;
+// }
 
-test "sinha_saha should have len 2000 - TODO 1_000_000 some day maybe" {
-    try testing.expect(2000 == pi_sinha_saha_seed.len);
-    try testing.expect(pi_sinha_saha_seed.len == pi_sinha_saha_len());
-}
+// test "sinha_saha should have len 2000 - TODO 1_000_000 some day maybe" {
+//     try testing.expect(2000 == pi_sinha_saha_seed.len);
+//     try testing.expect(pi_sinha_saha_seed.len == pi_sinha_saha_len());
+// }
 
 pub export fn pi_ten_digits() [*]const u8 {
     return pi_ten_digits_seed.ptr;
@@ -104,18 +104,18 @@ test "ten_digits should have len 10" {
     try testing.expect(pi_ten_digits_seed.len == pi_ten_digits_len());
 }
 
-pub export fn tachus_pi() [*]const u8 {
-    return tpi_1000000_seed.ptr;
-}
+// pub export fn pi_tachus() [*]const u8 {
+//     return tpi_1000000_seed.ptr;
+// }
 
-pub export fn tachus_pi_len() usize {
-    return tpi_1000000_seed.len;
-}
+// pub export fn pi_tachus_len() usize {
+//     return tpi_1000000_seed.len;
+// }
 
-test "tachus_pi should have len 1_000_000" {
-    try testing.expect(1000000 == tpi_1000000_seed.len);
-    try testing.expect(tpi_1000000_seed.len == tachus_pi_len());
-}
+// test "tachus_pi should have len 1_000_000" {
+//     try testing.expect(1000000 == tpi_1000000_seed.len);
+//     try testing.expect(tpi_1000000_seed.len == pi_tachus_len());
+// }
 
 pub var pi_random_array: []u8 = undefined;
 pub export fn pi_random() [*]const u8 {

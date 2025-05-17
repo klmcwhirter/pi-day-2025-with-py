@@ -10,20 +10,20 @@ const pallete_from_id = pi_digits.pallete_from_id;
 // var for tests
 var allocator = runtime.allocator;
 
-/// Compares digits strictly from `src` for `src_len` elements.
+/// Compares digits _strictly_ from `src` for `src_len` elements.
 /// Returns a ptr to an array of `src_len` of `u8` containing 1 or 0 representing equality
 /// for the element in that position of `src`.
 /// If `other_len` < `src_len` all elements after `other_len` will be considered not equal
 /// and contain 0 in the resulting array.
 /// If `other_len` > `src_len` the elements above `src_len` are not considered. This is done
 /// by design so that the return value can be depended on to have size `src_len`.
-pub export fn pi_cmp_digits(src: [*]u8, src_len: u32, other: [*]u8, other_len: u32) [*]u8 {
-    logToConsole("pi_cmp_digits ... starting", .{});
+pub export fn fn_cmp_digits(src: [*]u8, src_len: u32, other: [*]u8, other_len: u32) [*]u8 {
+    logToConsole("fn_cmp_digits ... starting", .{});
 
     const src_len_usize: usize = @intCast(src_len);
     const other_len_usize: usize = @intCast(other_len);
 
-    // logConsole("pi_cmp_digits: src_len={}, src_len_usize={d}", .{ src_len, src_len_usize });
+    // logConsole("fn_cmp_digits: src_len={}, src_len_usize={d}", .{ src_len, src_len_usize });
 
     const rc = allocator.alloc(u8, src_len_usize) catch { // last element is % match
         @panic("OutOfMemory");
@@ -45,14 +45,14 @@ pub export fn pi_cmp_digits(src: [*]u8, src_len: u32, other: [*]u8, other_len: u
         rc[i] = val;
     }
 
-    logToConsole("pi_cmp_digits ... done", .{});
+    logToConsole("fn_cmp_digits ... done", .{});
 
     return rc.ptr;
 }
 
 /// The return value can be depended on to have size `src_len`.
-pub export fn map_colors(src: [*]const u8, src_len: u32, pallete_id: u8) [*][3]u8 {
-    logToConsole("map_colors ... starting", .{});
+pub export fn fn_map_colors(src: [*]const u8, src_len: u32, pallete_id: u8) [*][3]u8 {
+    logToConsole("fn_map_colors ... starting", .{});
 
     const src_len_usize: usize = @intCast(src_len * 3); // [3]u8
 
@@ -62,7 +62,7 @@ pub export fn map_colors(src: [*]const u8, src_len: u32, pallete_id: u8) [*][3]u
 
     @memset(rc, [3]u8{ 0, 0, 0 });
 
-    // logConsole("map_colors: rc={d}", .{rc});
+    // logConsole("fn_map_colors: rc={d}", .{rc});
 
     const slice_src = src[0..src_len_usize];
     const pallete = pallete_from_id(pallete_id);
@@ -71,9 +71,9 @@ pub export fn map_colors(src: [*]const u8, src_len: u32, pallete_id: u8) [*][3]u
         rc[i] = pallete[d];
     }
 
-    // logConsole("map_colors: after mapping rc={d}", .{rc});
+    // logConsole("fn_map_colors: after mapping rc={d}", .{rc});
 
-    logToConsole("map_colors ... done", .{});
+    logToConsole("fn_map_colors ... done", .{});
 
     return rc.ptr;
 }

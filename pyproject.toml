@@ -56,7 +56,7 @@ _uistart.shell = "cd pi_ui && pnpm start"
 gen.cmd = "python -m pi_py.pi_digits"
 gen.help = "Build wasm & ui; then start ui"
 
-ui.composite = [ "allclean", "_pybuild", "_wasmbuild", "_uibuild", "_uistart" ]
+ui.composite = [ "_pybuild", "_wasmbuild", "_uibuild", "_uistart" ]
 ui.help = "Build wasm & ui; then start ui"
 
 

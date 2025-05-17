@@ -6,8 +6,8 @@ const logToConsole = @import("../wasm_runtime.zig").logToConsole;
 
 /// calculate histogram based on the presence of digits 0-9 in pi.
 /// number is the N digits to consider in pi (sample size from left)
-pub export fn histogram(pi: [*]u8, number: i32) [*]i32 {
-    logToConsole("histogram(pi={*}, number={d}) ... starting", .{ pi, number });
+pub export fn fn_histogram(pi: [*]u8, number: i32) [*]i32 {
+    logToConsole("fn_histogram(pi, number={d}) ... starting", .{ number });
     const array_len: usize = 10;
     const upper: usize = @intCast(number);
 
@@ -18,7 +18,7 @@ pub export fn histogram(pi: [*]u8, number: i32) [*]i32 {
 
         // ** And I cannot return the err - i.e., return type ![*]i32
         //   ... not allowed in function with calling convention 'C'
-        //     pub export fn histogram(number: i32) ![*]i32 {
+        //     pub export fn fn_histogram(number: i32) ![*]i32 {
         //                                           ~^~~~~
         // ** cannot return null or @ptrFromInt(0) - this would be ideal
         //     src/histo.zig:29:17: error: expected type '[*]i32', found '@TypeOf(null)'
@@ -29,7 +29,7 @@ pub export fn histogram(pi: [*]u8, number: i32) [*]i32 {
 
         // ** So ... crash the wasm runtime in the browser process
 
-        @panic("OutOfMemory");
+        @panic("slice_of_pi OutOfMemory");
     };
 
     // Make sure the memory allocated is zeroed out before beginning to increment.
@@ -41,7 +41,7 @@ pub export fn histogram(pi: [*]u8, number: i32) [*]i32 {
     // Increment the histogram for each of the digits in our slice_of_pi ;)
     for (slice_of_pi) |d| slice[d] += 1;
 
-    logToConsole("histogram(pi={*}, number={d}) ... done", .{ pi, number });
+    logToConsole("fn_histogram(pi, number={d}) ... done", .{ number });
 
     const rc: [*]i32 = @ptrCast(slice);
     return rc;
@@ -58,7 +58,7 @@ test "histograms forms correct result" {
     const expected_seed = [_]i32{ 0, 2, 1, 2, 1, 2, 1, 0, 0, 1 };
     const expected: []const i32 = expected_seed[0..ten];
 
-    var rc = histogram(pi_ptr, number);
+    var rc = fn_histogram(pi_ptr, number);
     defer allocator.free(rc[0..ten]);
 
     const slice: []const i32 = rc[0..ten];

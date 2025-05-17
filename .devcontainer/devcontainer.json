@@ -3,7 +3,7 @@
 {
 	"name": "pi-day-2025-with-py",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "fedora41-python-dx:latest",
+	"image": "fedora-python-dx:latest",
 	"runArgs": [
 		"--name",
 		"pi-day-2025-with-py"
@@ -30,7 +30,7 @@
 		"start time": "date",
 		"recreate pi_ui/.env": "rm -f pi_ui/.env && touch pi_ui/.env",
 		"install pnpm": ".devcontainer/vsc-install-pnpm.sh",
-		"install wasi / wasmtime": "WASMTIME_VERSION=v28.0.0 WASM_TOOLS_VERSION=1.223.0 .devcontainer/vsc-install-wasmtime-tools.sh",
+		"install wasi / wasmtime": ".devcontainer/vsc-install-wasmtime-tools.sh",
 		"install zig": ".devcontainer/vsc-install-zig.sh"
 	},
 	// Use 'postCreateCommand' to run commands after the container is created.

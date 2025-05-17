@@ -18,6 +18,7 @@ pub fn build(b: *std.Build) void {
         const os_tag: std.Target.Os.Tag = if (is_wasi) .wasi else .freestanding;
 
         const wasm_target = b.resolveTargetQuery(.{ .cpu_arch = .wasm32, .os_tag = os_tag, .abi = .musl });
+
         artifact = b.addExecutable(.{
             .name = "pi-digits",
             .root_source_file = b.path("src/root.zig"),
@@ -25,25 +26,46 @@ pub fn build(b: *std.Build) void {
             .optimize = .ReleaseSmall,
             .use_lld = false,
             .use_llvm = false,
-            // .link_libc = false,
+
+            // .root_module = b.createModule(.{
+            //     .target = wasm_target,
+            //     .optimize = .ReleaseSmall,
+            //     .single_threaded = true,
+            //     // .link_libc = false,
+            // }),
         });
         artifact.entry = .disabled;
-        // artifact.export_symbol_names = &.{
-        //     "pi_baseline",   "pi_baseline_len", "pi_gosper", "pi_gosper_len", "pi_sinha_saha", "pi_sinha_saha_len",
-        //     "pi_cmp_digits", "alloc",           "free",      "memory",        "zlog",          "zig_version",
-        // };
-        // artifact.import_memory = false;
-        // artifact.export_memory = true;
-        // artifact.initial_memory = 16 * 64 * 1024;
-        // artifact.max_memory = 20 * 64 * 1024;
-        // artifact.import_table = false;
-        // artifact.export_table = true;
 
         if (is_wasi) {
             // artifact.rdynamic = true;
             artifact.export_memory = true;
         } else {
-            artifact.rdynamic = true;
+            artifact.root_module.export_symbol_names = &.{
+                "pi_baseline", "pi_baseline_len",
+                // "pi_bbp", "pi_bbp_len",
+                // "pi_bellard", "pi_bellard_len",
+                // "pi_gosper", "pi_gosper_len",
+                "pi_random", "pi_random_len",
+                // "pi_sinha_saha", "pi_sinha_saha_len",
+                "pi_ten_digits", "pi_ten_digits_len",
+                // "pi_tachus", "pi_tachus_len",
+
+                "fn_histogram",
+                "fn_map_colors",
+                "fn_cmp_digits",
+                "zig_version",
+                "zig_log",
+
+                "mem_alloc", "mem_free"
+            };
+            artifact.import_memory = false;
+            artifact.export_memory = true;
+            artifact.initial_memory = 32 * 64 * 1024;
+            artifact.max_memory = 64 * 64 * 1024;
+            artifact.import_table = false;
+            artifact.export_table = false;
+
+            // artifact.rdynamic = true;
         }
 
         artifact.root_module.addOptions("options", options);

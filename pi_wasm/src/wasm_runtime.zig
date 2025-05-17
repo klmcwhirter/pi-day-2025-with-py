@@ -23,7 +23,7 @@ pub fn logToConsole(comptime fmt: []const u8, args: anytype) void {
 
 /// Allocate `len` bytes in WASM memory. Returns
 /// many item pointer on success, null on error.
-pub export fn alloc(len: usize) ?[*]u8 {
+pub export fn mem_alloc(len: usize) ?[*]u8 {
     return if (allocator.alloc(u8, len)) |array|
         array.ptr
     else |_|
@@ -31,7 +31,7 @@ pub export fn alloc(len: usize) ?[*]u8 {
 }
 
 /// Free `len` bytes in WASM memory pointed to by `ptr`.
-pub export fn free(ptr: [*]u8, len: usize) void {
+pub export fn mem_free(ptr: [*]u8, len: usize) void {
     // From the docs: @ptrCast(...) cannot be used for:
     // Casting a non-slice pointer to a slice, use slicing syntax ptr[start..end].
     allocator.free(ptr[0..len]);

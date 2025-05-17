@@ -52,6 +52,7 @@ function install_bin
             else
                 echo_eval mkdir -p ${tar_dir}
                 echo_eval tar x -C ${tar_dir} -f ${tar_file}
+                echo_eval rm ${tar_file}
             fi
         fi
 

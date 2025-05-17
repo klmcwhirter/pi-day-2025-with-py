@@ -18,14 +18,14 @@ pub fn logConsole(comptime fmt: []const u8, args: anytype) void {
     }
 
     if (hasError) {
-        const errStr = "Out of memory!";
+        const errStr = "logConsole: Out of memory!";
         consoleLog(errStr.ptr, errStr.len);
     }
 }
 
 /// Called from JS but turns around and calls back to JS
 /// in order to log to the JS console.
-pub export fn zlog(ptr: [*]const u8, len: usize) void {
+pub export fn zig_log(ptr: [*]const u8, len: usize) void {
     consoleLog(ptr, len);
 }
 
