@@ -17,7 +17,7 @@ function setPiImageData(id: string, piState: PiState, src: number[], palette_id:
 
         logJS(`setPiImageData: set ROWS=${ROWS}, COLS=${COLS}, NUM_DIGITS=${NUM_DIGITS}, bytes=${imageData.data.byteLength}`);
 
-        const map_result = piState.map_colors(src, palette_id);
+        const map_result = piState.wasm.map_colors(src, palette_id);
 
         let red: number = 0, green: number = 0, blue: number = 0;
         let last_i = 0;
@@ -81,14 +81,14 @@ export const PiCanvas = (props) => {
             setTimeout(() => {
                 logJS(`PiCanvas[resource]: setting image data for ${id} because key = ${key} changed`);
 
-                const src = piState.dataFromAlgo(source());
-                let digits = src;
+                let digits = [];
 
                 let palette_id = 0;
                 if (state() === AppStateEnum.COMPARE) {
-                    const trg = piState.dataFromAlgo(cmpAgainst());
-                    digits = piState.cmp_digits(src, trg);
+                    digits = piState.wasm.cmp_digits(source(), cmpAgainst());
                     palette_id = 1;
+                } else {
+                    digits = piState.wasm.pi_digits(source());
                 }
 
                 setPiImageData(id, piState, digits, palette_id);

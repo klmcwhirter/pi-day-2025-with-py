@@ -251,16 +251,16 @@ export const PiDigitsHistogram = (props) => {
     logJS(`PiDigitsHistogram.fetchHistogram: algo=${algo}`);
 
     const rc = new Promise<HistogramValues>((resolve) => {
-      const pi = piState.dataFromAlgo(algo);
-      logJS(`pi length for ${algo} = ${pi.length}`);
-      const numbers: number[] = piState.histogram(pi);
+      const pi_len = piState.wasm.pi_digits_len(algo);
+      logJS(`pi length for ${algo} = ${pi_len}`);
+      const numbers: number[] = piState.wasm.histogram(algo);
       logJS(`PiDigitsHistogram.fetchHistogram: numbers=${numbers}, sum=${numbers.reduce((accumulator, currentValue) => accumulator + currentValue, 0)}`);
 
       const items: HistogramItemValues[] = numbers.map(
         (v: number, i: number): HistogramItemValues =>
           new HistogramItemValues(i, v, pi_palette[i], pi_shadow_palette[i]),
       );
-      const hv = new HistogramValues(algo, pi.length, items);
+      const hv = new HistogramValues(algo, pi_len, items);
       resolve(hv);
     });
 

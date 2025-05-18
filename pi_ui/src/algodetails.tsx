@@ -67,14 +67,14 @@ const algo_map = {
       </p>
     </li>
   ),
-  [PiAlgorithms.Tachus_Pi]: (
+  [PiAlgorithms.Tachus]: (
     <li class='mt-2'>
       <p>
         <span class='text-md ml-2 bg-emerald-100 p-1 not-italic text-purple-700'>
           &pi;
         </span>
         <span class='rounded-md p-2 font-semibold'>
-          Tachus_Pi
+          Tachus
         </span>{' '}
         <span>- 1M digits using Bellard's 2009 record breaker. See <a class="underline" target="_empty" href="https://bellard.org/pi/">Bellard's Pi</a> and <a class="underline" target="_empty" href="https://bellard.org/pi/pi2700e9/tpi.html"> software download</a> pages</span>
       </p>
@@ -106,7 +106,7 @@ export const AlgorithmDetails = () => {
           {algo_map[PiAlgorithms.Bellard]}
           {algo_map[PiAlgorithms.Gosper]}
           {algo_map[PiAlgorithms.Sinha_Saha]}
-          {algo_map[PiAlgorithms.Tachus_Pi]}
+          {algo_map[PiAlgorithms.Tachus]}
         </ul>
         {/* <p class='m-2 font-semibold'>For testing comparison ...</p> */}
         <ul>

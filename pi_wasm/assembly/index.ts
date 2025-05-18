@@ -29,8 +29,32 @@ export function as_version(): string {
   return `assemblyscript: ${ASC_VERSION_MAJOR}.${ASC_VERSION_MINOR}.${ASC_VERSION_PATCH}`;
 }
 
-export function cmp_digits(src: u8[], other: u8[]): u8[] {
-  as_log(`cmp_digits(src, other)`);
+const algos = new Map<string, u8[]>();
+
+function init_algos(): void {
+  // Make sure the keys match those in pi.context.tsx#PiAlgorithms.
+  algos
+    .set('Baseline', pi_baseline_seed)
+    .set('BBP', pi_bbp_seed)
+    .set('Bellard', pi_bellard_seed)
+    .set('Gosper', pi_gosper_seed)
+    .set('Sinha_Saha', pi_sinha_saha_seed)
+    .set('Tachus', pi_tachus_seed)
+    .set('Ten_Digits', pi_ten_digits_seed);
+}
+
+export function supported_algos(): string[] {
+  if (algos.size === 0) {
+    init_algos();
+  }
+  return algos.keys();
+}
+
+export function cmp_digits(src_algo: string, other_algo: string): u8[] {
+  as_log(`cmp_digits('${src_algo}', '${other_algo}')`);
+
+  const src = algos.has(src_algo) ? algos.get(src_algo) : [];
+  const other = algos.has(other_algo) ? algos.get(other_algo) : [];
 
   const rc: u8[] = [];
   rc.fill(0, src.length);
@@ -46,8 +70,10 @@ export function cmp_digits(src: u8[], other: u8[]): u8[] {
   return rc;
 }
 
-export function histogram(src: u8[]): i32[] {
-  as_log(`histogram(src), src.length=${src.length}`);
+export function histogram(src_algo: string): i32[] {
+  const src = algos.has(src_algo) ? algos.get(src_algo) : [];
+
+  as_log(`histogram('${src_algo}'), src.length=${src.length}`);
 
   const rc: i32[] = new Array<i32>(10);
   // rc.fill(0, 10);
@@ -73,30 +99,12 @@ export function map_colors(src: u8[], palette_id: u8): u8[][] {
   return rc;
 }
 
-export function pi_baseline(): u8[] {
-  return pi_baseline_seed;
+export function pi_digits(algo: string): u8[] {
+  return algos.has(algo) ? algos.get(algo) : [];
 }
 
-export function pi_bbp(): u8[] {
-  return pi_bbp_seed;
+export function pi_digits_len(algo: string): i32 {
+  const pi = pi_digits(algo);
+  return pi.length;
 }
 
-export function pi_bellard(): u8[] {
-  return pi_bellard_seed;
-}
-
-export function pi_gosper(): u8[] {
-  return pi_gosper_seed;
-}
-
-export function pi_sinha_saha(): u8[] {
-  return pi_sinha_saha_seed;
-}
-
-export function pi_tachus(): u8[] {
-  return pi_tachus_seed;
-}
-
-export function pi_ten_digits(): u8[] {
-  return pi_ten_digits_seed;
-}
