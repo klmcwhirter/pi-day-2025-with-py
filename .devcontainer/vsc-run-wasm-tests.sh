@@ -18,7 +18,7 @@ rc=$?
 echo rc=${rc}
 [ $rc -ne 0 ] && exit $rc
 
-echo_eval pnpm asbuild
+echo_eval pnpm asbuild:release:copy
 rc=$?
 echo rc=${rc}
 [ $rc -ne 0 ] && exit $rc

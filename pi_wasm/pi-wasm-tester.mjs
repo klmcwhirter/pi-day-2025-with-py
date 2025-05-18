@@ -1,8 +1,7 @@
 import * as pi_wasm from './pi-wasm.js';
-
 import { logAS, logJS } from "./utils.mjs";
 
-console.trace = logAS;
+globalThis.loggingAS = logAS;
 
 function log_array(arr, msg) {
     logJS(`${msg}:`);

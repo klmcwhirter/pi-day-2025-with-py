@@ -16,11 +16,13 @@ import { pi_ten_digits_seed } from './pi-digits/pi_ten_digits';
 // > to provide static ESM exports from the bindings file directly,
 // > instantiation must start immediately when the bindings file is imported.
 // > If customization is required, --bindings raw can be used instead.
-@external('env', 'console.trace')
-declare function log(msg: string): void;
+
+// Make sure that `globalThis.loggingAS = logAS;` is set early in the client code
+@external('env', 'loggingAS')
+declare function loggingAS(msg: string): void;
 
 export function as_log(msg: string): void {
-  log(msg);
+  loggingAS(msg);
 }
 
 export function as_version(): string {

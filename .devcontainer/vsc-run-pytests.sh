@@ -11,7 +11,7 @@ echo "ENABLE_TESTS=$ENABLE_TESTS"
 
 if ! grep -E '^VITE_PYTHON_VER=' pi_ui/.env
 then
-    echo 'VITE_PYTHON_VER='$(python -c 'import platform; print(platform.python_version())') | tee -a pi_ui/.env
+    echo 'VITE_PYTHON_VER='$(pdm run python -c 'import platform; print(platform.python_version())') | tee -a pi_ui/.env
 fi
 
 if [ "$ENABLE_TESTS" = "1" ]

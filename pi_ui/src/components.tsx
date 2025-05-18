@@ -10,7 +10,7 @@ import { AppDescription, PiHaiku } from './AppDescription';
 
 
 export const Bar = (props) => {
-  const TOTAL_WIDTH = 34; // in rem; for zen and firefox browsers (at least)
+  const TOTAL_WIDTH = 30; // in rem; for zen and firefox browsers (at least)
 
   const item = (): HistogramItemValues => props.item;
   const values = (): Resource<HistogramValues> => props.values;
@@ -19,12 +19,12 @@ export const Bar = (props) => {
   const rest = `${TOTAL_WIDTH - TOTAL_WIDTH * values()().ratio(item().value * 2)}rem`;
 
   return (
-    <div class={`mb-6 bg-stone-200 text-left shadow-lg ${item().shadow}`}>
-      <span class='inline-block h-8 border border-r-stone-400 bg-stone-100 p-0.5 !pr-1 text-center text-lg font-medium'>
+    <div class={`mb-6 bg-stone-200 text-left rounded-lg shadow-lg ${item().shadow}`}>
+      <span class='inline-block h-8 bg-stone-100 p-0.5 !pr-1 text-center text-lg font-medium'>
         {item().index}
       </span>
       <span
-        class={`${item().color} inline-block h-8 p-0.5 text-left text-lg font-medium`}
+        class={`${item().color} inline-block h-8.5 p-0.5 text-left text-lg font-medium`}
         style={`width: ${width}; max-width: ${width}`}
       >
         <p class='inline-block'>{values()().percent(item().value)}</p>
@@ -176,14 +176,14 @@ export const NavView = (props) => {
   const appStates = [AppStateEnum.DIGITS, AppStateEnum.COMPARE, AppStateEnum.HISTOGRAM];
 
   return (
-    <nav class='m-4 h-[89vh] rounded-lg bg-stone-200 text-emerald-600'>
+    <nav class='m-2 h-[89vh] rounded-lg bg-stone-200 text-emerald-600'>
       <ul class='shadow-lg'>
         <For each={appStates}>
           {(s) => (
             <li class='m-1 p-2 inline-block'>
               <button
                 disabled={!piState.stateInitialized}
-                class='hover:disabled::cursor-auto m-2 block p-2 rounded-lg bg-emerald-50 text-lg text-blue-700
+                class='hover:disabled::cursor-auto m-1 block p-2 rounded-lg bg-emerald-50 text-lg text-blue-700
                 hover:cursor-pointer hover:rounded-lg hover:bg-emerald-700 hover:font-bold
                 hover:text-white disabled:rounded-lg disabled:bg-stone-300 disabled:text-stone-700'
                 classList={{

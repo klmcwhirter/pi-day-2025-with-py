@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "node tests",
+    "asbuild:copy": "cp assembly/utils.mjs build/ && cp pi-wasm-tester.mjs build/",
     "asbuild:debug": "asc assembly/index.ts --target debug",
+    "asbuild:debug:copy": "pnpm run asbuild:debug && npm run asbuild:copy",
     "asbuild:release": "asc assembly/index.ts --target release",
-    "asbuild": "pnpm run asbuild:debug && npm run asbuild:release && cp assembly/utils.mjs build/ && cp pi-wasm-tester.mjs build/",
+    "asbuild:release:copy": "npm run asbuild:release && npm run asbuild:copy",
+    "asbuild": "pnpm run asbuild:debug && npm run asbuild:release && npm run asbuild:copy",
     "astest": "cd build && node pi-wasm-tester.mjs",
     "start": "pnpx serve ."
   },

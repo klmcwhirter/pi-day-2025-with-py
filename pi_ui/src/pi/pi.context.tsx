@@ -90,7 +90,7 @@ export class PiState {
     };
 
     const rc = Object.keys(piMap).includes(algo) ? piMap[algo]() : [];
-    logJS(`PiState.dataFromAlgo: rc=${rc}`);
+    logJS(`PiState.dataFromAlgo: rc.length=${rc.length}`);
     return rc;
   }
 

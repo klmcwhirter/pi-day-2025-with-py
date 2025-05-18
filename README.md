@@ -19,7 +19,7 @@ Good job, men!
 
 ### Summary
 
-This project was a crazy amount of fun. I dug deep into many things from WebAssembly, Bluefin and devcontainers, to testing wasm from zig build, to the math involved with the various algorithms to generate digits of π.
+This project was a crazy amount of fun. I dug deep into many things from WebAssembly, Bluefin and devcontainers, to testing wasm, to the math involved with the various algorithms to generate digits of π.
 
 I found while profiling the Python code that it is certainly the right language to evaluate these kinds of series with simple syntax. In at least one of them (Gosper's), the individual terms were getting to ~4,000 integer digits long! Wow. I had no idea.
 
@@ -40,7 +40,7 @@ I greatly appreciate the fact that they shared that side-effect of the research 
   * visualize digits using color pallete like [pi-day-2024-with-py](https://github.com/klmcwhirter/pi-day-2024-with-py) for any algorithm
   * compare accuracy between any 2 algorithms
   * show histrograms - Sinha / Saha series, Gosper's Series, Tachus Pi (F. Bellard), BBP, baseline and also (for testing) random digits and ten_digits
-  * samples of algorithms are pre-generated and checked in as .zig source files.
+  * samples of algorithms are pre-generated and checked in as .ts source files.
 
 > See [with-compose](https://github.com/klmcwhirter/pi-day-2025-with-py/tree/with-compose) for the code before devcontainer was used.
 
@@ -57,7 +57,9 @@ The build process takes a little less than 4 mins on my laptop. So be patient be
 You will see output like the following when it is done building and is ready for the browser:
 
 ```
-$ pdm run ui
+$ pdm create
+...
+$ pdm ui
 ...
 
   VITE v5.4.11  ready in 224 ms
