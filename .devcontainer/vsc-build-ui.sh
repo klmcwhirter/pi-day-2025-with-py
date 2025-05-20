@@ -18,7 +18,7 @@ echo rc=${rc}
 
 echo_eval mkdir -p ./src/pi-wasm
 
-echo_eval cp ../pi_wasm/build/{pi-wasm-tester.mjs,pi-wasm.d.ts,pi-wasm.js,pi-wasm.wasm,pi-wasm.wasm.map,pi-wasm.wat,utils.mjs} ./src/pi-wasm/
+echo_eval cp ../pi_wasm/build/{pi-wasm-tester.mjs,pi-digits.d.ts,pi-digits.js,pi-digits.wasm,pi-digits.wasm.map,pi-digits.wat,utils.mjs} ./src/pi-wasm/
 rc=$?
 echo rc=${rc}
 [ $rc -ne 0 ] && exit $rc

@@ -9,7 +9,7 @@ echo $0: $(pwd)
 # run tests if enabled
 echo "ENABLE_TESTS=$ENABLE_TESTS"
 
-if ! grep -E '^VITE_PYTHON_VER=' pi_ui/.env
+if ! grep -E '^VITE_PYTHON_VER=' pi_ui/.env >/dev/null 2>&1
 then
     echo 'VITE_PYTHON_VER='$(pdm run python -c 'import platform; print(platform.python_version())') | tee -a pi_ui/.env
 fi

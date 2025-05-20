@@ -1,7 +1,4 @@
-import * as pi_wasm from '../pi-wasm/pi-wasm.js';
-import { logAS } from '../pi-wasm/utils.mjs';
-
-globalThis.loggingAS = logAS;
+import * as pi_wasm from '../pi-wasm/pi-digits.js';
 
 export class WasmLoadResult {
     as_version = pi_wasm.as_version;

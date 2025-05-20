@@ -9,7 +9,7 @@ const COLS = Math.floor(1000000 / ROWS) + 1;
 const NUM_DIGITS = ROWS * COLS;
 
 
-function setPiImageData(id: string, piState: PiState, src: number[], palette_id: number) {
+function setPiImageData(id: string, piState: PiState, items: number[], palette_id: number) {
     const canvas = document.getElementById(id) as HTMLCanvasElement;
     if (canvas) {
         const ctx = canvas.getContext("2d");
@@ -17,14 +17,14 @@ function setPiImageData(id: string, piState: PiState, src: number[], palette_id:
 
         logJS(`setPiImageData: set ROWS=${ROWS}, COLS=${COLS}, NUM_DIGITS=${NUM_DIGITS}, bytes=${imageData.data.byteLength}`);
 
-        const map_result = piState.wasm.map_colors(src, palette_id);
+        const map_result = piState.wasm.map_colors(items, palette_id);
 
         let red: number = 0, green: number = 0, blue: number = 0;
         let last_i = 0;
 
-        var num_matched = 0; // if COMPARE
+        let num_matched = 0; // if COMPARE
 
-        for (let i = 0, di = 0; di < src.length && i < imageData.data.length && last_i < 1000000; di++, i += 4) {
+        for (let i = 0, di = 0; di < items.length && i < imageData.data.length && last_i < 1000000; di++, i += 4) {
             last_i++;
 
             const colors = map_result[di];
@@ -38,7 +38,7 @@ function setPiImageData(id: string, piState: PiState, src: number[], palette_id:
             imageData.data[i + 2] = blue; // B value
             imageData.data[i + 3] = 255; // A value
 
-            if (palette_id === 1 && green === 255) { // COMPARE
+            if (palette_id === 1 && green === 255) { // COMPARE match
                 num_matched += 1;
             }
         }
@@ -49,7 +49,7 @@ function setPiImageData(id: string, piState: PiState, src: number[], palette_id:
         if (palette_id === 1) {
             piState.cmpNumMatch[1](num_matched);
 
-            const pctMatched = (num_matched * 100) / src.length;
+            const pctMatched = (num_matched * 100) / items.length;
             piState.cmpPctMatch[1](pctMatched);
             logJS(`setPiImageData: pct_match=${pctMatched}`);
         }
@@ -81,17 +81,17 @@ export const PiCanvas = (props) => {
             setTimeout(() => {
                 logJS(`PiCanvas[resource]: setting image data for ${id} because key = ${key} changed`);
 
-                let digits = [];
+                let items = [];
 
                 let palette_id = 0;
                 if (state() === AppStateEnum.COMPARE) {
-                    digits = piState.wasm.cmp_digits(source(), cmpAgainst());
+                    items = piState.wasm.cmp_digits(source(), cmpAgainst());
                     palette_id = 1;
                 } else {
-                    digits = piState.wasm.pi_digits(source());
+                    items = piState.wasm.pi_digits(source());
                 }
 
-                setPiImageData(id, piState, digits, palette_id);
+                setPiImageData(id, piState, items, palette_id);
             }, 0);
         } else {
             logJS(`PiCanvas[resource]: skip setting image data for ${id} because key = ${key} `);

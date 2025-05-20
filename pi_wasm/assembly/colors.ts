@@ -19,9 +19,5 @@ export const diff_palette: u8[][] = [
 ];
 
 export function palette_from_id(id: u8): u8[][] {
-  if (id === 1) {
-    return diff_palette;
-  }
-
-  return digits_palette;
+  return (id === 1) ? diff_palette : digits_palette;
 }

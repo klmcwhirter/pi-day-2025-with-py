@@ -1,12 +1,12 @@
 import { For, Match, Resource, Show, Suspense, Switch, createResource, createSignal } from 'solid-js';
-import { AppStateEnum } from './App';
-import { logJS } from './pi/utils.js';
-import { PiCanvas } from './pi/pi-canvas';
-import { PiAlgorithms, usePiState } from './pi/pi.context';
-import { HistogramItemValues, HistogramValues } from './pi/pi-digits.model';
-import { pi_palette, pi_shadow_palette } from './pi/pi.palette';
 import { AlgorithmDetails, CurrAlgorithmDetails } from './algodetails';
+import { AppStateEnum } from './App';
 import { AppDescription, PiHaiku } from './AppDescription';
+import { PiCanvas } from './pi/pi-canvas';
+import { HistogramItemValues, HistogramValues } from './pi/pi-digits.model';
+import { PiAlgorithms, usePiState } from './pi/pi.context';
+import { pi_palette, pi_shadow_palette } from './pi/pi.palette';
+import { logJS } from './pi/utils.js';
 
 
 export const Bar = (props) => {

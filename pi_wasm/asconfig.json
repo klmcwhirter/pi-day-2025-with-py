@@ -1,14 +1,14 @@
 {
   "targets": {
     "debug": {
-      "outFile": "build/pi-wasm.debug.wasm",
-      "textFile": "build/pi-wasm.debug.wat",
+      "outFile": "build/pi-digits.debug.wasm",
+      "textFile": "build/pi-digits.debug.wat",
       "sourceMap": true,
       "debug": true
     },
     "release": {
-      "outFile": "build/pi-wasm.wasm",
-      "textFile": "build/pi-wasm.wat",
+      "outFile": "build/pi-digits.wasm",
+      "textFile": "build/pi-digits.wat",
       "sourceMap": true,
       "optimizeLevel": 3,
       "shrinkLevel": 0,

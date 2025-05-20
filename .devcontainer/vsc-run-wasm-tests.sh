@@ -9,7 +9,7 @@ echo $0: $(pwd)
 echo_eval cd $(readlink -f ${root}/../pi_wasm)
 
 [ -z "$ENABLE_TESTS" ] && ENABLE_TESTS=0
-
+[ -z "$ASC_TARGET" ] && ASC_TARGET=release
 
 echo_eval rm -fr build/
 
@@ -18,7 +18,7 @@ rc=$?
 echo rc=${rc}
 [ $rc -ne 0 ] && exit $rc
 
-echo_eval pnpm asbuild:release:copy
+echo_eval pnpm asbuild:${ASC_TARGET}:copy
 rc=$?
 echo rc=${rc}
 [ $rc -ne 0 ] && exit $rc
