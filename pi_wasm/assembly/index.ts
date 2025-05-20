@@ -24,6 +24,8 @@ const algos = new Map<string, u8[]>();
 
 function init_algos(): void {
   if (algos.size === 0) {
+    as_log('init_algos(): initializing');
+
     // Make sure the keys match those in pi.context.tsx#PiAlgorithms.
     algos
       .set('Baseline', pi_baseline_seed)
@@ -56,11 +58,9 @@ export function cmp_digits(src_algo: string, other_algo: string): u8[] {
   const rc: u8[] = new Array(src.length);
   // as_log(`after initialize, rc=${rc}`);
 
-  for (let i = 0; i < src.length; i++) {
-    if (i < other.length) {
-      if (src[i] === other[i]) {
-        rc[i] = 1;
-      }
+  for (let i = 0; i < src.length && i < other.length; i++) {
+    if (src[i] === other[i]) {
+      rc[i] = 1;
     }
   }
 
