@@ -102,7 +102,7 @@ export const PiCanvas = (props) => {
 
     return (
         <div class="m-4 text-center">
-            <canvas id={id} class="bg-stone-100" width={COLS} height={ROWS}>Placeholder for {state()} mode</canvas>
+            <canvas id={id} class="bg-stone-100 m-auto" width={COLS} height={ROWS}>Placeholder for {state()} mode</canvas>
         </div>
     );
 };

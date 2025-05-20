@@ -109,7 +109,7 @@ export const MainSwitcher = (props) => {
   const [state] = props.state;
 
   return (
-    <div class='col-span-3 col-start-2 h-[89vh] m-4 rounded-lg bg-stone-100'>
+    <div class='col-span-3 col-start-2 h-[89vh] m-2 rounded-lg bg-stone-100'>
       <Show
         when={piState.stateInitialized()}
         fallback={
@@ -205,7 +205,7 @@ export const NavView = (props) => {
 
       <Switch>
         <Match when={state() === AppStateEnum.DIGITS}>
-          <div class='mt-2 font-semibold'>Select algorithm for which to display digits of pi</div>
+          <div class='mt-1 font-semibold'>Select algorithm for which to display digits of pi</div>
 
           <CmpSelector signal={piState.digitsAlgo} label="Algorithm:" />
 
@@ -217,7 +217,7 @@ export const NavView = (props) => {
         </Match>
 
         <Match when={state() === AppStateEnum.COMPARE}>
-          <div class="mt-4">
+          <div class="mt-1">
             <div class='font-semibold'>Select algorithms to compare</div>
 
             <CmpSelector signal={piState.cmpSource} label="Source:" />
@@ -231,7 +231,7 @@ export const NavView = (props) => {
         </Match>
 
         <Match when={state() === AppStateEnum.HISTOGRAM}>
-          <div class="mt-4">
+          <div class="mt-1">
             <div class='font-semibold'>Select algorithm for which to display histogram</div>
 
             <CmpSelector signal={piState.histoAlgo} label="Algorithm:" />

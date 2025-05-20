@@ -18,50 +18,50 @@ export const AppDescription = (props) => {
   };
 
   return (
-    <div class='m-1 rounded-lg bg-stone-100 p-2 text-left text-base italic text-emerald-600 shadow-xl shadow-stone-400'>
+    <div class='m-1 rounded-lg bg-stone-100 p-1.5 text-left text-base italic text-emerald-600 shadow-xl shadow-stone-400'>
 
-      <ul>
-        <li class='mt-2'>
+      <ul class="p-2">
+        <li class='mt-0'>
           <p>
             <span class='text-md ml-2 bg-stone-100 p-1 not-italic text-purple-700'>
               &pi;
             </span>
             <span
-              class='rounded-md p-2'
+              class='rounded-md p-1'
               classList={classlistFor(state(), AppStateEnum.DIGITS, true)}
             >
               DIGITS
-            </span>{' '}
-            - shows a canvas where each pixel represents a digit of pi whose pixel color is mapped
-            to a pallette of colors corresponding to the digits 0-9.
+            </span>
+            <span>- shows a canvas where each pixel represents a digit of pi whose pixel color is mapped
+            to a pallette of colors corresponding to the digits 0-9.</span>
           </p>
         </li>
-        <li class='mt-2'>
+        <li class='mt-3'>
           <p>
             <span class='text-md ml-2 bg-stone-100 p-1 not-italic text-purple-700'>
               &pi;
             </span>
             <span
-              class='rounded-md p-2'
+              class='rounded-md p-1'
               classList={classlistFor(state(), AppStateEnum.COMPARE, true)}
             >
               COMPARE
-            </span>{' '}
-            - shows the differences in the pi digits for 2 different algorithms
+            </span>
+            <span>- shows the differences in the pi digits for 2 different algorithms</span>
           </p>
         </li>
-        <li class='mt-2'>
+        <li class='mt-3'>
           <p>
             <span class='text-md ml-2 bg-stone-100 p-1 not-italic text-purple-700'>
               &pi;
             </span>
             <span
-              class='rounded-md p-2'
+              class='rounded-md p-1'
               classList={classlistFor(state(), AppStateEnum.HISTOGRAM, true)}
             >
               HISTOGRAM
-            </span>{' '}
-            - shows the number of times each digit appears in Pi for the selected algorithm
+            </span>
+            <span>- shows the number of times each digit appears in Pi for the selected algorithm</span>
           </p>
         </li>
       </ul>

@@ -15,7 +15,7 @@ const App: Component = () => {
     <div class='text-center'>
       <Header />
       <PiAdapterProvider>
-        <div class='grid grid-cols-4 gap-2'>
+        <div class='grid grid-cols-4 gap-2 p-2'>
           <NavView state={stateSignal} />
           <MainSwitcher state={stateSignal} />
         </div>
