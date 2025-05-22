@@ -77,8 +77,7 @@ export function histogram(src_algo: string): i32[] {
   // as_log(`after initialize, rc=${rc}`);
 
   for (let i = 0; i < src.length; i++) {
-    const digit: i32 = i32(src[i]);
-    rc[digit] += 1;
+    rc[src[i]] += 1;
   }
 
   return rc;
@@ -98,15 +97,17 @@ export function map_colors(src: u8[], palette_id: u8): u8[][] {
   return rc;
 }
 
+const empty_u8_array: u8[] = [];
+
 export function pi_digits(algo: string, internal: bool = false): u8[] {
   if (!internal) as_log(`pi_digits('${algo}')`);
 
   init_algos();
-  return algos.has(algo) ? algos.get(algo) : [];
+  return algos.has(algo) ? algos.get(algo) : empty_u8_array;
 }
 
-export function pi_digits_len(algo: string): i32 {
-  as_log(`pi_digits_len('${algo}')`);
+export function pi_digits_len(algo: string, internal: bool = false): i32 {
+  if (!internal) as_log(`pi_digits_len('${algo}')`);
 
   const pi = pi_digits(algo, true);
   return pi.length;
